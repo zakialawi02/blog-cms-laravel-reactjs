@@ -12,7 +12,6 @@ const HeaderAdmin = ({ user, toggleSidebar }) => {
         .filter(Boolean)
         .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
         .join("");
-    console.log(pageNow);
 
     const [isOpenDropdownUser, setIsOpenDropdownUser] = useState(false);
     const [isOpenSearch, setIsOpenSearch] = useState(false);

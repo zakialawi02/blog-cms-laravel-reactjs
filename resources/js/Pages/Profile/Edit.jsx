@@ -38,16 +38,16 @@ const Edit = ({ auth, mustVerifyEmail, status }) => {
                             <UpdateProfileInformationForm
                                 mustVerifyEmail={mustVerifyEmail}
                                 status={status}
-                                className="max-w-max"
+                                className="w-full"
                             />
                         </Card>
 
                         <Card>
-                            <UpdatePasswordForm className="max-w-max" />
+                            <UpdatePasswordForm className="w-full" />
                         </Card>
 
                         <Card>
-                            <DeleteUserForm className="max-w-max" />
+                            <DeleteUserForm className="w-full" />
                         </Card>
                     </div>
                 </div>
