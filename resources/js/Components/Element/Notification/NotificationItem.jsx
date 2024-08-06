@@ -19,7 +19,7 @@ const NotificationItem = ({
                     className="w-8 h-8 rounded block object-cover align-middle"
                 />
                 <div className="ml-2">
-                    <div className="text-[13px] text-gray-600 font-medium truncate group-hover:text-blue-500">
+                    <div className="text-[13px] text-backend-muted font-medium truncate group-hover:text-backend-primary">
                         {titleText}
                     </div>
                     <div className="text-[11px] text-gray-400">

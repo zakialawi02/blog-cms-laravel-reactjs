@@ -15,7 +15,7 @@ const Notification = () => {
     }, []);
 
     return (
-        <div className="dropdown-menu shadow-md shadow-black/5 z-30 max-w-xs w-full bg-white rounded-md border border-gray-100">
+        <div className="dropdown-menu shadow-md shadow-black/5 z-30 max-w-xs w-full bg-backend-base-100 rounded-md border border-gray-100">
             <div className="flex items-center px-4 pt-4 border-b border-b-gray-100 notification-tab">
                 <NotificationButton
                     dataTab="notification"

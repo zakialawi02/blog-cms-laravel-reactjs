@@ -12,7 +12,7 @@ const NotificationButton = ({
             type="button"
             data-tab={dataTab}
             data-tab-page={dataTabPage}
-            className={`text-gray-400 font-medium text-[13px] hover:text-gray-600 border-b-2 border-b-transparent mr-4 pb-1 ${className} ${
+            className={`text-backend-muted font-medium text-[13px] hover:text-backend-dark border-b-2 border-b-transparent mr-4 pb-1 ${className} ${
                 active ? "active" : ""
             }`}
         >

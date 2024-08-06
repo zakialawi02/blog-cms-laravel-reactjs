@@ -35,7 +35,7 @@ const DashboardLayout = ({ user, children }) => {
             <SidebarAdmin show={isSidebarOpen} toggleSidebar={toggleSidebar} />
 
             <main
-                className={`w-full md:w-[calc(100%-256px)] md:ml-64 bg-gray-50 min-h-screen transition-all main ${
+                className={`w-full md:w-[calc(100%-256px)] text-backend-dark md:ml-64 bg-backend-light min-h-screen transition-all main ${
                     isSidebarOpen ? "" : "active"
                 }`}
             >

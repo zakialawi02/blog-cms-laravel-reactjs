@@ -4,7 +4,13 @@ import { Head } from "@inertiajs/react";
 const Dashboard = ({ auth }) => {
     return (
         <>
-            <Head title="Dashboard"></Head>
+            <Head title="Dashboard">
+                <title>Dashboard</title>
+                <meta
+                    name="description"
+                    content="This is a page specific description"
+                />
+            </Head>
 
             <DashboardLayout user={auth.user}>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">

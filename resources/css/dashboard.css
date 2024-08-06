@@ -4,15 +4,15 @@
 }
 
 .dropdown-menu {
-    @apply absolute right-0 mt-2 origin-top-right bg-white w-80;
+    @apply absolute right-0 mt-2 origin-top-right bg-backend-base-100 w-80;
 }
 
 /* NOTIFICATION */
 .notification-tab > .active {
-    @apply text-blue-500 border-b-blue-500 hover:text-blue-500;
+    @apply text-backend-primary border-b-backend-primary hover:text-backend-primary;
 }
 .order-tab > .active {
-    @apply text-white bg-blue-500 hover:text-white;
+    @apply text-white bg-backend-primary hover:text-white;
 }
 .main.active {
     @apply md:w-full md:ml-0;

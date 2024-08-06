@@ -17,14 +17,14 @@ const NavMenu = ({
     );
 
     // Menentukan apakah menu ini aktif
-    const isActive = url === to || isSelected;
+    const isActive = url.split("?")[0] === to || isSelected;
 
     const singleMenu = () => {
         return (
             <li className={`mb-1 group ${isActive ? "active" : ""}`}>
                 <Link
                     href={to}
-                    className="flex items-center py-2 px-4 text-gray-300 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100"
+                    className="flex items-center py-2 px-4 text-backend-base-100 hover:bg-gray-900 hover:text-backend-neutral rounded-md group-[.active]:bg-gray-700 group-[.active]:text-backend-neutral group-[.selected]:bg-gray-900 group-[.selected]:text-gray-100"
                 >
                     <i className={`${icon} mr-3 text-lg`} />
                     <span className="text-sm">{text}</span>
@@ -42,7 +42,7 @@ const NavMenu = ({
             >
                 <a
                     href="#"
-                    className="flex items-center py-2 px-4 text-gray-300 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100 sidebar-dropdown-toggle"
+                    className="flex items-center py-2 px-4 text-backend-base-100 hover:bg-gray-900 hover:text-backend-neutral rounded-md group-[.active]:bg-gray-700 group-[.active]:text-backend-neutral group-[.selected]:bg-gray-900 group-[.selected]:text-backend-neutral sidebar-dropdown-toggle"
                     onClick={onClick}
                 >
                     <i className={`${icon} mr-3 text-lg`} />

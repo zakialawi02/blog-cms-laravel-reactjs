@@ -13,20 +13,20 @@ const SidebarAdmin = ({ show, toggleSidebar }) => {
     return (
         <>
             <div
-                className={`fixed left-0 top-0 w-64 h-full bg-gray-900 p-4 z-50 sidebar-menu transition-transform ${
+                className={`fixed left-0 top-0 w-64 h-full bg-backend-dark p-4 z-50 sidebar-menu transition-transform ${
                     show ? "" : "-translate-x-full"
                 }`}
             >
                 <Link
-                    href="/dashboard"
-                    className="flex items-center pb-4 border-b border-b-gray-800"
+                    href="/"
+                    className="flex items-center pb-4 border-b border-b-backend-muted"
                 >
                     <img
                         src="https://placehold.co/32x32"
                         alt="Logo"
                         className="object-cover w-8 h-8 rounded"
                     />
-                    <span className="ml-3 text-lg font-bold text-white">
+                    <span className="ml-3 text-lg font-bold text-backend-base-100">
                         Logo
                     </span>
                 </Link>
@@ -53,20 +53,15 @@ const SidebarAdmin = ({ show, toggleSidebar }) => {
                         </NavMenu>
 
                         <NavMenu
-                            icon="ri-shopping-bag-3-line"
-                            text="Products"
-                            selected={selectedMenu === "Products"}
-                            onClick={() => handleNavMenuClick("Products")}
-                        >
-                            <NavItem to="#">All products</NavItem>
-                            <NavItem to="/empty">Pending product</NavItem>
-                            <NavItem to="#">Completed product</NavItem>
-                        </NavMenu>
+                            icon="ri-folder-reduce-line"
+                            text="Categories"
+                            to="/dashboard/categories"
+                        />
 
                         <NavMenu
                             icon="ri-bookmark-line"
                             text="Empty Page"
-                            to="/empty"
+                            to="/dashboard/empty"
                         />
 
                         <NavMenu
