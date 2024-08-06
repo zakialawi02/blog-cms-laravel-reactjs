@@ -1,0 +1,79 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins&family=Lato&family=Montserrat");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css");
+
+/* ME */
+::-webkit-scrollbar {
+    width: 0.5rem;
+    background: theme("colors.Me.light");
+}
+
+::-webkit-scrollbar-thumb {
+    background: theme("colors.Me.accent");
+    border-radius: 0.5rem;
+}
+
+* {
+    scroll-behavior: smooth;
+    @apply font-Poppins;
+}
+
+#hamMenu {
+    @apply text-xl cursor-pointer md:hidden text-Me-light;
+}
+
+.welcome-thumb-1,
+.welcome-thumb-2,
+.welcome-thumb-3,
+.welcome-thumb-4 {
+    position: absolute;
+}
+
+.welcome-thumb-1 {
+    top: 70%;
+    right: 65%;
+    max-width: 14%;
+}
+
+.welcome-thumb-2 {
+    top: 5%;
+    right: 5%;
+    max-width: 18%;
+}
+
+.welcome-thumb-3 {
+    top: 58%;
+    right: 17%;
+    max-width: 10%;
+}
+
+.sosial-media {
+    @apply py-4 my-3;
+}
+
+.sosial-media a {
+    @apply text-lg text-center m-[6px] rounded-[5px] p-3 shadow-[-3px_-3px_5px_0px_theme(colors.Me.secondary),_3px_3px_5px_0px_theme(colors.Me.dark)] hover:shadow-[-3px_-3px_5px_0px_theme(colors.Me.secondary)_inset,_3px_3px_5px_0px_theme(colors.Me.dark)_inset] transition-all duration-300;
+}
+
+.sosial-media a i {
+    @apply w-[1.7rem] h-[1.7rem];
+}
+
+#portfolio .active {
+    @apply text-Me-light bg-Me-accent dark:bg-Me-dark-accent;
+}
+
+#portfolio .portfolio-item.hide {
+    display: none;
+}
+
+#chatBox::-webkit-scrollbar {
+    width: 6px;
+}
+
+#chatBox::-webkit-scrollbar-track {
+    background: #ddd;
+}
+
+#chatBox::-webkit-scrollbar-thumb {
+    background: #bdbdbd;
+}

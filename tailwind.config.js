@@ -5,6 +5,8 @@ import containerQueries from "@tailwindcss/container-queries";
 
 /** @type {import('tailwindcss').Config} */
 export default {
+    darkMode: "selector",
+
     content: [
         "./vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php",
         "./storage/framework/views/*.php",
@@ -67,6 +69,25 @@ export default {
                     light: "#fafbfc",
                     dark: "#02132B",
                     muted: "#767676",
+                },
+                Me: {
+                    primary: "#4BB4DE",
+                    secondary: "#A2E2F8",
+                    accent: "#345DA7",
+                    neutral: "#ded9da",
+                    "base-100": "#f2f2f2",
+                    info: "#00b7ff",
+                    success: "#31A640",
+                    warning: "#EDAE49",
+                    error: "#D1495B",
+                    light: "#edf4fe",
+                    dark: "#0d2136",
+                    muted: "#767676",
+                    "dark-primary": "#1b2d48",
+                    "dark-secondary": "#3c649f",
+                    "dark-accent": "#83aff0",
+                    "dark-light": "#A2E2F8",
+                    "dark-dark": "#001122",
                 },
             },
 
