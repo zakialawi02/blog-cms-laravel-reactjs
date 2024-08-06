@@ -23,9 +23,15 @@ const AnonMessage = ({ data }) => {
                                 {data.map((data, index) => (
                                     <MessageBox
                                         key={index}
-                                        sender={data?.sender}
-                                        body={data?.body}
-                                        time={data?.time}
+                                        sender={data.pesan_dari}
+                                        body={data.pesan}
+                                        time={new Date(
+                                            data.created_at
+                                        ).toLocaleDateString("en-US", {
+                                            day: "numeric",
+                                            month: "short",
+                                            year: "numeric",
+                                        })}
                                     />
                                 ))}
                             </div>
