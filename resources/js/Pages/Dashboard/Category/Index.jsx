@@ -5,7 +5,7 @@ import TableHeading from "@/Components/Element/Table/TableHeading";
 import DashboardLayout from "@/Layouts/DashboardLayout";
 import { Head, Link, router } from "@inertiajs/react";
 
-const Categories = ({ auth, categories, meta, queryParams = null }) => {
+const Index = ({ auth, categories, meta, queryParams = null }) => {
     queryParams = queryParams || {};
 
     const searchFieldChanged = (name, value) => {
@@ -54,7 +54,7 @@ const Categories = ({ auth, categories, meta, queryParams = null }) => {
 
             <DashboardLayout user={auth.user}>
                 <Card>
-                    <div className="overflow-auto">
+                    <div className="overflow-x-auto">
                         <div className="py-2 flex justify-end">
                             <Link
                                 href={route("admin.categories.create")}
@@ -64,7 +64,7 @@ const Categories = ({ auth, categories, meta, queryParams = null }) => {
                             </Link>
                         </div>
 
-                        <div className="flex justify-end mb-4">
+                        <div className="mb-4">
                             <TextInput
                                 className="w-full"
                                 defaultValue={queryParams.search}
@@ -172,4 +172,4 @@ const Categories = ({ auth, categories, meta, queryParams = null }) => {
     );
 };
 
-export default Categories;
+export default Index;

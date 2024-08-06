@@ -8,39 +8,42 @@ import ButtonBE from "@/Components/Element/Button/ButtonBE";
 import usePreventNavigation from "@/Hook/usePreventNavigation";
 import { useEffect, useState } from "react";
 
-const EmptyPage = ({ auth, meta }) => {
+const Create = ({ auth, meta }) => {
     const [isFormChanged, setIsFormChanged] = useState(false);
     usePreventNavigation(isFormChanged);
 
     const { data, setData, errors, post, processing } = useForm({
-        category: "",
+        tag_name: "",
         slug: "",
     });
 
-    const generateSlug = async (categoryName) => {
+    const generateSlug = async (tag_nameName) => {
         try {
             const response = await axios.post(
-                route("admin.categories.generateSlug"),
+                route("admin.tags.generateSlug"),
                 {
-                    category: categoryName,
+                    tag_name: tag_nameName,
                 }
             );
 
             setData("slug", response.data.slug);
+            console.log(response);
         } catch (error) {
             console.error("Error generating slug", error);
         }
     };
 
     useEffect(() => {
-        if (data.category) {
-            generateSlug(data.category);
+        if (data.tag_name) {
+            generateSlug(data.tag_name);
+            console.log(data.tag_name);
+            console.log(data.slug);
         }
-    }, [data.category]);
+    }, [data.tag_name]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        post(route("admin.categories.store"));
+        post(route("admin.tags.store"));
     };
 
     return (
@@ -52,22 +55,22 @@ const EmptyPage = ({ auth, meta }) => {
                     <form onSubmit={handleSubmit}>
                         <div className="mb-3">
                             <InputLabel
-                                htmlFor="category"
-                                value="Category Name"
+                                htmlFor="tag_name"
+                                value="Tag Name"
                                 className="mb-2"
                             />
                             <TextInput
                                 type="text"
-                                id="category"
+                                id="tag_name"
                                 className="w-full"
                                 isFocused={true}
-                                value={data.category}
+                                value={data.tag_name}
                                 onChange={(e) =>
-                                    setData("category", e.target.value)
+                                    setData("tag_name", e.target.value)
                                 }
                             />
                             <InputError
-                                message={errors.category}
+                                message={errors.tag_name}
                                 className="mb-3"
                             />
                         </div>
@@ -75,7 +78,7 @@ const EmptyPage = ({ auth, meta }) => {
                         <div className="mb-3">
                             <InputLabel
                                 htmlFor="slug"
-                                value="Category Slug / url"
+                                value="Tag Slug / url"
                                 className="mb-2"
                             />
                             <TextInput
@@ -101,4 +104,4 @@ const EmptyPage = ({ auth, meta }) => {
     );
 };
 
-export default EmptyPage;
+export default Create;

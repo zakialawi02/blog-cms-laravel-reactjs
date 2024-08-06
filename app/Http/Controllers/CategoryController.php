@@ -27,9 +27,9 @@ class CategoryController extends Controller
                 ->orWhere('slug', 'like', '%' . request('search') . '%');
         }
 
-        $query = $query->paginate(10)->onEachSide(1);
+        $query = $query->paginate(10)->withQueryString()->onEachSide(1);
 
-        return Inertia::render('Category/Index', [
+        return Inertia::render('Dashboard/Category/Index', [
             "meta" => $data,
             "categories" => $query,
             'queryParams' => request()->query() ?: null
@@ -45,7 +45,7 @@ class CategoryController extends Controller
             'title' => 'Create Category',
         ];
 
-        return Inertia::render('Category/Create', [
+        return Inertia::render('Dashboard/Category/Create', [
             "meta" => $data
         ]);
     }
@@ -77,7 +77,7 @@ class CategoryController extends Controller
             'title' => 'Edit Category',
         ];
 
-        return Inertia::render('Category/Edit', [
+        return Inertia::render('Dashboard/Category/Edit', [
             "meta" => $data,
             "category" => $category
         ]);

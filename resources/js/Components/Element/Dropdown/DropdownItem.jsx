@@ -11,7 +11,7 @@ const DropdownItem = ({
         <li>
             <Link
                 href={to}
-                className={`flex items-center text-[13px] py-1.5 px-4 text-gray-600 hover:text-blue-500 hover:bg-gray-50 ${className}`}
+                className={`flex items-center text-[13px] py-1.5 px-4 text-gray-600 hover:text-backend-secondary hover:bg-gray-50 ${className}`}
                 method={method}
             >
                 {icon && <i className={`${icon} mr-3`}></i>}

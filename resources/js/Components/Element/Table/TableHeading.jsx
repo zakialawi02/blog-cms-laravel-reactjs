@@ -19,7 +19,7 @@ const TableHeading = ({
                         <i
                             className={`block ri-arrow-up-s-line ${
                                 sort_field === name && sort_direction === "asc"
-                                    ? "text-backend-secondary"
+                                    ? "text-backend-primary"
                                     : ""
                             }`}
                         ></i>

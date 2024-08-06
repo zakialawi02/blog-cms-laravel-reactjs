@@ -36,27 +36,41 @@ const SidebarAdmin = ({ show, toggleSidebar }) => {
                 >
                     <ul className="mt-2">
                         <NavMenu
-                            icon="ri-home-2-line"
+                            icon="ri-dashboard-line"
                             text="Dashboard"
                             to="/dashboard"
                         />
 
                         <NavMenu
-                            icon="ri-instance-line"
-                            text="Orders"
-                            selected={selectedMenu === "Orders"}
-                            onClick={() => handleNavMenuClick("Orders")}
-                        >
-                            <NavItem to="/dashboard">All orders</NavItem>
-                            <NavItem to="#">Pending order</NavItem>
-                            <NavItem to="#">Completed order</NavItem>
-                        </NavMenu>
+                            icon="ri-file-text-line"
+                            text="Posts"
+                            to="/dashboard/posts"
+                        />
 
                         <NavMenu
                             icon="ri-folder-reduce-line"
                             text="Categories"
                             to="/dashboard/categories"
                         />
+
+                        <NavMenu
+                            icon="ri-price-tag-3-line"
+                            text="Tags"
+                            to="/dashboard/tags"
+                        />
+
+                        <NavMenu
+                            icon="ri-bar-chart-box-line"
+                            text="Statistics View"
+                            selected={selectedMenu === "Statistics View"}
+                            onClick={() =>
+                                handleNavMenuClick("Statistics View")
+                            }
+                        >
+                            <NavItem to="/dashboard">All orders</NavItem>
+                            <NavItem to="#">Pending order</NavItem>
+                            <NavItem to="#">Completed order</NavItem>
+                        </NavMenu>
 
                         <NavMenu
                             icon="ri-bookmark-line"

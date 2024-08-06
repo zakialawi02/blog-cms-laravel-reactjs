@@ -8,13 +8,13 @@ import ButtonBE from "@/Components/Element/Button/ButtonBE";
 import usePreventNavigation from "@/Hook/usePreventNavigation";
 import { useEffect, useState } from "react";
 
-const EmptyPage = ({ auth, category, meta }) => {
+const Create = ({ auth, meta }) => {
     const [isFormChanged, setIsFormChanged] = useState(false);
     usePreventNavigation(isFormChanged);
 
-    const { data, setData, errors, put, processing } = useForm({
-        category: category.category,
-        slug: category.slug,
+    const { data, setData, errors, post, processing } = useForm({
+        category: "",
+        slug: "",
     });
 
     const generateSlug = async (categoryName) => {
@@ -40,7 +40,7 @@ const EmptyPage = ({ auth, category, meta }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        put(route("admin.categories.update", category.slug));
+        post(route("admin.categories.store"));
     };
 
     return (
@@ -93,7 +93,7 @@ const EmptyPage = ({ auth, category, meta }) => {
                             />
                         </div>
 
-                        <ButtonBE disabled={processing}>Update</ButtonBE>
+                        <ButtonBE disabled={processing}>Save</ButtonBE>
                     </form>
                 </Card>
             </DashboardLayout>
@@ -101,4 +101,4 @@ const EmptyPage = ({ auth, category, meta }) => {
     );
 };
 
-export default EmptyPage;
+export default Create;

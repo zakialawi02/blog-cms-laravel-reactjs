@@ -3,18 +3,18 @@ import React from "react";
 
 const Pagination = ({ links }) => {
     return (
-        <nav className="mt-4 text-center">
+        <nav className="mt-4 space-x-1 text-center">
             {links.map((link) => (
                 <Link
                     preserveScroll
                     href={link.url || ""}
                     key={link.label}
                     className={
-                        "inline-block py-2 px-3 rounded-lg text-gray-200 text-xs " +
-                        (link.active ? "bg-backend-accent " : " ") +
+                        "inline-block py-2 px-3 rounded-lg bg-backend-primary text-backend-light text-xs " +
+                        (link.active ? "bg-backend-secondary " : " ") +
                         (!link.url
-                            ? "!text-backend-muted cursor-not-allowed "
-                            : "hover:bg-backend-accent")
+                            ? "bg-backend-primary/60 cursor-not-allowed "
+                            : "hover:bg-backend-secondary ")
                     }
                     dangerouslySetInnerHTML={{ __html: link.label }}
                 ></Link>

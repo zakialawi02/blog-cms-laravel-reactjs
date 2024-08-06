@@ -36,4 +36,19 @@ class Article extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function articleViews()
+    {
+        return $this->hasMany(ArticleView::class, 'article_id');
+    }
+
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class, 'article_tags', 'article_id', 'tag_id');
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class, 'article_id');
+    }
 }
