@@ -45,7 +45,7 @@ class CategoryController extends Controller
             'title' => 'Create Category',
         ];
 
-        return Inertia::render('Dashboard/Category/Create', [
+        return Inertia::render('Dashboard/Category/FormData', [
             "meta" => $data
         ]);
     }
@@ -77,7 +77,7 @@ class CategoryController extends Controller
             'title' => 'Edit Category',
         ];
 
-        return Inertia::render('Dashboard/Category/Edit', [
+        return Inertia::render('Dashboard/Category/FormData', [
             "meta" => $data,
             "category" => $category
         ]);

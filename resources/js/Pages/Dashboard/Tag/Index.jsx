@@ -48,14 +48,13 @@ const Index = ({ auth, tags, meta, queryParams = null }) => {
         <>
             <Head title={meta.title}></Head>
 
-            <DashboardLayout user={auth.user}>
-                <h2>h2 Index</h2>
+            <DashboardLayout metaTitle={meta.title} user={auth.user}>
                 <Card>
                     <div className="overflow-x-auto">
-                        <div className="py-2 flex justify-end">
+                        <div className="flex justify-end py-2">
                             <Link
                                 href={route("admin.tags.create")}
-                                className="px-4 py-2 bg-backend-primary text-backend-base-100 rounded hover:bg-backend-primary/80"
+                                className="px-4 py-2 rounded bg-backend-primary text-backend-base-100 hover:bg-backend-primary/80"
                             >
                                 New Tag
                             </Link>

@@ -7,6 +7,7 @@ use App\Http\Controllers\TagController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,9 +32,8 @@ Route::get('/', function () {
 
 Route::prefix('dashboard')->as('admin.')->group(function () {
     Route::middleware(['auth', 'verified', 'role:admin,writer'])->group(function () {
-        Route::get('/', function () {
-            return Inertia::render('Dashboard');
-        })->name('dashboard');
+        Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+        Route::get('/i/getInfo', [DashboardController::class, 'getInfo'])->name('dashboard.getInfo');
 
         Route::get('/empty', function () {
             return Inertia::render('EmptyPage');

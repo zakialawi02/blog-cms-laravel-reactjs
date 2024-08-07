@@ -1,4 +1,4 @@
-const SkeletonCard = ({ children, className = "" }) => {
+const SkeletonCard = ({ reapeat = 2, children, className = "" }) => {
     return (
         <div
             className={`w-full bg-white border border-gray-100 shadow-md shadow-black/5 p-6 rounded-md ${className}`}
@@ -7,8 +7,14 @@ const SkeletonCard = ({ children, className = "" }) => {
                 <div className="flex-1 py-1 space-y-4">
                     <div className="w-3/4 h-6 bg-gray-300 rounded"></div>
                     <div className="space-y-2">
-                        <div className="h-4 bg-gray-300 rounded"></div>
-                        <div className="w-5/6 h-4 bg-gray-300 rounded"></div>
+                        {[...Array(reapeat)].map((_, index) => (
+                            <>
+                                <div
+                                    key={index}
+                                    className="h-4 bg-gray-300 rounded"
+                                ></div>
+                            </>
+                        ))}
                     </div>
                 </div>
             </div>

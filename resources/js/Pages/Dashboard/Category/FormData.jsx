@@ -6,71 +6,73 @@ import InputLabel from "@/Components/Element/Input/InputLabel";
 import InputError from "@/Components/Element/Input/InputError";
 import ButtonBE from "@/Components/Element/Button/ButtonBE";
 import usePreventNavigation from "@/Hook/usePreventNavigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
-const Create = ({ auth, meta }) => {
+const Create = ({ auth, category, meta }) => {
     const [isFormChanged, setIsFormChanged] = useState(false);
     usePreventNavigation(isFormChanged);
+    const isUpdate = useRef(category ? true : false);
 
-    const { data, setData, errors, post, processing } = useForm({
-        tag_name: "",
-        slug: "",
+    const { data, setData, errors, post, put, processing } = useForm({
+        category: category?.category ?? "",
+        slug: category?.slug ?? "",
     });
 
-    const generateSlug = async (tag_nameName) => {
+    const generateSlug = async (categoryName) => {
         try {
             const response = await axios.post(
-                route("admin.tags.generateSlug"),
+                route("admin.categories.generateSlug"),
                 {
-                    tag_name: tag_nameName,
+                    category: categoryName,
                 }
             );
 
             setData("slug", response.data.slug);
-            console.log(response);
         } catch (error) {
             console.error("Error generating slug", error);
         }
     };
 
     useEffect(() => {
-        if (data.tag_name) {
-            generateSlug(data.tag_name);
-            console.log(data.tag_name);
-            console.log(data.slug);
+        if (data.category) {
+            generateSlug(data.category);
         }
-    }, [data.tag_name]);
+    }, [data.category]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        post(route("admin.tags.store"));
+        if (isUpdate.current) {
+            put(route("admin.categories.update", category.slug));
+        } else {
+            post(route("admin.categories.store"));
+        }
     };
 
     return (
         <>
             <Head title={meta.title}></Head>
 
-            <DashboardLayout user={auth.user}>
+            <DashboardLayout metaTitle={meta.title} user={auth.user}>
                 <Card>
                     <form onSubmit={handleSubmit}>
                         <div className="mb-3">
                             <InputLabel
-                                htmlFor="tag_name"
-                                value="Tag Name"
+                                htmlFor="category"
+                                value="Category Name"
                                 className="mb-2"
                             />
                             <TextInput
                                 type="text"
-                                id="tag_name"
+                                id="category"
                                 className="w-full"
                                 isFocused={true}
-                                value={data.tag_name}
+                                value={data.category}
                                 onChange={(e) =>
-                                    setData("tag_name", e.target.value)
+                                    setData("category", e.target.value)
                                 }
                             />
                             <InputError
-                                message={errors.tag_name}
+                                message={errors.category}
                                 className="mb-3"
                             />
                         </div>
@@ -78,7 +80,7 @@ const Create = ({ auth, meta }) => {
                         <div className="mb-3">
                             <InputLabel
                                 htmlFor="slug"
-                                value="Tag Slug / url"
+                                value="Category Slug / url"
                                 className="mb-2"
                             />
                             <TextInput
@@ -96,7 +98,9 @@ const Create = ({ auth, meta }) => {
                             />
                         </div>
 
-                        <ButtonBE disabled={processing}>Save</ButtonBE>
+                        <ButtonBE disabled={processing}>
+                            {category ? "Update" : "Create"}
+                        </ButtonBE>
                     </form>
                 </Card>
             </DashboardLayout>

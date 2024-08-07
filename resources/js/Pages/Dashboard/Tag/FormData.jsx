@@ -6,23 +6,24 @@ import InputLabel from "@/Components/Element/Input/InputLabel";
 import InputError from "@/Components/Element/Input/InputError";
 import ButtonBE from "@/Components/Element/Button/ButtonBE";
 import usePreventNavigation from "@/Hook/usePreventNavigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
-const Create = ({ auth, meta }) => {
+const Create = ({ auth, tag = null, meta }) => {
     const [isFormChanged, setIsFormChanged] = useState(false);
     usePreventNavigation(isFormChanged);
+    const isUpdate = useRef(tag ? true : false);
 
-    const { data, setData, errors, post, processing } = useForm({
-        category: "",
-        slug: "",
+    const { data, setData, errors, post, put, processing } = useForm({
+        tag_name: tag?.tag_name ?? "",
+        slug: tag?.slug ?? "",
     });
 
-    const generateSlug = async (categoryName) => {
+    const generateSlug = async (tag_nameName) => {
         try {
             const response = await axios.post(
-                route("admin.categories.generateSlug"),
+                route("admin.tags.generateSlug"),
                 {
-                    category: categoryName,
+                    tag_name: tag_nameName,
                 }
             );
 
@@ -33,41 +34,47 @@ const Create = ({ auth, meta }) => {
     };
 
     useEffect(() => {
-        if (data.category) {
-            generateSlug(data.category);
+        if (data.tag_name) {
+            generateSlug(data.tag_name);
+            console.log(data.tag_name);
+            console.log(data.slug);
         }
-    }, [data.category]);
+    }, [data.tag_name]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        post(route("admin.categories.store"));
+        if (isUpdate.current) {
+            put(route("admin.tags.update", tag.slug));
+        } else {
+            post(route("admin.tags.store"));
+        }
     };
 
     return (
         <>
             <Head title={meta.title}></Head>
 
-            <DashboardLayout user={auth.user}>
+            <DashboardLayout metaTitle={meta.title} user={auth.user}>
                 <Card>
                     <form onSubmit={handleSubmit}>
                         <div className="mb-3">
                             <InputLabel
-                                htmlFor="category"
-                                value="Category Name"
+                                htmlFor="tag_name"
+                                value="Tag Name"
                                 className="mb-2"
                             />
                             <TextInput
                                 type="text"
-                                id="category"
+                                id="tag_name"
                                 className="w-full"
                                 isFocused={true}
-                                value={data.category}
+                                value={data.tag_name}
                                 onChange={(e) =>
-                                    setData("category", e.target.value)
+                                    setData("tag_name", e.target.value)
                                 }
                             />
                             <InputError
-                                message={errors.category}
+                                message={errors.tag_name}
                                 className="mb-3"
                             />
                         </div>
@@ -75,7 +82,7 @@ const Create = ({ auth, meta }) => {
                         <div className="mb-3">
                             <InputLabel
                                 htmlFor="slug"
-                                value="Category Slug / url"
+                                value="Tag Slug / url"
                                 className="mb-2"
                             />
                             <TextInput
@@ -93,7 +100,9 @@ const Create = ({ auth, meta }) => {
                             />
                         </div>
 
-                        <ButtonBE disabled={processing}>Save</ButtonBE>
+                        <ButtonBE disabled={processing}>
+                            {tag ? "Update" : "Create"}
+                        </ButtonBE>
                     </form>
                 </Card>
             </DashboardLayout>

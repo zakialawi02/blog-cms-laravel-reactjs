@@ -22,7 +22,7 @@ class TagController extends Controller
         $query = Tag::orderBy(request("sort_field", 'created_at'), request("sort_direction", "desc"));
 
         if (request('search')) {
-            $query = Tag::where('category', 'like', '%' . request('search') . '%')
+            $query = Tag::where('tag_name', 'like', '%' . request('search') . '%')
                 ->orWhere('slug', 'like', '%' . request('search') . '%');
         }
 
@@ -41,10 +41,10 @@ class TagController extends Controller
     public function create()
     {
         $data = [
-            'title' => 'Create New Tag',
+            'title' => 'Add New Tag',
         ];
 
-        return Inertia::render('Dashboard/Tag/Create', [
+        return Inertia::render('Dashboard/Tag/FormData', [
             "meta" => $data
         ]);
     }
@@ -85,7 +85,7 @@ class TagController extends Controller
             'title' => 'Edit Tag',
         ];
 
-        return Inertia::render('Dashboard/Tag/Edit', [
+        return Inertia::render('Dashboard/Tag/FormData', [
             "meta" => $data,
             "tag" => $tag
         ]);

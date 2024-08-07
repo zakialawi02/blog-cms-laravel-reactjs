@@ -2,10 +2,12 @@ import HeaderAdmin from "@/Components/Element/Header/HeaderAdmin";
 import "../../css/dashboard.css";
 import SidebarAdmin from "@/Components/Element/Sidebar/SidebarAdmin";
 import { useEffect, useState } from "react";
+import { Head } from "@inertiajs/react";
 
-const DashboardLayout = ({ user, children }) => {
-    const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-    const [isMobile, setIsMobile] = useState(false);
+const DashboardLayout = ({ user, metaTitle = "", children }) => {
+    const [isSidebarOpen, setIsSidebarOpen] = useState(
+        window.innerWidth >= 768
+    );
 
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
@@ -13,29 +15,27 @@ const DashboardLayout = ({ user, children }) => {
 
     useEffect(() => {
         const handleResize = () => {
-            setIsMobile(window.innerWidth < 768);
+            if (window.innerWidth < 768) {
+                setIsSidebarOpen(false);
+            } else {
+                setIsSidebarOpen(true);
+            }
         };
 
         window.addEventListener("resize", handleResize);
-        handleResize();
 
         return () => {
             window.removeEventListener("resize", handleResize);
         };
     }, []);
 
-    useEffect(() => {
-        if (isMobile) {
-            setIsSidebarOpen(false);
-        }
-    }, [isMobile]);
-
     return (
         <>
+            <Head title={`${metaTitle} • Dashboard`} />
             <SidebarAdmin show={isSidebarOpen} toggleSidebar={toggleSidebar} />
 
             <main
-                className={`w-full md:w-[calc(100%-256px)] text-backend-dark md:ml-64 bg-backend-light min-h-screen transition-all main ${
+                className={`w-full font-Lato md:w-[calc(100%-256px)] text-backend-dark md:ml-64 bg-backend-light min-h-screen transition-all main ${
                     isSidebarOpen ? "" : "active"
                 }`}
             >

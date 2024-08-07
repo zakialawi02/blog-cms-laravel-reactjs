@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Tag;
 use App\Models\User;
 use Inertia\Inertia;
 use App\Models\Article;
 use App\Models\Category;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -27,36 +29,36 @@ class PostController extends Controller
             $query->where('user_id', auth()->id());
         }
 
-        if ($request->has("search") && $request->get("search") != "") {
+        if (request('search') && request()->get("search") != "") {
             $query = $query->where(function ($q) use ($request) {
-                $q->where('title', 'like', '%' . $request->get("search") . '%')
-                    ->orWhere('content', 'like', '%' . $request->get("search") . '%')
-                    ->orWhere('excerpt', 'like', '%' . $request->get("search") . '%')
+                $q->where('title', 'like', '%' . request()->get("search") . '%')
+                    ->orWhere('content', 'like', '%' . request()->get("search") . '%')
+                    ->orWhere('excerpt', 'like', '%' . request()->get("search") . '%')
                     ->orWhereHas('tags', function ($q) use ($request) {
-                        $q->where('tag_name', 'like', '%' . $request->get("search") . '%');
+                        $q->where('tag_name', 'like', '%' . request()->get("search") . '%');
                     });
             });
         }
 
-        if ($request->has("status") && $request->get("status") != "" && $request->get("status") != "all") {
-            $query = $query->where('status', $request->get("status"));
+        if (request("status") && request()->get("status") != "" && request()->get("status") != "all") {
+            $query = $query->where('status', request()->get("status"));
         }
 
-        if ($request->has("category") && $request->get("category") != "" && $request->get("category") == "uncategorized") {
+        if (request("category") && request()->get("category") != "" && request()->get("category") == "uncategorized") {
             $query = $query->whereNull('category_id');
-        } elseif ($request->has("category") && $request->get("category") != "" && $request->get("category") != "all") {
+        } elseif (request("category") && request()->get("category") != "" && request()->get("category") != "all") {
             $query = $query->whereHas('category', function ($q) use ($request) {
-                $q->where('slug', $request->get("category"));
+                $q->where('slug', request()->get("category"));
             });
         }
 
-        if ($request->has("user") && $request->get("user") != "" && $request->get("user") != "all") {
+        if (request("user") && request()->get("user") != "" && request()->get("user") != "all") {
             $query = $query->whereHas('user', function ($q) use ($request) {
-                $q->where('username', $request->get("user"));
+                $q->where('username', request()->get("user"));
             });
         }
 
-        $posts = $query->orderBy('articles.created_at', 'desc')->paginate(10);
+        $posts = $query->orderBy(request("sort_field", 'created_at'), request("sort_direction", "desc"))->paginate(10)->withQueryString()->onEachSide(1);
 
         $users = User::orderBy('username', 'asc')->get();
         $categories = Category::orderBy('category', 'asc')->get();
@@ -65,7 +67,8 @@ class PostController extends Controller
             "meta" => $data,
             "posts" => $posts,
             "categories" => $categories,
-            "users" => $users
+            "users" => $users,
+            "queryParams" => request()->query() ?: null
         ]);
     }
 
@@ -74,7 +77,30 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        $data = [
+            'title' => 'Create Post',
+        ];
+        $categories = Category::all();
+        $tags = Tag::all();
+
+        return Inertia::render('Dashboard/Post/FormData', [
+            "meta" => $data,
+            "categories" => $categories,
+            "tags" => $tags
+        ]);
+    }
+
+    /**
+     * Generate a slug from the given data in the request.
+     *
+     * @param Request $request The HTTP request object containing the data.
+     * @return \Illuminate\Http\JsonResponse The JSON response containing the generated slug.
+     */
+    public function generateSlug(Request $request)
+    {
+        $slug = Str::slug($request->data);
+
+        return response()->json(['slug' => $slug]);
     }
 
     /**
@@ -96,9 +122,25 @@ class PostController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Article $article)
+    public function edit(Article $post)
     {
-        //
+        if (auth()->user()->role !== 'admin' && auth()->id() !== $post->user_id) {
+            abort(403);
+        }
+
+        $data = [
+            'title' => 'Edit Post',
+        ];
+        $categories = Category::all();
+        $articleTags = $post->tags->pluck('tag_name')->toArray();
+        $tags = Tag::all();
+
+        return Inertia::render('Dashboard/Post/FormData', [
+            "meta" => $data,
+            "postData" => $post,
+            "categories" => $categories,
+            "tags" => $tags
+        ]);
     }
 
     /**

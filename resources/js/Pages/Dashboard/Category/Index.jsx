@@ -52,13 +52,13 @@ const Index = ({ auth, categories, meta, queryParams = null }) => {
         <>
             <Head title={meta.title}></Head>
 
-            <DashboardLayout user={auth.user}>
+            <DashboardLayout metaTitle={meta.title} user={auth.user}>
                 <Card>
                     <div className="overflow-x-auto">
-                        <div className="py-2 flex justify-end">
+                        <div className="flex justify-end py-2">
                             <Link
                                 href={route("admin.categories.create")}
-                                className="px-4 py-2 bg-backend-primary text-backend-base-100 rounded hover:bg-backend-primary/80"
+                                className="px-4 py-2 rounded bg-backend-primary text-backend-base-100 hover:bg-backend-primary/80"
                             >
                                 Add Category
                             </Link>
