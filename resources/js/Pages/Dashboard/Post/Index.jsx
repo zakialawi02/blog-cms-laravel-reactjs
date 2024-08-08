@@ -1,13 +1,20 @@
 import Card from "@/Components/Element/Card/Card";
+import InputLabel from "@/Components/Element/Input/InputLabel";
 import TextInput from "@/Components/Element/Input/TextInput";
 import Pagination from "@/Components/Element/Pagination/Pagination";
 import TableHeading from "@/Components/Element/Table/TableHeading";
 import DashboardLayout from "@/Layouts/DashboardLayout";
 import { Head, Link, router } from "@inertiajs/react";
 
-const Index = ({ auth, posts, meta, queryParams = null }) => {
+const Index = ({
+    auth,
+    posts,
+    meta,
+    categories,
+    users,
+    queryParams = null,
+}) => {
     queryParams = queryParams || {};
-    console.log(posts);
 
     const onKeyPress = (name, e) => {
         if (e.key === "Enter") {
@@ -38,13 +45,22 @@ const Index = ({ auth, posts, meta, queryParams = null }) => {
         router.get(route("admin.posts.index"), queryParams);
     };
 
+    const filterChanged = (name, value) => {
+        if (value) {
+            queryParams[name] = value;
+        } else {
+            delete queryParams[name];
+        }
+        router.get(route("admin.posts.index"), queryParams);
+    };
+
     return (
         <>
             <Head title={meta.title}></Head>
 
             <DashboardLayout metaTitle={meta.title} user={auth.user}>
                 <Card>
-                    <div className="overflow-x-auto">
+                    <div className="">
                         <div className="flex justify-end py-2">
                             <Link
                                 href={route("admin.posts.create")}
@@ -52,6 +68,91 @@ const Index = ({ auth, posts, meta, queryParams = null }) => {
                             >
                                 Add Post
                             </Link>
+                        </div>
+
+                        <InputLabel>Filter</InputLabel>
+                        <div className="flex flex-col mb-4 md:flex-row">
+                            <div className="mr-2">
+                                <label
+                                    for="status"
+                                    className="block w-full md:w-auto"
+                                >
+                                    Status
+                                </label>
+                                <select
+                                    name="status"
+                                    id="publish"
+                                    className="block w-full md:w-auto rounded-md border-0 py-1.5  shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-backend-primary sm:max-w-xs sm:text-sm sm:leading-6"
+                                    value={queryParams.status || "all"}
+                                    onChange={(e) =>
+                                        filterChanged("status", e.target.value)
+                                    }
+                                >
+                                    <option value="all">All</option>
+                                    <option value="published">Published</option>
+                                    <option value="draft">Draft</option>
+                                </select>
+                            </div>
+                            <div className="mr-2">
+                                <label
+                                    for="category"
+                                    className="block w-full md:w-auto"
+                                >
+                                    Category
+                                </label>
+                                <select
+                                    name="category"
+                                    id="category"
+                                    className="block w-full md:w-auto rounded-md border-0 py-1.5  shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-backend-primary sm:max-w-xs sm:text-sm sm:leading-6"
+                                    value={queryParams.category || "all"}
+                                    onChange={(e) =>
+                                        filterChanged(
+                                            "category",
+                                            e.target.value
+                                        )
+                                    }
+                                >
+                                    <option value="all">All</option>
+                                    <option value="uncategorized">
+                                        Uncategorized
+                                    </option>
+                                    {categories.map((category, index) => (
+                                        <option
+                                            key={index}
+                                            value={category.category}
+                                        >
+                                            {category.category}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div className="mr-2">
+                                <label
+                                    for="user"
+                                    className="block w-full md:w-auto"
+                                >
+                                    Author
+                                </label>
+                                <select
+                                    name="user"
+                                    id="user"
+                                    className="block w-full md:w-auto rounded-md border-0 py-1.5  shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-backend-primary sm:max-w-xs sm:text-sm sm:leading-6"
+                                    value={queryParams.user || "all"}
+                                    onChange={(e) =>
+                                        filterChanged("user", e.target.value)
+                                    }
+                                >
+                                    <option value="all">All</option>
+                                    {users.map((user, index) => (
+                                        <option
+                                            key={index}
+                                            value={user.username}
+                                        >
+                                            {user.username}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
                         </div>
 
                         <div className="mb-4">

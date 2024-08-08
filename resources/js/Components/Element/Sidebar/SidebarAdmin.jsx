@@ -67,6 +67,16 @@ const SidebarAdmin = ({ show, toggleSidebar }) => {
                                 handleNavMenuClick("Statistics View")
                             }
                         >
+                            <NavItem to="/posts/stats">Articles View</NavItem>
+                            <NavItem to="/stats/locations">By Country</NavItem>
+                        </NavMenu>
+
+                        <NavMenu
+                            icon="ri-bar-chart-box-line"
+                            text="Temp"
+                            selected={selectedMenu === "Temp"}
+                            onClick={() => handleNavMenuClick("Temp")}
+                        >
                             <NavItem to="/dashboard">All orders</NavItem>
                             <NavItem to="#">Pending order</NavItem>
                             <NavItem to="#">Completed order</NavItem>

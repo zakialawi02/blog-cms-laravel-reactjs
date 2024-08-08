@@ -32,14 +32,6 @@ Route::get('/', function () {
 
 Route::prefix('dashboard')->as('admin.')->group(function () {
     Route::middleware(['auth', 'verified', 'role:admin,writer'])->group(function () {
-        Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
-        Route::get('/i/getInfo', [DashboardController::class, 'getInfo'])->name('dashboard.getInfo');
-
-        Route::get('/empty', function () {
-            return Inertia::render('EmptyPage');
-        })->name('empty');
-
-
         Route::post('/posts/generateSlug', [PostController::class, 'generateSlug'])->name('posts.generateSlug');
         Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
         Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
@@ -58,7 +50,15 @@ Route::prefix('dashboard')->as('admin.')->group(function () {
 
         Route::resource('tags', TagController::class)->parameters(['tags' => 'tag:slug']);
         Route::post('/tags/generateSlug', [TagController::class, 'generateSlug'])->name('tags.generateSlug');
+    });
 
+    Route::middleware(['auth', 'verified', 'role:admin,writer,user'])->group(function () {
+        Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+        Route::get('/i/getInfo', [DashboardController::class, 'getInfo'])->name('dashboard.getInfo');
+
+        Route::get('/empty', function () {
+            return Inertia::render('EmptyPage');
+        })->name('empty');
 
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

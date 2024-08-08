@@ -12,6 +12,8 @@ const FormData = ({ auth, meta, postData = null, categories, tags }) => {
     const [isFormChanged, setIsFormChanged] = useState(false);
     usePreventNavigation(isFormChanged);
     const isUpdate = useRef(postData ? true : false);
+    const [editSlug, setEditSlug] = useState(false);
+    const [fillSlug, setFillSlug] = useState(postData ? false : true);
 
     const { data, setData, errors, post, put, processing } = useForm({
         title: postData?.title ?? "",
@@ -22,22 +24,29 @@ const FormData = ({ auth, meta, postData = null, categories, tags }) => {
         tags: postData?.tags ?? [],
         published_at: postData?.published_at ?? null,
     });
-    console.log(postData);
 
-    console.log(data);
+    const inputSlug = (e) => {
+        setEditSlug(!editSlug);
+        if (fillSlug) {
+            setFillSlug(!fillSlug);
+        }
+    };
 
-    const generateSlug = async (categoryName) => {
-        try {
-            const response = await axios.post(
-                route("admin.posts.generateSlug"),
-                {
-                    category: categoryName,
-                }
-            );
+    const generateSlug = async (titleName) => {
+        if (fillSlug) {
+            try {
+                const response = await axios.post(
+                    route("admin.posts.generateSlug"),
+                    {
+                        data: titleName,
+                    }
+                );
 
-            setData("slug", response.data.slug);
-        } catch (error) {
-            console.error("Error generating slug", error);
+                setData("slug", response.data.slug);
+                console.log(response);
+            } catch (error) {
+                console.error("Error generating slug", error);
+            }
         }
     };
 
@@ -49,10 +58,18 @@ const FormData = ({ auth, meta, postData = null, categories, tags }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (isUpdate.current) {
-            put(route("admin.posts.update", postData.slug));
+        if (e.target.name === "unpublished") {
+            if (isUpdate.current) {
+                put(route("admin.posts.update", postData.slug));
+            } else {
+                post(route("admin.posts.store"));
+            }
         } else {
-            post(route("admin.posts.store"));
+            if (isUpdate.current) {
+                put(route("admin.posts.update", postData.slug));
+            } else {
+                post(route("admin.posts.store"));
+            }
         }
     };
 
@@ -61,9 +78,13 @@ const FormData = ({ auth, meta, postData = null, categories, tags }) => {
             <Head title={meta.title} />
 
             <DashboardLayout metaTitle={meta.title} user={auth.user}>
-                <form onSubmit={handleSubmit}>
+                <form>
                     <div className="flex justify-end gap-2 mb-3">
-                        <ButtonBE name="submit" disabled={processing}>
+                        <ButtonBE
+                            name="submit"
+                            disabled={processing}
+                            onClick={handleSubmit}
+                        >
                             {postData
                                 ? "Update and Publish"
                                 : "Save and Publish"}
@@ -72,6 +93,7 @@ const FormData = ({ auth, meta, postData = null, categories, tags }) => {
                             name="unpublished"
                             disabled={processing}
                             color="bg-backend-muted"
+                            onClick={handleSubmit}
                         >
                             Save as Draft
                         </ButtonBE>
@@ -110,6 +132,10 @@ const FormData = ({ auth, meta, postData = null, categories, tags }) => {
                                     className="w-full border-gray-300 rounded-md shadow-sm focus:border-backend-primary focus:ring-backend-primary"
                                     id="category_id"
                                     name="category_id"
+                                    value={data.category_id}
+                                    onChange={(e) =>
+                                        setData("category_id", e.target.value)
+                                    }
                                 >
                                     <option value="">
                                         -- Select Category --
@@ -118,9 +144,6 @@ const FormData = ({ auth, meta, postData = null, categories, tags }) => {
                                         <option
                                             key={category.id}
                                             value={category.id}
-                                            selected={
-                                                data.category_id === category.id
-                                            }
                                         >
                                             {category.category}
                                         </option>
@@ -179,15 +202,32 @@ const FormData = ({ auth, meta, postData = null, categories, tags }) => {
                                     value="Slug / url post"
                                     className="mb-2"
                                 />
-                                <TextInput
-                                    type="text"
-                                    id="slug"
-                                    className="w-full"
-                                    value={data.slug}
-                                    onChange={(e) =>
-                                        setData("slug", e.target.value)
-                                    }
-                                />
+                                <div className="relative mt-2.5">
+                                    <div className="absolute inset-y-0 right-0 flex items-center">
+                                        <button
+                                            type="button"
+                                            className="rounded-r-md bg-backend-neutral border border-l-0 border-gray-300 px-3.5 py-2  shadow-sm ring-1 ring-inset hover:bg-gray-50"
+                                            onClick={(e) => inputSlug(e)}
+                                        >
+                                            {editSlug ? (
+                                                <i className="ri-close-line"></i>
+                                            ) : (
+                                                <i className="ri-pencil-line"></i>
+                                            )}
+                                        </button>
+                                    </div>
+                                    <input
+                                        type="text"
+                                        id="slug"
+                                        typeof="text"
+                                        className="block w-full rounded-md border-0 px-3.5 py-2   shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-backend-primary sm:text-sm sm:leading-6 disabled:cursor-not-allowed disabled:opacity-50"
+                                        value={data.slug}
+                                        disabled={!editSlug}
+                                        onChange={(e) =>
+                                            setData("slug", e.target.value)
+                                        }
+                                    />
+                                </div>
                                 <InputError
                                     message={errors.slug}
                                     className="mb-3"
@@ -220,7 +260,7 @@ const FormData = ({ auth, meta, postData = null, categories, tags }) => {
                                 />
                             </div>
 
-                            {/* AUTHOR MASIH BELOM BERFUNGSI  */}
+                            {/**  AUTHOR MASIH BELOM BERFUNGSI  **/}
                             <div className="mb-3">
                                 <InputLabel
                                     htmlFor="user_id"
