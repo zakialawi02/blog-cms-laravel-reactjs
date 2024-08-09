@@ -12,12 +12,24 @@ class ArticleViewController extends Controller
 {
     public function index()
     {
-        return Inertia::render('Dashboard/Post/StatView');
+        $data = [
+            'title' => 'Post Statistics'
+        ];
+
+        return Inertia::render('Dashboard/Post/StatView', [
+            'meta' => $data
+        ]);
     }
 
     public function index2()
     {
-        return Inertia::render('Dashboard/Post/StatByCountry');
+        $data = [
+            'title' => 'Post Statistics By Country'
+        ];
+
+        return Inertia::render('Dashboard/Post/StatByCountry', [
+            'meta' => $data
+        ]);
     }
 
     /**
@@ -150,6 +162,17 @@ class ArticleViewController extends Controller
         });
         $total_views = $views->sum('views');
         $article['total_views'] = $total_views;
+
+        $data = [
+            'title' => 'Post Statistics Detail',
+        ];
+
+        return Inertia::render('Dashboard/Post/StatPerArticle', [
+            'meta' => $data,
+            'article' => $article,
+            'views' => $views,
+            'total_views' => $total_views
+        ]);
     }
 
     /**

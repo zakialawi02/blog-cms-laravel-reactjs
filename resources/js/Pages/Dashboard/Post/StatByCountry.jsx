@@ -6,7 +6,7 @@ import DashboardLayout from "@/Layouts/DashboardLayout";
 import { Head } from "@inertiajs/react";
 import { useEffect, useState } from "react";
 
-const StatByCountry = ({ auth }) => {
+const StatByCountry = ({ auth, meta }) => {
     const [graphData, setGraphData] = useState([]);
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -39,9 +39,9 @@ const StatByCountry = ({ auth }) => {
 
     return (
         <>
-            <Head title="Post Statistics By Country"></Head>
+            <Head title={meta.title}></Head>
 
-            <DashboardLayout user={auth.user}>
+            <DashboardLayout metaTitle={meta.title} user={auth.user}>
                 <Card>
                     <h3 className="text-xl">
                         Total Visitors {data.total_views}

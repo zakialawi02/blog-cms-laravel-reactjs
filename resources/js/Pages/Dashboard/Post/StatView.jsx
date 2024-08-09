@@ -32,7 +32,7 @@ const popularSection = () => {
     );
 };
 
-const StatView = ({ auth }) => {
+const StatView = ({ auth, meta }) => {
     const [graphData, setGraphData] = useState([]);
     const [recent, setRecent] = useState([]);
     const [popular, setPopular] = useState([]);
@@ -96,9 +96,9 @@ const StatView = ({ auth }) => {
 
     return (
         <>
-            <Head title="Statistics View"></Head>
+            <Head title={meta.title}></Head>
 
-            <DashboardLayout user={auth.user}>
+            <DashboardLayout metaTitle={meta.title} user={auth.user}>
                 <Card>
                     {loading ? (
                         <SkeletonOneLine height={48} />
@@ -202,7 +202,7 @@ const StatView = ({ auth }) => {
                                                                 <td className="p-2">
                                                                     <Link
                                                                         href={
-                                                                            `/admin/stats/posts/` +
+                                                                            `/dashboard/stats/posts/` +
                                                                             item
                                                                                 .article
                                                                                 .slug

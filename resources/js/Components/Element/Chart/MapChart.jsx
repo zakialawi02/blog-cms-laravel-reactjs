@@ -12,7 +12,7 @@ const topology = await fetch(
 const MapChart = ({ graphData }) => {
     const mapData = graphData.map((item) => ({
         "hc-key": item.code.toLowerCase(),
-        value: item.total_views,
+        value: item?.total_views || item?.views,
     }));
 
     const options = {
