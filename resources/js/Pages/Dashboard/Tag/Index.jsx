@@ -71,7 +71,7 @@ const Index = ({ auth, tags, meta, queryParams = null }) => {
                                 onKeyPress={(e) => onKeyPress("search", e)}
                             />
                         </div>
-                        <table className="w-full text-sm text-left rtl:text-right">
+                        <table className="w-full text-sm text-left">
                             <thead className="text-xs uppercase border-b border-gray-700">
                                 <tr className="text-nowrap">
                                     <TableHeading

@@ -67,8 +67,12 @@ const SidebarAdmin = ({ show, toggleSidebar }) => {
                                 handleNavMenuClick("Statistics View")
                             }
                         >
-                            <NavItem to="/posts/stats">Articles View</NavItem>
-                            <NavItem to="/stats/locations">By Country</NavItem>
+                            <NavItem to="/dashboard/posts/stats">
+                                Articles View
+                            </NavItem>
+                            <NavItem to="/dashboard/posts/stats/location">
+                                By Country
+                            </NavItem>
                         </NavMenu>
 
                         <NavMenu

@@ -8,6 +8,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ArticleViewController;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,6 +51,14 @@ Route::prefix('dashboard')->as('admin.')->group(function () {
 
         Route::resource('tags', TagController::class)->parameters(['tags' => 'tag:slug']);
         Route::post('/tags/generateSlug', [TagController::class, 'generateSlug'])->name('tags.generateSlug');
+
+        Route::get('/posts/stats', [ArticleViewController::class, 'index'])->name('posts.stats');
+        Route::get('/posts/stats/location', [ArticleViewController::class, 'index2'])->name('posts.statsByLocation');
+        Route::get('/posts/statspopular', [ArticleViewController::class, 'getStatsPopular'])->name('posts.statspopular');
+        Route::get('/posts/statsrecent', [ArticleViewController::class, 'getStatsRecent'])->name('posts.statsrecent');
+        Route::get('/posts/stats/6months', [ArticleViewController::class, 'getViewsLast6Months'])->name('posts.statslast6months');
+        Route::get('/stats/posts/{slug}', [ArticleViewController::class, 'statsPerArticle'])->name('posts.statsdetail');
+        Route::get('/stats/locations', [ArticleViewController::class, 'statsByLocation'])->name('posts.statslocation');
     });
 
     Route::middleware(['auth', 'verified', 'role:admin,writer,user'])->group(function () {

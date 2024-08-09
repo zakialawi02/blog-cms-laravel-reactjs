@@ -1,4 +1,5 @@
 const TableHeading = ({
+    width = "",
     name,
     sortable = true,
     sort_field = null,
@@ -9,8 +10,8 @@ const TableHeading = ({
     return (
         <th onClick={(e) => sortChanged(name)}>
             <div
-                className={`flex items-center justify-between gap-1 px-3 py-3 cursor-pointer ${
-                    sortable ? "hover:bg-gray-100" : ""
+                className={`flex items-center justify-between gap-1 px-3 py-3 ${width} ${
+                    sortable ? "cursor-pointer hover:bg-gray-100" : ""
                 }`}
             >
                 {children}

@@ -1,4 +1,4 @@
-const SkeletonParagraf = ({ children }) => {
+const SkeletonParagraf = () => {
     return (
         <div className="flex space-x-4 animate-skeleton">
             <div className="flex-1 py-1 space-y-4">

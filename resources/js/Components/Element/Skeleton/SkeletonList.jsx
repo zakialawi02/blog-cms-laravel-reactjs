@@ -1,4 +1,4 @@
-const SkeletonList = ({ children }) => {
+const SkeletonList = () => {
     return (
         <div className="space-y-4">
             {[1, 2, 3, 4, 5].map((_, index) => (

@@ -43,7 +43,6 @@ const FormData = ({ auth, meta, postData = null, categories, tags }) => {
                 );
 
                 setData("slug", response.data.slug);
-                console.log(response);
             } catch (error) {
                 console.error("Error generating slug", error);
             }
