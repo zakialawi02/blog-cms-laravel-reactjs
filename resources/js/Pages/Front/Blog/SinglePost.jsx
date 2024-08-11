@@ -1,14 +1,20 @@
 import GuestLayout from "@/Layouts/GuestLayout";
 import { Head, Link } from "@inertiajs/react";
-import "https://static.addtoany.com/menu/page.js";
+import Prism from "prismjs";
+import "/public/assets/css/prism.css";
+import "/public/assets/js/prism.js";
+import { useEffect } from "react";
+import SharePost from "@/Components/Element/Button/SharePost";
+import TagsPost from "@/Components/Element/Button/TagsPost";
 
 const SinglePost = ({ article }) => {
     const pathname = window.location.pathname;
     const segments = pathname.split("/").filter((segment) => segment !== "");
     const secondSegment = segments[1] || "";
-    console.log(pathname);
 
-    console.log(article);
+    useEffect(() => {
+        Prism.highlightAll();
+    }, []);
 
     return (
         <>
@@ -148,8 +154,14 @@ const SinglePost = ({ article }) => {
                                 <img
                                     className="max-h-[26rem] w-full rounded-lg object-cover object-center"
                                     src="#"
-                                    alt=" "
+                                    alt="Feature image"
                                     loading="lazy"
+                                    decoding="async"
+                                    onError={(e) => {
+                                        e.target.onerror = null;
+                                        e.target.src =
+                                            "/assets/img/image-placeholder.webp";
+                                    }}
                                 />
                             </div>
 
@@ -166,34 +178,11 @@ const SinglePost = ({ article }) => {
                             <div className="post-bottom">
                                 <div className="flex items-center justify-between text-frontend-secondary">
                                     <div className="">
-                                        {/* tags  */}
-                                        <a
-                                            href="#"
-                                            className="px-1 py-[0.1rem] transition-all duration-300 mr-1 border-[1px] rounded-2xl border-frontend-secondary hover:border-frontend-primary hover:text-frontend-primary "
-                                        >
-                                            #tag
-                                        </a>
+                                        <TagsPost tags={article.tags} />
                                     </div>
+
                                     <div className="text-2xl">
-                                        <p className="text-sm">Share:</p>
-                                        {/* AddToAny BEGIN  */}
-                                        <div className="a2a_kit a2a_kit_size_32 a2a_default_style">
-                                            <a
-                                                className="a2a_dd"
-                                                href="https://www.addtoany.com/share"
-                                            ></a>
-                                            <a className="a2a_button_facebook"></a>
-                                            <a className="a2a_button_email"></a>
-                                            <a className="a2a_button_whatsapp"></a>
-                                            <a className="a2a_button_linkedin"></a>
-                                            <a className="a2a_button_telegram"></a>
-                                            <a className="a2a_button_x"></a>
-                                        </div>
-                                        <script
-                                            async
-                                            src="https://static.addtoany.com/menu/page.js"
-                                        ></script>
-                                        {/* AddToAny END  */}
+                                        <SharePost />
                                     </div>
                                 </div>
                             </div>
@@ -201,6 +190,35 @@ const SinglePost = ({ article }) => {
                             <div id="author"></div>
 
                             <div className="py-1 my-2 border-b-2 border-frontend-dark border-opacity-40"></div>
+
+                            <div id="comments">
+                                <div id="" class="mt-4">
+                                    <div class="mb-3">
+                                        <h2 class="text-3xl font-bold">
+                                            Comments
+                                        </h2>
+                                    </div>
+
+                                    <div id="comments-section"></div>
+
+                                    <div class="flex justify-start mt-3">
+                                        <button
+                                            type="button"
+                                            id="btn-show-comments-section"
+                                            class="px-4 py-2 font-bold text-white transition-all duration-300 rounded-lg bg-frontend-primary hover:bg-frontend-secondary focus:outline-none"
+                                        >
+                                            Show Comments Section
+                                        </button>
+                                    </div>
+
+                                    <div
+                                        id="content-comment-container"
+                                        class="mt-10"
+                                    >
+                                        {" "}
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         <div
@@ -218,7 +236,7 @@ const SinglePost = ({ article }) => {
                                 <div className="p-2 mx-auto">
                                     <article>
                                         <div className="flex items-center gap-2 p-2">
-                                            <a
+                                            <Link
                                                 href="#"
                                                 className="block mr-2 shrink-0"
                                             >
@@ -227,27 +245,27 @@ const SinglePost = ({ article }) => {
                                                     src="#"
                                                     className="object-cover rounded-3xl size-14"
                                                 />
-                                            </a>
+                                            </Link>
 
                                             <div>
                                                 <h3 className="font-medium sm:text-lg line-clamp-2">
-                                                    <a
+                                                    <Link
                                                         href="#"
                                                         className="block hover:text-frontend-primary"
                                                     >
                                                         title
-                                                    </a>
+                                                    </Link>
                                                 </h3>
 
                                                 <div className="mt-2 sm:flex sm:items-center sm:gap-2">
                                                     <p className="hidden sm:block sm:text-xs">
                                                         Posted by{" "}
-                                                        <a
+                                                        <Link
                                                             href="#"
                                                             className="font-medium hover:text-frontend-primary"
                                                         >
                                                             user
-                                                        </a>
+                                                        </Link>
                                                     </p>
                                                 </div>
                                             </div>
@@ -269,13 +287,13 @@ const SinglePost = ({ article }) => {
                                 <div className="p-2 mx-auto">
                                     <ul className="flex flex-col gap-4 p-2">
                                         <li>
-                                            <a
+                                            <Link
                                                 href="#"
                                                 className="font-bold hover:text-frontend-primary"
                                             >
                                                 <i className="mr-2 text-xl ri-skip-right-line text-info"></i>
                                                 Category
-                                            </a>
+                                            </Link>
                                         </li>
 
                                         <p className="my-2 text-center font-regular">

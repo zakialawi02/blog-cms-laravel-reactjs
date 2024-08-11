@@ -78,7 +78,7 @@ class ArticleController extends Controller
             });
         }
 
-        return $query->paginate(3)->withQueryString();
+        return $query->paginate(9)->withQueryString();
     }
 
 
