@@ -7,10 +7,10 @@ const DisplayPost = ({ articles }) => {
                 <p className="my-2 ">No Article Posts Available</p>
             ) : (
                 articles.data.map((item, index) => (
-                    <CardPost key={index} image="https://placehold.co/600x400">
+                    <CardPost key={index} image={item.cover}>
                         <CardPost.Body
                             author={item.user.username}
-                            toAuthor="#"
+                            toAuthor={route("article.user", item.user.username)}
                             published={new Date(
                                 item.published_at
                             ).toLocaleDateString("en-US", {

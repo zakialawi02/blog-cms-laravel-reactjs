@@ -66,6 +66,10 @@ const CardPost = ({ image = "#", children }) => {
                     src={image}
                     alt=" "
                     loading="lazy"
+                    onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = "/assets/img/image-placeholder.webp";
+                    }}
                 />
 
                 <div className="mt-4">{children}</div>

@@ -43,7 +43,6 @@ const StatView = ({ auth, meta }) => {
         const res = await axios
             .get(route("admin.posts.statslast6months"))
             .then((res) => {
-                console.log(res.data);
                 setGraphData(res.data);
             })
             .catch((err) => {
@@ -55,7 +54,6 @@ const StatView = ({ auth, meta }) => {
         const res = await axios
             .get(route("admin.posts.statsrecent"))
             .then((res) => {
-                console.log(res.data);
                 setRecent(res.data);
             })
             .catch((err) => {
@@ -67,7 +65,6 @@ const StatView = ({ auth, meta }) => {
         const res = await axios
             .get(route("admin.posts.statspopular"))
             .then((res) => {
-                console.log(res.data);
                 setPopular(res.data);
             })
             .catch((err) => {

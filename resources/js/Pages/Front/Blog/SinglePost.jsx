@@ -6,11 +6,14 @@ import "/public/assets/js/prism.js";
 import { useEffect } from "react";
 import SharePost from "@/Components/Element/Button/SharePost";
 import TagsPost from "@/Components/Element/Button/TagsPost";
+import CardAsidePost from "@/Components/Element/Card/CardAsidePost";
 
 const SinglePost = ({ article }) => {
     const pathname = window.location.pathname;
     const segments = pathname.split("/").filter((segment) => segment !== "");
     const secondSegment = segments[1] || "";
+
+    console.log(article);
 
     useEffect(() => {
         Prism.highlightAll();
@@ -120,7 +123,10 @@ const SinglePost = ({ article }) => {
                                         >
                                             <img
                                                 className="w-6"
-                                                src="#"
+                                                src={
+                                                    article.user
+                                                        .profile_photo_path
+                                                }
                                                 alt="author"
                                             />
                                             {article.user.username}
@@ -153,7 +159,7 @@ const SinglePost = ({ article }) => {
                             <div id="feature-image" className="mb-3">
                                 <img
                                     className="max-h-[26rem] w-full rounded-lg object-cover object-center"
-                                    src="#"
+                                    src={article.cover}
                                     alt="Feature image"
                                     loading="lazy"
                                     decoding="async"
@@ -192,20 +198,20 @@ const SinglePost = ({ article }) => {
                             <div className="py-1 my-2 border-b-2 border-frontend-dark border-opacity-40"></div>
 
                             <div id="comments">
-                                <div id="" class="mt-4">
-                                    <div class="mb-3">
-                                        <h2 class="text-3xl font-bold">
+                                <div id="" className="mt-4">
+                                    <div className="mb-3">
+                                        <h2 className="text-3xl font-bold">
                                             Comments
                                         </h2>
                                     </div>
 
                                     <div id="comments-section"></div>
 
-                                    <div class="flex justify-start mt-3">
+                                    <div className="flex justify-start mt-3">
                                         <button
                                             type="button"
                                             id="btn-show-comments-section"
-                                            class="px-4 py-2 font-bold text-white transition-all duration-300 rounded-lg bg-frontend-primary hover:bg-frontend-secondary focus:outline-none"
+                                            className="px-4 py-2 font-bold text-white transition-all duration-300 rounded-lg bg-frontend-primary hover:bg-frontend-secondary focus:outline-none"
                                         >
                                             Show Comments Section
                                         </button>
@@ -213,7 +219,7 @@ const SinglePost = ({ article }) => {
 
                                     <div
                                         id="content-comment-container"
-                                        class="mt-10"
+                                        className="mt-10"
                                     >
                                         {" "}
                                     </div>
@@ -225,83 +231,30 @@ const SinglePost = ({ article }) => {
                             id="sidebar"
                             className="w-full md:w-[30%] mt-10 md:mt-8"
                         >
-                            <div
-                                id="popular-posts"
-                                className="p-2 mb-3 border-2 rounded-lg border-frontend-neutral"
-                            >
+                            <CardAsidePost id="popular-post">
                                 <div className="text-xl font-bold text-center">
                                     <h3>Popular Posts</h3>
                                 </div>
 
-                                <div className="p-2 mx-auto">
-                                    <article>
-                                        <div className="flex items-center gap-2 p-2">
-                                            <Link
-                                                href="#"
-                                                className="block mr-2 shrink-0"
-                                            >
-                                                <img
-                                                    alt="post image"
-                                                    src="#"
-                                                    className="object-cover rounded-3xl size-14"
-                                                />
-                                            </Link>
+                                <CardAsidePost.Body>
+                                    <CardAsidePost.ContentArticle />
+                                </CardAsidePost.Body>
+                            </CardAsidePost>
 
-                                            <div>
-                                                <h3 className="font-medium sm:text-lg line-clamp-2">
-                                                    <Link
-                                                        href="#"
-                                                        className="block hover:text-frontend-primary"
-                                                    >
-                                                        title
-                                                    </Link>
-                                                </h3>
-
-                                                <div className="mt-2 sm:flex sm:items-center sm:gap-2">
-                                                    <p className="hidden sm:block sm:text-xs">
-                                                        Posted by{" "}
-                                                        <Link
-                                                            href="#"
-                                                            className="font-medium hover:text-frontend-primary"
-                                                        >
-                                                            user
-                                                        </Link>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </article>
-
-                                    <p className="my-2 text-center font-regular">
-                                        No popular posts
-                                    </p>
-                                </div>
-                            </div>
-                            <div
-                                id="categories"
-                                className="p-2 mb-3 border-2 rounded-lg border-frontend-neutral"
-                            >
+                            <CardAsidePost id="categories">
                                 <div className="text-xl font-bold text-center">
                                     <h3>Categories</h3>
                                 </div>
-                                <div className="p-2 mx-auto">
-                                    <ul className="flex flex-col gap-4 p-2">
-                                        <li>
-                                            <Link
-                                                href="#"
-                                                className="font-bold hover:text-frontend-primary"
-                                            >
-                                                <i className="mr-2 text-xl ri-skip-right-line text-info"></i>
-                                                Category
-                                            </Link>
-                                        </li>
 
-                                        <p className="my-2 text-center font-regular">
-                                            No Category Available
-                                        </p>
-                                    </ul>
-                                </div>
-                            </div>
+                                <CardAsidePost.Body>
+                                    <CardAsidePost.ContentList />
+                                    <div className="flex flex-wrap">
+                                        <CardAsidePost.ContentBadge
+                                            tags={article.tags}
+                                        />
+                                    </div>
+                                </CardAsidePost.Body>
+                            </CardAsidePost>
                         </div>
                     </div>
                 </div>

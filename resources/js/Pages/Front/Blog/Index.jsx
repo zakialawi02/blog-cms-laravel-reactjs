@@ -6,6 +6,8 @@ import GuestLayout from "@/Layouts/GuestLayout";
 import { Head, Link } from "@inertiajs/react";
 
 const Index = ({ articles, featured }) => {
+    console.log(articles);
+
     const queryParams = new URLSearchParams(window.location.search);
     const searchQuery = queryParams.get("search");
     const hasSearch = searchQuery && searchQuery !== "";

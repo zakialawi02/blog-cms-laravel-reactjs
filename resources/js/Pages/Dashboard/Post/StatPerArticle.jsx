@@ -41,7 +41,13 @@ const StatPerArticle = ({ auth, meta, article, views }) => {
                                         <td width="4px">:</td>
                                         <td>
                                             <Link
-                                                href="#"
+                                                href={route("article.show", {
+                                                    year: article.published_at.substring(
+                                                        0,
+                                                        4
+                                                    ),
+                                                    slug: article.slug,
+                                                })}
                                                 target="_blank"
                                                 className="text-backend-primary hover:text-backend-secondary hover:underline"
                                             >

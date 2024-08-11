@@ -1,13 +1,24 @@
 import Highcharts from "highcharts/highstock";
 import HighchartsReact from "highcharts-react-official";
 import HighchartsMap from "highcharts/modules/map";
+import axios from "axios";
 
 // Initialize the map module
 HighchartsMap(Highcharts);
 
-const topology = await fetch(
-    "https://code.highcharts.com/mapdata/custom/world.topo.json"
-).then((response) => response.json());
+const geojson = async () => {
+    const response = await axios.get(
+        "https://code.highcharts.com/mapdata/custom/world.topo.json"
+    );
+    return response.data;
+};
+
+let topology;
+const loadTopology = async () => {
+    topology = await geojson();
+};
+
+loadTopology();
 
 const MapChart = ({ graphData }) => {
     const mapData = graphData.map((item) => ({
