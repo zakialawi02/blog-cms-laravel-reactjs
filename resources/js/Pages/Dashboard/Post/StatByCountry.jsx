@@ -62,7 +62,7 @@ const StatByCountry = ({ auth, meta }) => {
                     <div className="mb-3 overflow-x-auto">
                         {loading ? (
                             <>
-                                <SkeletonOneLine height={40} />
+                                <SkeletonOneLine height={48} />
                             </>
                         ) : (
                             <>

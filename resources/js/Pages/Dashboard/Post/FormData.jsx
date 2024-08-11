@@ -205,7 +205,7 @@ const FormData = ({ auth, meta, postData = null, categories, tags }) => {
                                     <div className="absolute inset-y-0 right-0 flex items-center">
                                         <button
                                             type="button"
-                                            className="rounded-r-md bg-backend-neutral border border-l-0 border-gray-300 px-3.5 py-2  shadow-sm ring-1 ring-inset hover:bg-gray-50"
+                                            className="rounded-r-md z-10 bg-backend-neutral border border-l-0 border-gray-300 px-3.5 py-2  shadow-sm ring-1 ring-inset hover:bg-gray-50"
                                             onClick={(e) => inputSlug(e)}
                                         >
                                             {editSlug ? (

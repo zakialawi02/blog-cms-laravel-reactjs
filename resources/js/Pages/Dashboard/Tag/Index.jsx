@@ -1,6 +1,6 @@
 import Card from "@/Components/Element/Card/Card";
 import TextInput from "@/Components/Element/Input/TextInput";
-import Pagination from "@/Components/Element/Pagination/Pagination";
+import PaginationDashboard from "@/Components/Element/Pagination/PaginationDashboard";
 import TableHeading from "@/Components/Element/Table/TableHeading";
 import DashboardLayout from "@/Layouts/DashboardLayout";
 import { Head, Link, router } from "@inertiajs/react";
@@ -160,7 +160,7 @@ const Index = ({ auth, tags, meta, queryParams = null }) => {
                             </tbody>
                         </table>
                     </div>
-                    <Pagination links={tags.links} />
+                    <PaginationDashboard links={tags.links} />
                 </Card>
             </DashboardLayout>
         </>

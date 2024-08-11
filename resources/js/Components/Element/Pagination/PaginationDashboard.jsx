@@ -1,7 +1,7 @@
 import { Link } from "@inertiajs/react";
 import React from "react";
 
-const Pagination = ({ links }) => {
+const PaginationDashboard = ({ links }) => {
     return (
         <nav className="mt-4 space-x-1 text-center">
             {links.map((link) => (
@@ -23,4 +23,4 @@ const Pagination = ({ links }) => {
     );
 };
 
-export default Pagination;
+export default PaginationDashboard;

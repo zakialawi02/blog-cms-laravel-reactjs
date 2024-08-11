@@ -1,7 +1,7 @@
 import Card from "@/Components/Element/Card/Card";
 import InputLabel from "@/Components/Element/Input/InputLabel";
 import TextInput from "@/Components/Element/Input/TextInput";
-import Pagination from "@/Components/Element/Pagination/Pagination";
+import PaginationDashboard from "@/Components/Element/Pagination/PaginationDashboard";
 import TableHeading from "@/Components/Element/Table/TableHeading";
 import DashboardLayout from "@/Layouts/DashboardLayout";
 import { Head, Link, router } from "@inertiajs/react";
@@ -61,6 +61,17 @@ const Index = ({
             <DashboardLayout metaTitle={meta.title} user={auth.user}>
                 <Card>
                     <div className="">
+                        <div className="inline-flex items-center text-xl font-bold">
+                            <h3>Posts</h3>
+                            <a
+                                href={route("article.index")}
+                                className="ml-1 text-backend-primary hover:text-backend-secondary"
+                                target="_blank"
+                            >
+                                <i className="ri-external-link-line"></i>
+                            </a>
+                        </div>
+
                         <div className="flex justify-end py-2">
                             <Link
                                 href={route("admin.posts.create")}
@@ -74,7 +85,7 @@ const Index = ({
                         <div className="flex flex-col mb-4 md:flex-row">
                             <div className="mr-2">
                                 <label
-                                    for="status"
+                                    htmlFor="status"
                                     className="block w-full md:w-auto"
                                 >
                                     Status
@@ -95,7 +106,7 @@ const Index = ({
                             </div>
                             <div className="mr-2">
                                 <label
-                                    for="category"
+                                    htmlFor="category"
                                     className="block w-full md:w-auto"
                                 >
                                     Category
@@ -119,7 +130,7 @@ const Index = ({
                                     {categories.map((category, index) => (
                                         <option
                                             key={index}
-                                            value={category.category}
+                                            value={category.slug}
                                         >
                                             {category.category}
                                         </option>
@@ -128,7 +139,7 @@ const Index = ({
                             </div>
                             <div className="mr-2">
                                 <label
-                                    for="user"
+                                    htmlFor="user"
                                     className="block w-full md:w-auto"
                                 >
                                     Author
@@ -281,12 +292,28 @@ const Index = ({
                                                 })}
                                             </td>
                                             <td className="text-nowrap">
+                                                <a
+                                                    href={route(
+                                                        "article.show",
+                                                        {
+                                                            year: post.published_at.substring(
+                                                                0,
+                                                                4
+                                                            ),
+                                                            slug: post.slug,
+                                                        }
+                                                    )}
+                                                    className="w-8 p-2 ml-1 font-medium rounded-md hover:bg-opacity-70 text-backend-light bg-backend-muted"
+                                                >
+                                                    <i className="ri-computer-fill"></i>
+                                                </a>
                                                 <Link
                                                     href={route(
                                                         "admin.posts.edit",
                                                         post.slug
                                                     )}
-                                                    className="w-8 p-2 ml-1 font-medium rounded-md hover:bg-opacity-70 text-backend-light bg-backend-primary dark:bg-blue-500"
+                                                    target="_blank"
+                                                    className="w-8 p-2 ml-1 font-medium rounded-md hover:bg-opacity-70 text-backend-light bg-backend-primary"
                                                 >
                                                     <i className="fa-solid fa-pen-to-square"></i>
                                                 </Link>
@@ -294,7 +321,7 @@ const Index = ({
                                                     onClick={(e) =>
                                                         deleteProject(post)
                                                     }
-                                                    className="w-8 p-2 ml-1 font-medium rounded-md hover:bg-opacity-70 text-backend-light bg-backend-error dark:bg-red-500"
+                                                    className="w-8 p-2 ml-1 font-medium rounded-md hover:bg-opacity-70 text-backend-light bg-backend-error"
                                                 >
                                                     <i className="fa-solid fa-trash"></i>
                                                 </button>
@@ -305,7 +332,7 @@ const Index = ({
                             </table>
                         </div>
                     </div>
-                    <Pagination links={posts.links} />
+                    <PaginationDashboard links={posts.links} />
                 </Card>
             </DashboardLayout>
         </>

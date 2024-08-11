@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
@@ -74,6 +75,15 @@ Route::prefix('dashboard')->as('admin.')->group(function () {
         Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     });
 });
+
+Route::get('/blog', [ArticleController::class, 'index'])->name('article.index');
+Route::get('/blog/popular', [ArticleController::class, 'popularPost'])->name('article.popular');
+Route::get('/blog/tags/{slug}', [ArticleController::class, 'getArticlesByTag'])->name('article.tag');
+Route::get('/blog/categories/{slug}', [ArticleController::class, 'getArticlesByCategory'])->name('article.category');
+Route::get('/blog/user/{username}', [ArticleController::class, 'getArticlesByUser'])->name('article.user');
+Route::get('/blog/archive/{year}', [ArticleController::class, 'getArticlesByYear'])->name('article.year');
+Route::get('/blog/archive/{year}/{month}', [ArticleController::class, 'getArticlesByMonth'])->name('article.month');
+Route::get('/blog/{year}/{slug}', [ArticleController::class, 'show'])->name('article.show');
 
 
 require __DIR__ . '/auth.php';

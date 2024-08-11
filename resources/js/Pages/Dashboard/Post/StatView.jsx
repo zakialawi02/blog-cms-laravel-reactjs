@@ -191,9 +191,9 @@ const StatView = ({ auth, meta }) => {
                                                                     ).toLocaleString(
                                                                         "en-US",
                                                                         {
-                                                                            year: "numeric",
-                                                                            month: "long",
                                                                             day: "numeric",
+                                                                            month: "short",
+                                                                            year: "numeric",
                                                                             hour: "numeric",
                                                                             minute: "numeric",
                                                                         }

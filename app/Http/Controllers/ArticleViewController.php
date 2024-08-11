@@ -145,7 +145,7 @@ class ArticleViewController extends Controller
      */
     public function statsPerArticle($slug)
     {
-        $article = Article::where('slug', $slug)->firstOrFail();
+        $article = Article::with('user')->where('slug', $slug)->firstOrFail();
 
         if (auth()->user()->role !== 'admin' && auth()->id() !== $article->user_id) {
             abort(403);
@@ -171,7 +171,6 @@ class ArticleViewController extends Controller
             'meta' => $data,
             'article' => $article,
             'views' => $views,
-            'total_views' => $total_views
         ]);
     }
 

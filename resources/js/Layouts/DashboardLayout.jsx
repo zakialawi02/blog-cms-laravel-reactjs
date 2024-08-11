@@ -32,17 +32,23 @@ const DashboardLayout = ({ user, metaTitle = "", children }) => {
     return (
         <>
             <Head title={`${metaTitle} • Dashboard`} />
-            <SidebarAdmin show={isSidebarOpen} toggleSidebar={toggleSidebar} />
 
-            <main
-                className={`w-full font-Lato md:w-[calc(100%-256px)] text-backend-dark md:ml-64 bg-backend-light min-h-screen transition-all main ${
-                    isSidebarOpen ? "" : "active"
-                }`}
-            >
-                <HeaderAdmin toggleSidebar={toggleSidebar} user={user} />
+            <div className="font-Lato bg-backend-light">
+                <SidebarAdmin
+                    show={isSidebarOpen}
+                    toggleSidebar={toggleSidebar}
+                />
 
-                <div className="p-4 space-y-4">{children}</div>
-            </main>
+                <div
+                    className={`w-full md:w-[calc(100%-256px)] text-backend-dark md:ml-64  min-h-screen transition-all main ${
+                        isSidebarOpen ? "" : "active"
+                    }`}
+                >
+                    <HeaderAdmin toggleSidebar={toggleSidebar} user={user} />
+
+                    <main className="p-4 space-y-4">{children}</main>
+                </div>
+            </div>
         </>
     );
 };
