@@ -1,7 +1,15 @@
+import { useEffect } from "react";
+
 const SearchBlogHero = () => {
     const queryParams = new URLSearchParams(window.location.search);
     const searchQuery = queryParams.get("search");
     const hasSearch = searchQuery && searchQuery !== "";
+
+    useEffect(() => {
+        if (hasSearch) {
+            document.getElementById("search").value = searchQuery;
+        }
+    }, []);
 
     return (
         <>

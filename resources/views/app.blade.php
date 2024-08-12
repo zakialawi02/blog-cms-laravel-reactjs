@@ -14,7 +14,7 @@
         {{-- <meta property="og:title" content="Ahmad Zaki Alawi" /> --}}
         {{-- <meta property="og:type" content="website" /> --}}
         {{-- <meta property="og:url" content="https://ahmadzaki.me" /> --}}
-        {{-- <meta property="og:image" content="https://ahmadzaki.me/favicon.png" /> --}}
+        {{-- <meta property="og:image" content="/favicon.png" /> --}}
         {{-- <meta property="og:description" content="This is a page specific description" /> --}}
 
         {{-- <meta name="robots" content="index, follow" /> --}}

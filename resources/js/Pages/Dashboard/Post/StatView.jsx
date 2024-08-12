@@ -79,7 +79,6 @@ const StatView = ({ auth, meta }) => {
             .then(() => setLoading(false))
             .catch((error) => {
                 console.log(error);
-                setLoading(true);
             });
     };
 

@@ -6,8 +6,6 @@ import GuestLayout from "@/Layouts/GuestLayout";
 import { Head, Link } from "@inertiajs/react";
 
 const Index = ({ articles, featured }) => {
-    console.log(articles);
-
     const queryParams = new URLSearchParams(window.location.search);
     const searchQuery = queryParams.get("search");
     const hasSearch = searchQuery && searchQuery !== "";
@@ -26,7 +24,7 @@ const Index = ({ articles, featured }) => {
                     property="og:image"
                     content="https://ahmadzaki.me/favicon.png"
                 />
-                <meta property="og:url" content="https://ahmadzaki.me/blog" />
+                <meta property="og:url" content={window.location.href} />
 
                 <meta name="author" content="Ahmad Zaki Alawi" />
                 <meta name="copyright" content="Ahmad Zaki Alawi" />

@@ -5,15 +5,21 @@ const Body = ({ children }) => {
     return <div className="p-2 mx-auto">{children}</div>;
 };
 
-const ContentArticle = ({ articles }) => {
+const ContentArticle = ({ article, ...props }) => {
     return (
         <>
-            <article>
+            <article {...props}>
                 <div className="flex items-center gap-2 p-2">
-                    <Link href="#" className="block mr-2 shrink-0">
+                    <Link
+                        href={route("article.show", {
+                            year: article.published_at.substring(0, 4),
+                            slug: article.slug,
+                        })}
+                        className="block mr-2 shrink-0"
+                    >
                         <img
                             alt="post image"
-                            src="#"
+                            src={article.cover}
                             className="object-cover rounded-3xl size-14"
                             loading="lazy"
                             onError={(e) => {
@@ -27,21 +33,26 @@ const ContentArticle = ({ articles }) => {
                     <div>
                         <h3 className="font-medium sm:text-lg line-clamp-2">
                             <Link
-                                href="#"
+                                href={route("article.show", {
+                                    year: article.published_at.substring(0, 4),
+                                    slug: article.slug,
+                                })}
                                 className="block hover:text-frontend-primary"
                             >
-                                title
+                                {article.title}
                             </Link>
                         </h3>
 
                         <div className="mt-2 sm:flex sm:items-center sm:gap-2">
                             <p className="hidden sm:block sm:text-xs">
-                                Posted by
+                                Posted by{" "}
                                 <Link
-                                    href="#"
+                                    href={route("article.user", {
+                                        username: article.user.username,
+                                    })}
                                     className="font-medium hover:text-frontend-primary"
                                 >
-                                    user
+                                    {article.user.username}
                                 </Link>
                             </p>
                         </div>
@@ -52,35 +63,10 @@ const ContentArticle = ({ articles }) => {
     );
 };
 
-const ContentList = ({ lists }) => {
+const ContentBadge = ({ data, icon = null }) => {
     return (
         <>
-            <ul className="flex flex-col gap-4 p-2">
-                <li>
-                    <Link
-                        href="#"
-                        className="font-bold hover:text-frontend-primary"
-                    >
-                        <i className="mr-2 text-xl ri-skip-right-line text-info"></i>
-                        Category
-                    </Link>
-                </li>
-
-                <p className="my-2 text-center font-regular">
-                    No Category Available
-                </p>
-            </ul>
-        </>
-    );
-};
-
-const ContentBadge = ({ tags, icon = null }) => {
-    return (
-        <>
-            {tags &&
-                tags.map((tag, index) => (
-                    <Tag key={index} tag={tag} icon={icon} />
-                ))}
+            <Tag label={data} icon={icon} />
         </>
     );
 };
@@ -98,6 +84,5 @@ const CardAsidePost = ({ children, className = "", ...props }) => {
 
 CardAsidePost.Body = Body;
 CardAsidePost.ContentArticle = ContentArticle;
-CardAsidePost.ContentList = ContentList;
 CardAsidePost.ContentBadge = ContentBadge;
 export default CardAsidePost;

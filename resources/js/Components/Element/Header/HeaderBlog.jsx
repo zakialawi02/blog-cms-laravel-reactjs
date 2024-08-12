@@ -87,24 +87,26 @@ const HeaderBlog = () => {
                         </Link>
 
                         <div className="flex flex-col items-start gap-2 ml-2 md:items-center md:flex-row">
-                            <Link
-                                className="p-1 px-4 text-white duration-300 border-2 bg-frontend-accent border-frontend-accent rounded-xl hover:bg-frontend-light hover:text-frontend-accent"
-                                title="Dashboard"
-                                href={route("admin.dashboard")}
-                            >
-                                <i className="ri-function-line"></i>
-                            </Link>
-
                             {auth.user ? (
-                                <Link
-                                    className="p-1 px-4 duration-300 border-2 text-frontend-secondary border-frontend-secondary rounded-xl hover:border-frontend-error hover:text-frontend-error"
-                                    title="Logout"
-                                    href={route("logout")}
-                                    as="button"
-                                    method="post"
-                                >
-                                    <i className="ri-logout-box-line"></i>
-                                </Link>
+                                <>
+                                    <Link
+                                        className="p-1 px-4 text-white duration-300 border-2 bg-frontend-accent border-frontend-accent rounded-xl hover:bg-frontend-light hover:text-frontend-accent"
+                                        title="Dashboard"
+                                        href={route("admin.dashboard")}
+                                    >
+                                        <i className="ri-function-line"></i>
+                                    </Link>
+
+                                    <Link
+                                        className="p-1 px-4 duration-300 border-2 text-frontend-secondary border-frontend-secondary rounded-xl hover:border-frontend-error hover:text-frontend-error"
+                                        title="Logout"
+                                        href={route("logout")}
+                                        as="button"
+                                        method="post"
+                                    >
+                                        <i className="ri-logout-box-line"></i>
+                                    </Link>
+                                </>
                             ) : (
                                 <Link
                                     className="inline-flex p-1 px-4 duration-300 border-2 text-frontend-primary border-frontend-primary rounded-xl hover:bg-frontend-info hover:border-frontend-info hover:text-frontend-light"

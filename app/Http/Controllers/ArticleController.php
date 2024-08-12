@@ -147,11 +147,6 @@ class ArticleController extends Controller
         $article['cover'] = (!empty($article->cover) ? $article->cover = asset("storage/drive/" . $article->user->username . "/img/" . $article->cover) : $article->cover = asset("assets/img/image-placeholder.png"));
         $article['excerpt'] = !empty($article->excerpt) ? $article->excerpt : Str::limit(strip_tags($article->content), 200);
 
-        // $categories = Category::all();
-
-        // $popularPosts = $this->getPopularPosts();
-        // $this->articlesMappingArray($popularPosts);
-
         $ipAddress = $request->header('CF-Connecting-IP') ?? $request->header('X-Forwarded-For');
 
         // $this->saveVisitor($article->id, $ipAddress);

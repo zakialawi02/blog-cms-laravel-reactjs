@@ -3,39 +3,97 @@ import { Head, Link } from "@inertiajs/react";
 import Prism from "prismjs";
 import "/public/assets/css/prism.css";
 import "/public/assets/js/prism.js";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import SharePost from "@/Components/Element/Button/SharePost";
 import TagsPost from "@/Components/Element/Button/TagsPost";
 import CardAsidePost from "@/Components/Element/Card/CardAsidePost";
+import axios from "axios";
+import SkeletonOneLine from "@/Components/Element/Skeleton/SkeletonOneLine";
 
 const SinglePost = ({ article }) => {
+    const [loading, setLoading] = useState(true);
+    const [popularPosts, setPopularPosts] = useState([]);
+    const [categories, setCategories] = useState([]);
+    const [tags, setTags] = useState([]);
     const pathname = window.location.pathname;
     const segments = pathname.split("/").filter((segment) => segment !== "");
     const secondSegment = segments[1] || "";
 
-    console.log(article);
+    const getPopularPosts = async () => {
+        const res = await axios
+            .get(route("api.article.popular") + "?max=4")
+            .then((res) => {
+                setPopularPosts(res.data);
+                setLoading(false);
+            })
+            .catch((err) => {
+                console.log(err);
+                setPopularPosts([]);
+            });
+    };
+
+    const getCategories = async () => {
+        const res = await axios
+            .get(route("api.categories") + "?max=5")
+            .then((res) => {
+                setCategories(res.data);
+                setLoading(false);
+            })
+            .catch((err) => {
+                console.log(err);
+                setCategories([]);
+            });
+    };
+
+    const getTags = async () => {
+        const res = await axios
+            .get(route("api.tags") + "?max=10")
+            .then((res) => {
+                setTags(res.data);
+                setLoading(false);
+                console.log(res.data);
+            })
+            .catch((err) => {
+                console.log(err);
+                setTags([]);
+            });
+    };
+
+    const fecthData = async () => {
+        getPopularPosts()
+            .then(() => getCategories())
+            .then(() => getTags())
+            .catch((err) => console.log(err));
+    };
 
     useEffect(() => {
         Prism.highlightAll();
+
+        fecthData();
     }, []);
+    console.log(tags);
 
     return (
         <>
             <Head>
                 <title>{article.title}</title>
                 <meta name="description" content={article.excerpt} />
-                <meta name="keywords" content="blog" />
+                <meta name="keywords" content="blong, post" />
 
+                <meta property="og:type" content="website" />
                 <meta property="og:title" content={article.title} />
                 <meta property="og:description" content={article.excerpt} />
                 <meta
                     property="og:image"
-                    content="https://ahmadzaki.me/favicon.png"
+                    content={window.location.href + article.cover}
                 />
-                <meta property="og:url" content="https://ahmadzaki.me/blog" />
+                <meta property="og:url" content={window.location.href} />
 
-                <meta name="author" content="Ahmad Zaki Alawi" />
-                <meta name="copyright" content="Ahmad Zaki Alawi" />
+                {/* <meta name="author" content="Ahmad Zaki Alawi" /> */}
+                <meta
+                    name="copyright"
+                    content={article.user.username + ", Ahmad Zaki Alawi"}
+                />
                 <meta name="robots" content="index, follow" />
                 <meta name="googlebot" content="index, follow" />
             </Head>
@@ -237,7 +295,32 @@ const SinglePost = ({ article }) => {
                                 </div>
 
                                 <CardAsidePost.Body>
-                                    <CardAsidePost.ContentArticle />
+                                    {loading && (
+                                        <>
+                                            <SkeletonOneLine height={16} />
+                                            <SkeletonOneLine height={16} />
+                                            <SkeletonOneLine height={16} />
+                                            <SkeletonOneLine height={16} />
+                                            <SkeletonOneLine height={16} />
+                                        </>
+                                    )}
+
+                                    {!loading && popularPosts && (
+                                        <>
+                                            {popularPosts.map((post, index) => (
+                                                <CardAsidePost.ContentArticle
+                                                    key={index}
+                                                    article={post}
+                                                />
+                                            ))}
+                                        </>
+                                    )}
+
+                                    {!loading && !popularPosts && (
+                                        <p className="my-2 text-center font-regular">
+                                            No Popular Posts Available
+                                        </p>
+                                    )}
                                 </CardAsidePost.Body>
                             </CardAsidePost>
 
@@ -247,12 +330,75 @@ const SinglePost = ({ article }) => {
                                 </div>
 
                                 <CardAsidePost.Body>
-                                    <CardAsidePost.ContentList />
+                                    {loading && (
+                                        <>
+                                            <SkeletonOneLine height={6} />
+                                            <SkeletonOneLine height={6} />
+                                            <SkeletonOneLine height={6} />
+                                            <SkeletonOneLine height={6} />
+                                            <SkeletonOneLine height={6} />
+                                        </>
+                                    )}
+
                                     <div className="flex flex-wrap">
-                                        <CardAsidePost.ContentBadge
-                                            tags={article.tags}
-                                        />
+                                        {!loading && categories && (
+                                            <ul className="flex flex-col gap-3 p-2">
+                                                {categories.map(
+                                                    (item, index) => (
+                                                        <li key={index}>
+                                                            <Link
+                                                                href={route(
+                                                                    "article.category",
+                                                                    {
+                                                                        slug: item.slug,
+                                                                    }
+                                                                )}
+                                                                className="font-bold hover:text-frontend-primary"
+                                                            >
+                                                                <i className="mr-2 text-xl ri-skip-right-line text-info"></i>
+                                                                {item.category}
+                                                            </Link>
+                                                        </li>
+                                                    )
+                                                )}
+                                            </ul>
+                                        )}
+
+                                        {!loading && !categories && (
+                                            <p className="my-2 text-center font-regular">
+                                                No Category Available
+                                            </p>
+                                        )}
                                     </div>
+                                </CardAsidePost.Body>
+                            </CardAsidePost>
+
+                            <CardAsidePost id="popular-post">
+                                <div className="text-xl font-bold text-center">
+                                    <h3>Tags</h3>
+                                </div>
+
+                                {loading && <SkeletonOneLine height={24} />}
+
+                                <CardAsidePost.Body>
+                                    {!loading && tags && (
+                                        <>
+                                            <div className="flex flex-wrap">
+                                                {tags.map((tag, index) => (
+                                                    <CardAsidePost.ContentBadge
+                                                        key={index}
+                                                        data={tag}
+                                                    />
+                                                ))}
+                                            </div>
+                                        </>
+                                    )}
+
+                                    {!loading && !tags && (
+                                        <p className="my-2 text-center font-regular">
+                                            No Tags Available
+                                        </p>
+                                    )}
                                 </CardAsidePost.Body>
                             </CardAsidePost>
                         </div>

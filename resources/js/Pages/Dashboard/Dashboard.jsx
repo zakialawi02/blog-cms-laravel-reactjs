@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 
 const Dashboard = ({ auth }) => {
     const [loading, setLoading] = useState(true);
-    const [info, setInfo] = useState(null);
+    const [info, setInfo] = useState([]);
 
     useEffect(() => {
         axios
@@ -19,7 +19,7 @@ const Dashboard = ({ auth }) => {
             })
             .catch((response) => {
                 console.log(response);
-                setInfo({});
+                setInfo([]);
             });
     }, []);
 

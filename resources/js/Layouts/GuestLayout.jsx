@@ -1,3 +1,4 @@
+import Footer from "@/Components/Element/Footer/Footer";
 import HeaderBlog from "@/Components/Element/Header/HeaderBlog";
 
 const GuestLayout = ({ className = "", children }) => {
@@ -9,6 +10,8 @@ const GuestLayout = ({ className = "", children }) => {
                 <HeaderBlog />
 
                 <main className={className}>{children}</main>
+
+                <Footer />
             </div>
         </>
     );
