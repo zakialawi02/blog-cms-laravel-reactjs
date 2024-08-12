@@ -21,7 +21,6 @@ const Footer = () => {
             })
             .catch((error) => {
                 console.log(error);
-
                 setError("email", error.response.data.message);
             });
     };

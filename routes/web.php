@@ -8,6 +8,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CommentsController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\ArticleViewController;
@@ -78,6 +79,13 @@ Route::prefix('dashboard')->as('admin.')->group(function () {
             return Inertia::render('EmptyPage');
         })->name('empty');
 
+
+        Route::get('/my-comments', [CommentsController::class, 'myindex'])->name('mycomments.index');
+        Route::get('/comments', [CommentsController::class, 'index'])->name('comments.index');
+
+        Route::delete('/comments/{comment:id}', [CommentsController::class, 'destroy'])->name('comment.destroy');
+        Route::post('/comments/{post:slug}', [CommentsController::class, 'store'])->name('comment.store');
+
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
         Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -97,5 +105,7 @@ Route::get('/blog/archive/{year}', [ArticleController::class, 'getArticlesByYear
 Route::get('/blog/archive/{year}/{month}', [ArticleController::class, 'getArticlesByMonth'])->name('article.month');
 Route::get('/blog/{year}/{slug}', [ArticleController::class, 'show'])->name('article.show');
 
+
+Route::post('/show-comment/{post:slug}', [CommentsController::class, 'getComment'])->name('getComment');
 
 require __DIR__ . '/auth.php';
