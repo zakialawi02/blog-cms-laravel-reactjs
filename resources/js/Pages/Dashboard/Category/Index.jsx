@@ -38,7 +38,7 @@ const Index = ({ auth, categories, meta, queryParams = null }) => {
         router.get(route("admin.categories.index"), queryParams);
     };
 
-    const deleteProject = (category) => {
+    const deleteCategory = (category) => {
         if (!window.confirm("Are you sure you want to delete the category?")) {
             return;
         }
@@ -116,52 +116,73 @@ const Index = ({ auth, categories, meta, queryParams = null }) => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {categories.data.map((category) => (
-                                    <tr className="border-b" key={category.id}>
-                                        <td className="px-3 py-2">
-                                            {category.category}
-                                        </td>
-                                        <td className="px-3 py-2">
-                                            <Link
-                                                href={`/blog/${category.slug}`}
-                                                className="text-backend-accent hover:underline"
-                                            >
-                                                <i className="mr-2 fa-solid fa-external-link"></i>
-                                                {category.slug}
-                                            </Link>
-                                        </td>
-                                        <td className="px-3 py-2 text-nowrap">
-                                            {new Date(
-                                                category.created_at
-                                            ).toLocaleDateString("en-US", {
-                                                day: "numeric",
-                                                month: "short",
-                                                year: "numeric",
-                                            })}
-                                        </td>
-                                        <td className="px-3 py-2 text-nowrap">
-                                            <Link
-                                                href={route(
-                                                    "admin.categories.edit",
-                                                    category.slug
-                                                )}
-                                                className="mx-1 font-medium text-backend-primary dark:text-blue-500 hover:underline"
-                                            >
-                                                <i className="mr-2 fa-solid fa-pen-to-square"></i>
-                                                Edit
-                                            </Link>
-                                            <button
-                                                onClick={(e) =>
-                                                    deleteProject(category)
-                                                }
-                                                className="mx-1 font-medium text-backend-error dark:text-red-500 hover:underline"
-                                            >
-                                                <i className="mr-2 fa-solid fa-trash"></i>
-                                                Delete
-                                            </button>
+                                {categories.data.length === 0 ? (
+                                    <tr>
+                                        <td
+                                            colSpan="3"
+                                            className="p-6 m-1 text-center font-medium text-base"
+                                        >
+                                            No data
                                         </td>
                                     </tr>
-                                ))}
+                                ) : (
+                                    <>
+                                        {categories.data.map((category) => (
+                                            <tr
+                                                className="border-b"
+                                                key={category.id}
+                                            >
+                                                <td className="px-3 py-2">
+                                                    {category.category}
+                                                </td>
+                                                <td className="px-3 py-2">
+                                                    <Link
+                                                        href={`/blog/${category.slug}`}
+                                                        className="text-backend-accent hover:underline"
+                                                    >
+                                                        <i className="mr-2 fa-solid fa-external-link"></i>
+                                                        {category.slug}
+                                                    </Link>
+                                                </td>
+                                                <td className="px-3 py-2 text-nowrap">
+                                                    {new Date(
+                                                        category.created_at
+                                                    ).toLocaleDateString(
+                                                        "en-US",
+                                                        {
+                                                            day: "numeric",
+                                                            month: "short",
+                                                            year: "numeric",
+                                                        }
+                                                    )}
+                                                </td>
+                                                <td className="px-3 py-2 text-nowrap">
+                                                    <Link
+                                                        href={route(
+                                                            "admin.categories.edit",
+                                                            category.slug
+                                                        )}
+                                                        className="mx-1 font-medium text-backend-primary dark:text-blue-500 hover:underline"
+                                                    >
+                                                        <i className="mr-2 fa-solid fa-pen-to-square"></i>
+                                                        Edit
+                                                    </Link>
+                                                    <button
+                                                        onClick={(e) =>
+                                                            deleteCategory(
+                                                                category
+                                                            )
+                                                        }
+                                                        className="mx-1 font-medium text-backend-error dark:text-red-500 hover:underline"
+                                                    >
+                                                        <i className="mr-2 fa-solid fa-trash"></i>
+                                                        Delete
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </>
+                                )}
                             </tbody>
                         </table>
                     </div>

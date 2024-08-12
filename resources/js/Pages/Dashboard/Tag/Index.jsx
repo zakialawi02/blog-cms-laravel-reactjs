@@ -37,7 +37,7 @@ const Index = ({ auth, tags, meta, queryParams = null }) => {
         router.get(route("admin.tags.index"), queryParams);
     };
 
-    const deleteProject = (tag) => {
+    const deleteTag = (tag) => {
         if (!window.confirm("Are you sure you want to delete the tag?")) {
             return;
         }
@@ -111,52 +111,71 @@ const Index = ({ auth, tags, meta, queryParams = null }) => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {tags.data.map((tag) => (
-                                    <tr className="border-b" key={tag.id}>
-                                        <td className="px-3 py-2">
-                                            {tag.tag_name}
-                                        </td>
-                                        <td className="px-3 py-2">
-                                            <Link
-                                                href={`/blog/${tag.slug}`}
-                                                className="text-backend-accent hover:underline"
-                                            >
-                                                <i className="mr-2 fa-solid fa-external-link"></i>
-                                                {tag.slug}
-                                            </Link>
-                                        </td>
-                                        <td className="px-3 py-2 text-nowrap">
-                                            {new Date(
-                                                tag.created_at
-                                            ).toLocaleDateString("en-US", {
-                                                day: "numeric",
-                                                month: "short",
-                                                year: "numeric",
-                                            })}
-                                        </td>
-                                        <td className="px-3 py-2 text-nowrap">
-                                            <Link
-                                                href={route(
-                                                    "admin.tags.edit",
-                                                    tag.slug
-                                                )}
-                                                className="mx-1 font-medium text-backend-primary dark:text-blue-500 hover:underline"
-                                            >
-                                                <i className="mr-2 fa-solid fa-pen-to-square"></i>
-                                                Edit
-                                            </Link>
-                                            <button
-                                                onClick={(e) =>
-                                                    deleteProject(tag)
-                                                }
-                                                className="mx-1 font-medium text-backend-error dark:text-red-500 hover:underline"
-                                            >
-                                                <i className="mr-2 fa-solid fa-trash"></i>
-                                                Delete
-                                            </button>
+                                {tags.data.length === 0 ? (
+                                    <tr>
+                                        <td
+                                            colSpan="3"
+                                            className="p-6 m-1 text-center font-medium text-base"
+                                        >
+                                            No data
                                         </td>
                                     </tr>
-                                ))}
+                                ) : (
+                                    <>
+                                        {tags.data.map((tag) => (
+                                            <tr
+                                                className="border-b"
+                                                key={tag.id}
+                                            >
+                                                <td className="px-3 py-2">
+                                                    {tag.tag_name}
+                                                </td>
+                                                <td className="px-3 py-2">
+                                                    <Link
+                                                        href={`/blog/${tag.slug}`}
+                                                        className="text-backend-accent hover:underline"
+                                                    >
+                                                        <i className="mr-2 fa-solid fa-external-link"></i>
+                                                        {tag.slug}
+                                                    </Link>
+                                                </td>
+                                                <td className="px-3 py-2 text-nowrap">
+                                                    {new Date(
+                                                        tag.created_at
+                                                    ).toLocaleDateString(
+                                                        "en-US",
+                                                        {
+                                                            day: "numeric",
+                                                            month: "short",
+                                                            year: "numeric",
+                                                        }
+                                                    )}
+                                                </td>
+                                                <td className="px-3 py-2 text-nowrap">
+                                                    <Link
+                                                        href={route(
+                                                            "admin.tags.edit",
+                                                            tag.slug
+                                                        )}
+                                                        className="mx-1 font-medium text-backend-primary dark:text-blue-500 hover:underline"
+                                                    >
+                                                        <i className="mr-2 fa-solid fa-pen-to-square"></i>
+                                                        Edit
+                                                    </Link>
+                                                    <button
+                                                        onClick={(e) =>
+                                                            deleteTag(tag)
+                                                        }
+                                                        className="mx-1 font-medium text-backend-error dark:text-red-500 hover:underline"
+                                                    >
+                                                        <i className="mr-2 fa-solid fa-trash"></i>
+                                                        Delete
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </>
+                                )}
                             </tbody>
                         </table>
                     </div>

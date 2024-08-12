@@ -97,6 +97,22 @@ const SidebarAdmin = ({ show, toggleSidebar }) => {
                             text="Settings"
                             to="#"
                         />
+
+                        <div className="text-base font-semibold mb-2 mt-1 p-1 text-gray-500">
+                            <p>Manage</p>
+                        </div>
+
+                        <NavMenu
+                            icon="ri-folder-user-line"
+                            text="Users"
+                            to="#"
+                        />
+
+                        <NavMenu
+                            icon="ri-news-line"
+                            text="Newsletter"
+                            to="/dashboard/newsletter"
+                        />
                     </ul>
                 </div>
             </div>

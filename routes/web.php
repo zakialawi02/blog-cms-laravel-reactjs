@@ -9,6 +9,7 @@ use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\ArticleViewController;
 
 /*
@@ -33,6 +34,12 @@ Route::get('/', function () {
 
 
 Route::prefix('dashboard')->as('admin.')->group(function () {
+    Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
+        Route::get('/newsletter', [NewsletterController::class, 'index'])->name('newsletter.index');
+        Route::delete('/newsletter/{newsletter:email}', [NewsletterController::class, 'destroy'])->name('newsletter.destroy');
+    });
+
+
     Route::middleware(['auth', 'verified', 'role:admin,writer'])->group(function () {
         Route::post('/posts/generateSlug', [PostController::class, 'generateSlug'])->name('posts.generateSlug');
         Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
@@ -62,6 +69,7 @@ Route::prefix('dashboard')->as('admin.')->group(function () {
         Route::get('/stats/locations', [ArticleViewController::class, 'statsByLocation'])->name('posts.statslocation');
     });
 
+
     Route::middleware(['auth', 'verified', 'role:admin,writer,user'])->group(function () {
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
         Route::get('/i/getInfo', [DashboardController::class, 'getInfo'])->name('dashboard.getInfo');
@@ -75,6 +83,10 @@ Route::prefix('dashboard')->as('admin.')->group(function () {
         Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     });
 });
+
+
+Route::post('/newsletter', [NewsletterController::class, 'store'])->name('newsletter.store');
+
 
 Route::get('/blog', [ArticleController::class, 'index'])->name('article.index');
 Route::get('/blog/popular', [ArticleController::class, 'popularPost'])->name('article.popular');

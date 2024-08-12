@@ -1,4 +1,4 @@
-import Footer from "@/Components/Element/Footer/Footer";
+import Footer from "@/Components/Fragment/Footer";
 import HeaderBlog from "@/Components/Element/Header/HeaderBlog";
 
 const GuestLayout = ({ className = "", children }) => {

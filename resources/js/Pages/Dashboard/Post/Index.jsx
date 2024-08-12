@@ -247,87 +247,115 @@ const Index = ({
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {posts.data.map((post) => (
-                                        <tr className="border-b" key={post.id}>
-                                            <td className="px-3 py-2">
-                                                {post.title}
-                                            </td>
-                                            <td className="px-3 py-2">
-                                                {post.category.category}
-                                            </td>
-                                            <td className="px-3 py-2">
-                                                {post.tags.map(
-                                                    (tag, index) =>
-                                                        `${
-                                                            index > 0
-                                                                ? ", "
-                                                                : ""
-                                                        } ${tag.tag_name}`
-                                                )}
-                                            </td>
-                                            <td className="px-3 py-2 w-28">
-                                                {post.status} <br />
-                                                {new Date(
-                                                    post.published_at
-                                                ).toLocaleDateString("en-US", {
-                                                    day: "numeric",
-                                                    month: "short",
-                                                    year: "numeric",
-                                                })}
-                                            </td>
-                                            <td className="px-3 py-2 text-nowrap">
-                                                <i className="ri-eye-fill"> </i>
-                                                {post.total_views}
-                                            </td>
-                                            <td className="px-3 py-2 text-nowrap">
-                                                {post.user.username}
-                                            </td>
-                                            <td className="px-3 py-2 text-nowrap">
-                                                {new Date(
-                                                    post.created_at
-                                                ).toLocaleDateString("en-US", {
-                                                    day: "numeric",
-                                                    month: "short",
-                                                    year: "numeric",
-                                                })}
-                                            </td>
-                                            <td className="text-nowrap">
-                                                <a
-                                                    href={route(
-                                                        "article.show",
-                                                        {
-                                                            year: post.published_at.substring(
-                                                                0,
-                                                                4
-                                                            ),
-                                                            slug: post.slug,
-                                                        }
-                                                    )}
-                                                    className="w-8 p-2 ml-1 font-medium rounded-md hover:bg-opacity-70 text-backend-light bg-backend-muted"
-                                                >
-                                                    <i className="ri-computer-fill"></i>
-                                                </a>
-                                                <Link
-                                                    href={route(
-                                                        "admin.posts.edit",
-                                                        post.slug
-                                                    )}
-                                                    target="_blank"
-                                                    className="w-8 p-2 ml-1 font-medium rounded-md hover:bg-opacity-70 text-backend-light bg-backend-primary"
-                                                >
-                                                    <i className="fa-solid fa-pen-to-square"></i>
-                                                </Link>
-                                                <button
-                                                    onClick={(e) =>
-                                                        deleteProject(post)
-                                                    }
-                                                    className="w-8 p-2 ml-1 font-medium rounded-md hover:bg-opacity-70 text-backend-light bg-backend-error"
-                                                >
-                                                    <i className="fa-solid fa-trash"></i>
-                                                </button>
+                                    {posts.data.length === 0 ? (
+                                        <tr>
+                                            <td
+                                                colSpan="3"
+                                                className="p-6 m-1 text-center font-medium text-base"
+                                            >
+                                                No data
                                             </td>
                                         </tr>
-                                    ))}
+                                    ) : (
+                                        <>
+                                            {posts.data.map((post) => (
+                                                <tr
+                                                    className="border-b"
+                                                    key={post.id}
+                                                >
+                                                    <td className="px-3 py-2">
+                                                        {post.title}
+                                                    </td>
+                                                    <td className="px-3 py-2">
+                                                        {post.category.category}
+                                                    </td>
+                                                    <td className="px-3 py-2">
+                                                        {post.tags.map(
+                                                            (tag, index) =>
+                                                                `${
+                                                                    index > 0
+                                                                        ? ", "
+                                                                        : ""
+                                                                } ${
+                                                                    tag.tag_name
+                                                                }`
+                                                        )}
+                                                    </td>
+                                                    <td className="px-3 py-2 w-28">
+                                                        {post.status} <br />
+                                                        {new Date(
+                                                            post.published_at
+                                                        ).toLocaleDateString(
+                                                            "en-US",
+                                                            {
+                                                                day: "numeric",
+                                                                month: "short",
+                                                                year: "numeric",
+                                                            }
+                                                        )}
+                                                    </td>
+                                                    <td className="px-3 py-2 text-nowrap">
+                                                        <i className="ri-eye-fill">
+                                                            {" "}
+                                                        </i>
+                                                        {post.total_views}
+                                                    </td>
+                                                    <td className="px-3 py-2 text-nowrap">
+                                                        {post.user.username}
+                                                    </td>
+                                                    <td className="px-3 py-2 text-nowrap">
+                                                        {new Date(
+                                                            post.created_at
+                                                        ).toLocaleDateString(
+                                                            "en-US",
+                                                            {
+                                                                day: "numeric",
+                                                                month: "short",
+                                                                year: "numeric",
+                                                            }
+                                                        )}
+                                                    </td>
+                                                    <td className="text-nowrap">
+                                                        <a
+                                                            href={route(
+                                                                "article.show",
+                                                                {
+                                                                    year: post.published_at.substring(
+                                                                        0,
+                                                                        4
+                                                                    ),
+                                                                    slug: post.slug,
+                                                                }
+                                                            )}
+                                                            className="w-8 p-2 ml-1 font-medium rounded-md hover:bg-opacity-70 text-backend-light bg-backend-muted"
+                                                        >
+                                                            <i className="ri-computer-fill"></i>
+                                                        </a>
+                                                        <Link
+                                                            href={route(
+                                                                "admin.posts.edit",
+                                                                post.slug
+                                                            )}
+                                                            target="_blank"
+                                                            className="w-8 p-2 ml-1 font-medium rounded-md hover:bg-opacity-70 text-backend-light bg-backend-primary"
+                                                        >
+                                                            <i className="fa-solid fa-pen-to-square"></i>
+                                                        </Link>
+                                                        <button
+                                                            onClick={(e) =>
+                                                                deleteProject(
+                                                                    post
+                                                                )
+                                                            }
+                                                            className="w-8 p-2 ml-1 font-medium rounded-md hover:bg-opacity-70 text-backend-light bg-backend-error"
+                                                        >
+                                                            <i className="fa-solid fa-trash"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                        </>
+                                    )}
                                 </tbody>
                             </table>
                         </div>

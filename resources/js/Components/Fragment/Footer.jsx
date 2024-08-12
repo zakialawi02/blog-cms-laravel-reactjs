@@ -1,7 +1,31 @@
-import { Link } from "@inertiajs/react";
-import FooterMenu from "./FooterMenu";
+import { Link, useForm } from "@inertiajs/react";
+import FooterMenu from "../Element/Footer/FooterMenu";
+import InputError from "../Element/Input/InputError";
+import axios from "axios";
 
 const Footer = () => {
+    const { data, setData, errors, setError, clearErrors, reset } = useForm({
+        email: "",
+    });
+
+    const submitEmail = (e) => {
+        e.preventDefault();
+        clearErrors();
+        axios
+            .post(route("newsletter.store"), data)
+            .then((res) => {
+                if (res.status === 200 || 201) {
+                    reset();
+                    alert(res.data.message);
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+
+                setError("email", error.response.data.message);
+            });
+    };
+
     return (
         <>
             <footer id="footer" className="flex items-end justify-center">
@@ -111,7 +135,10 @@ const Footer = () => {
                                         <p className="text-base font-medium text-frontend-muted mt-2s">
                                             hallo@zakialawi.my.id
                                         </p>
-                                        <form className="w-full max-w-lg mt-6 ms-auto">
+                                        <form
+                                            onSubmit={submitEmail}
+                                            className="w-full max-w-lg mt-6 ms-auto"
+                                        >
                                             <p className="text-base font-medium text-frontend-dark p-1">
                                                 Subscribe to our newsletter
                                             </p>
@@ -120,18 +147,25 @@ const Footer = () => {
                                                     type="email"
                                                     placeholder="Your Email Address"
                                                     className="px-3 py-3.5 text-black w-full text-base border-0 ring-0 bg-white outline-none focus:ring-0"
-                                                    name="email"
+                                                    value={data.email}
+                                                    onChange={(e) =>
+                                                        setData(
+                                                            "email",
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                    required
                                                 />
-                                                <button
-                                                    type="button"
-                                                    id="send-email-button"
-                                                    className="px-3 py-1 font-semibold text-white transition-all duration-500 rounded bg-frontend-secondary hover:bg-frontend-primary"
-                                                >
+                                                <button className="px-3 py-1 font-semibold text-white transition-all duration-500 rounded bg-frontend-secondary hover:bg-frontend-primary">
                                                     <i className="ri-send-plane-2-line"></i>
                                                 </button>
                                             </div>
+
+                                            <InputError
+                                                message={errors.email}
+                                                className="mt-2"
+                                            />
                                         </form>
-                                        <div id="message-newsletter"></div>
                                     </div>
                                 </div>
                             </div>
