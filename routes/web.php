@@ -108,4 +108,8 @@ Route::get('/blog/{year}/{slug}', [ArticleController::class, 'show'])->name('art
 
 Route::post('/show-comment/{post:slug}', [CommentsController::class, 'getComment'])->name('getComment');
 
+
+
+Route::get('/comment/{post:slug}', [CommentsController::class, 'getComment']);
+
 require __DIR__ . '/auth.php';

@@ -10,6 +10,7 @@ import CardAsidePost from "@/Components/Element/Card/CardAsidePost";
 import axios from "axios";
 import SkeletonOneLine from "@/Components/Element/Skeleton/SkeletonOneLine";
 import PostComments from "@/Components/Fragment/PostComments";
+import CommentList from "@/Components/Element/Comment/CommentList";
 
 const SinglePost = ({ article }) => {
     const [loading, setLoading] = useState(true);
@@ -255,7 +256,9 @@ const SinglePost = ({ article }) => {
 
                             <div className="py-1 my-2 border-b-2 border-frontend-dark border-opacity-40"></div>
 
-                            <PostComments />
+                            <div className="mt-3">
+                                <PostComments />
+                            </div>
                         </div>
 
                         <div

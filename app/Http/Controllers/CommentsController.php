@@ -94,6 +94,7 @@ class CommentsController extends Controller
                 'commentId' => "comment_0212" . $comment->id
             ], 201);
         }
+
         return response()->json(['error' => 'Something went wrong'], 500);
     }
 
@@ -133,26 +134,40 @@ class CommentsController extends Controller
         return redirect()->route('admin.mycomments.index')->with('success', 'Comment deleted successfully');
     }
 
+
     /**
-     * Display the comments for a specific article.
-     * Show list of comments component view for the specified article
-     * Ajax call/request
+     * Retrieves comments for a specific article.
      *
-     * @param Article $post The article for which to display comments
-     * @return \Illuminate\View\View Returns the view with the comments for the specified article
+     * @param Article $post The article for which to retrieve comments
+     * @return \Illuminate\Http\JsonResponse A JSON response containing the comments
      */
     public function getComment(Article $post)
     {
-        $allComments = Comment::with('user', 'article')
-            ->where('article_id', $post->id)
-            ->orderBy('created_at', 'asc')
-            ->get();
+        $comments = Comment::where('article_id', $post->id)
+            ->whereNull('parent_id')
+            ->with(['replies' => function ($query) {
+                $query->with(['replies' => function ($query) {
+                    $query->with(['replies.user', 'user']);
+                }, 'user']);
+            }, 'user'])
+            ->get()
+            ->map(function ($comment) use ($post) {
+                return $this->addCommentLevelAndAuthorFlag($comment, $post->user_id);
+            });
 
-        $comments = $allComments->where('parent_id', NULL);
-        $replies = $allComments->filter(function ($comment) use ($allComments) {
-            return $comment->parent_id != NULL && $allComments->contains('id', $comment->parent_id);
-        });
+        return response()->json($comments);
+    }
 
-        return response()->json(['comments' => $comments, 'replies' => $replies]);
+    private function addCommentLevelAndAuthorFlag($comment, $authorUserId, $level = 1)
+    {
+        $comment->level = $level;
+        $comment->is_author = $comment->user_id === $authorUserId;
+
+        if ($comment->replies->isNotEmpty()) {
+            $comment->replies->transform(function ($reply) use ($authorUserId, $level) {
+                return $this->addCommentLevelAndAuthorFlag($reply, $authorUserId, $level + 1);
+            });
+        }
+        return $comment;
     }
 }
