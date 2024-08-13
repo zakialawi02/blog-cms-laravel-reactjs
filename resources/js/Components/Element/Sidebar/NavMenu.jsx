@@ -23,6 +23,8 @@ const NavMenu = ({
         return (
             <li className={`mb-1 group ${isActive ? "active" : ""}`}>
                 <Link
+                    preserveState
+                    replace
                     href={to}
                     className="flex items-center py-2 px-4 text-backend-base-100 hover:bg-gray-900 hover:text-backend-neutral rounded-md group-[.active]:bg-gray-700 group-[.active]:text-backend-neutral group-[.selected]:bg-gray-900 group-[.selected]:text-gray-100"
                 >

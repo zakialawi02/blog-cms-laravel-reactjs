@@ -3,14 +3,11 @@ import DeleteUserForm from "./Partials/DeleteUserForm";
 import UpdatePasswordForm from "./Partials/UpdatePasswordForm";
 import UpdateProfileInformationForm from "./Partials/UpdateProfileInformationForm";
 import DashboardLayout from "@/Layouts/DashboardLayout";
-import { Head } from "@inertiajs/react";
 
 const Edit = ({ auth, mustVerifyEmail, status }) => {
     return (
         <>
-            <Head title="Profile"></Head>
-
-            <DashboardLayout user={auth.user}>
+            <DashboardLayout user={auth.user} metaTitle="Edit Profile">
                 <div className="grid grid-cols-1 gap-2 lg:grid-cols-3 lg:gap-4">
                     <div className="">
                         <Card className="flex flex-col items-center justify-center w-full">

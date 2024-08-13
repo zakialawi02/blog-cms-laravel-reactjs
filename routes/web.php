@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CategoryController;
@@ -38,6 +39,9 @@ Route::prefix('dashboard')->as('admin.')->group(function () {
     Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
         Route::get('/newsletter', [NewsletterController::class, 'index'])->name('newsletter.index');
         Route::delete('/newsletter/{newsletter:email}', [NewsletterController::class, 'destroy'])->name('newsletter.destroy');
+
+        Route::resource('users', UserController::class)->except('create', 'edit');
+        Route::get('/user/{user:id}', [UserController::class, 'getUser'])->name('getUser');
     });
 
 
@@ -108,8 +112,5 @@ Route::get('/blog/{year}/{slug}', [ArticleController::class, 'show'])->name('art
 
 Route::post('/show-comment/{post:slug}', [CommentsController::class, 'getComment'])->name('getComment');
 
-
-
-Route::get('/comment/{post:slug}', [CommentsController::class, 'getComment']);
 
 require __DIR__ . '/auth.php';

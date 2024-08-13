@@ -3,7 +3,6 @@ import MapChart from "@/Components/Element/Chart/MapChart";
 import SkeletonOneLine from "@/Components/Element/Skeleton/SkeletonOneLine";
 import TableHeading from "@/Components/Element/Table/TableHeading";
 import DashboardLayout from "@/Layouts/DashboardLayout";
-import { Head } from "@inertiajs/react";
 import { useEffect, useState } from "react";
 
 const StatByCountry = ({ auth, meta }) => {
@@ -39,12 +38,10 @@ const StatByCountry = ({ auth, meta }) => {
 
     return (
         <>
-            <Head title={meta.title}></Head>
-
             <DashboardLayout metaTitle={meta.title} user={auth.user}>
                 <Card>
                     <h3 className="text-xl">
-                        Total Visitors {data.total_views}
+                        Total Visitors : {data.total_views}
                     </h3>
                 </Card>
 
@@ -92,22 +89,39 @@ const StatByCountry = ({ auth, meta }) => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {data.views.map((item, index) => (
-                                            <tr
-                                                className="border-b"
-                                                key={index}
-                                            >
-                                                <td className="p-2">
-                                                    {item.location}
-                                                </td>
-                                                <td className="p-2">
-                                                    {item.code}
-                                                </td>
-                                                <td className="p-2">
-                                                    {item.total_views}
+                                        {data.views.length === 0 ? (
+                                            <tr>
+                                                <td
+                                                    colSpan="3"
+                                                    className="p-6 m-1 text-base font-medium text-center"
+                                                >
+                                                    No data
                                                 </td>
                                             </tr>
-                                        ))}
+                                        ) : (
+                                            <>
+                                                {data.views.map(
+                                                    (item, index) => (
+                                                        <tr
+                                                            className="border-b"
+                                                            key={index}
+                                                        >
+                                                            <td className="p-2">
+                                                                {item.location}
+                                                            </td>
+                                                            <td className="p-2">
+                                                                {item.code}
+                                                            </td>
+                                                            <td className="p-2">
+                                                                {
+                                                                    item.total_views
+                                                                }
+                                                            </td>
+                                                        </tr>
+                                                    )
+                                                )}
+                                            </>
+                                        )}
                                     </tbody>
                                 </table>
                             </>

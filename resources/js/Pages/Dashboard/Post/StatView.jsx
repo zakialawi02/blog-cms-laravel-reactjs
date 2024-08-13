@@ -175,57 +175,76 @@ const StatView = ({ auth, meta }) => {
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    {recent.map(
-                                                        (item, index) => (
-                                                            <tr
-                                                                className="border-b"
-                                                                key={index}
+                                                    {recent.length == 0 ? (
+                                                        <tr>
+                                                            <td
+                                                                colSpan="4"
+                                                                className="p-6 m-1 text-base font-medium text-center"
                                                             >
-                                                                <td className="p-2">
-                                                                    {new Date(
-                                                                        item.viewed_at
-                                                                    ).toLocaleString(
-                                                                        "en-US",
-                                                                        {
-                                                                            day: "numeric",
-                                                                            month: "short",
-                                                                            year: "numeric",
-                                                                            hour: "numeric",
-                                                                            minute: "numeric",
+                                                                No data
+                                                            </td>
+                                                        </tr>
+                                                    ) : (
+                                                        <>
+                                                            {recent.map(
+                                                                (
+                                                                    item,
+                                                                    index
+                                                                ) => (
+                                                                    <tr
+                                                                        className="border-b"
+                                                                        key={
+                                                                            index
                                                                         }
-                                                                    )}
-                                                                </td>
-                                                                <td className="p-2">
-                                                                    <Link
-                                                                        href={
-                                                                            `/dashboard/stats/posts/` +
-                                                                            item
-                                                                                .article
-                                                                                .slug
-                                                                        }
-                                                                        className="text-backend-primary hover:text-backend-secondary"
-                                                                        target="_blank"
-                                                                        rel="noopener noreferrer"
                                                                     >
-                                                                        {
-                                                                            item
-                                                                                .article
-                                                                                .title
-                                                                        }
-                                                                    </Link>
-                                                                </td>
-                                                                <td className="p-2">
-                                                                    {
-                                                                        item.ip_address
-                                                                    }
-                                                                </td>
-                                                                <td className="p-2">
-                                                                    {
-                                                                        item.location
-                                                                    }
-                                                                </td>
-                                                            </tr>
-                                                        )
+                                                                        <td className="p-2">
+                                                                            {new Date(
+                                                                                item.viewed_at
+                                                                            ).toLocaleString(
+                                                                                "en-US",
+                                                                                {
+                                                                                    day: "numeric",
+                                                                                    month: "short",
+                                                                                    year: "numeric",
+                                                                                    hour: "numeric",
+                                                                                    minute: "numeric",
+                                                                                }
+                                                                            )}
+                                                                        </td>
+                                                                        <td className="p-2">
+                                                                            <Link
+                                                                                preserveState
+                                                                                href={
+                                                                                    `/dashboard/stats/posts/` +
+                                                                                    item
+                                                                                        .article
+                                                                                        .slug
+                                                                                }
+                                                                                className="text-backend-primary hover:text-backend-secondary"
+                                                                                target="_blank"
+                                                                                rel="noopener noreferrer"
+                                                                            >
+                                                                                {
+                                                                                    item
+                                                                                        .article
+                                                                                        .title
+                                                                                }
+                                                                            </Link>
+                                                                        </td>
+                                                                        <td className="p-2">
+                                                                            {
+                                                                                item.ip_address
+                                                                            }
+                                                                        </td>
+                                                                        <td className="p-2">
+                                                                            {
+                                                                                item.location
+                                                                            }
+                                                                        </td>
+                                                                    </tr>
+                                                                )
+                                                            )}
+                                                        </>
                                                     )}
                                                 </tbody>
                                             </table>
@@ -266,39 +285,59 @@ const StatView = ({ auth, meta }) => {
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    {popular.map(
-                                                        (item, index) => (
-                                                            <tr
-                                                                className="border-b"
-                                                                key={index}
+                                                    {popular.length == 0 ? (
+                                                        <tr>
+                                                            <td
+                                                                colSpan="4"
+                                                                className="p-6 m-1 text-base font-medium text-center"
                                                             >
-                                                                <td className="max-w-lg p-2">
-                                                                    {item.title}
-                                                                </td>
-                                                                <td className="p-2">
-                                                                    {
-                                                                        item.status
-                                                                    }
-                                                                </td>
-                                                                <td className="p-2">
-                                                                    {new Date(
-                                                                        item.published_at
-                                                                    ).toLocaleDateString(
-                                                                        "en-US",
-                                                                        {
-                                                                            year: "numeric",
-                                                                            month: "long",
-                                                                            day: "numeric",
+                                                                No data
+                                                            </td>
+                                                        </tr>
+                                                    ) : (
+                                                        <>
+                                                            {popular.map(
+                                                                (
+                                                                    item,
+                                                                    index
+                                                                ) => (
+                                                                    <tr
+                                                                        className="border-b"
+                                                                        key={
+                                                                            index
                                                                         }
-                                                                    )}
-                                                                </td>
-                                                                <td className="p-2">
-                                                                    {
-                                                                        item.total_views
-                                                                    }
-                                                                </td>
-                                                            </tr>
-                                                        )
+                                                                    >
+                                                                        <td className="max-w-lg p-2">
+                                                                            {
+                                                                                item.title
+                                                                            }
+                                                                        </td>
+                                                                        <td className="p-2">
+                                                                            {
+                                                                                item.status
+                                                                            }
+                                                                        </td>
+                                                                        <td className="p-2">
+                                                                            {new Date(
+                                                                                item.published_at
+                                                                            ).toLocaleDateString(
+                                                                                "en-US",
+                                                                                {
+                                                                                    year: "numeric",
+                                                                                    month: "long",
+                                                                                    day: "numeric",
+                                                                                }
+                                                                            )}
+                                                                        </td>
+                                                                        <td className="p-2">
+                                                                            {
+                                                                                item.total_views
+                                                                            }
+                                                                        </td>
+                                                                    </tr>
+                                                                )
+                                                            )}
+                                                        </>
                                                     )}
                                                 </tbody>
                                             </table>

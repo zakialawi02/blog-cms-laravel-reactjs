@@ -1,16 +1,15 @@
-import GuestLayout from "@/Layouts/GuestLayout";
 import { Head, Link } from "@inertiajs/react";
+import { useEffect, useState } from "react";
+import GuestLayout from "@/Layouts/GuestLayout";
 import Prism from "prismjs";
 import "/public/assets/css/prism.css";
 import "/public/assets/js/prism.js";
-import { useEffect, useState } from "react";
 import SharePost from "@/Components/Element/Button/SharePost";
 import TagsPost from "@/Components/Element/Button/TagsPost";
 import CardAsidePost from "@/Components/Element/Card/CardAsidePost";
 import axios from "axios";
 import SkeletonOneLine from "@/Components/Element/Skeleton/SkeletonOneLine";
-import PostComments from "@/Components/Fragment/PostComments";
-import CommentList from "@/Components/Element/Comment/CommentList";
+import CommentArticle from "@/Components/Fragment/CommentArticle";
 
 const SinglePost = ({ article }) => {
     const [loading, setLoading] = useState(true);
@@ -257,7 +256,7 @@ const SinglePost = ({ article }) => {
                             <div className="py-1 my-2 border-b-2 border-frontend-dark border-opacity-40"></div>
 
                             <div className="mt-3">
-                                <PostComments />
+                                <CommentArticle />
                             </div>
                         </div>
 

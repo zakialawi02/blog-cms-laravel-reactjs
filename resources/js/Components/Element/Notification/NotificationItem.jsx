@@ -10,13 +10,14 @@ const NotificationItem = ({
     return (
         <li>
             <Link
+                preserveState
                 href={to}
-                className="py-2 px-4 flex items-center hover:bg-gray-50 group"
+                className="flex items-center px-4 py-2 hover:bg-gray-50 group"
             >
                 <img
                     src={icon}
                     alt="avatar"
-                    className="w-8 h-8 rounded block object-cover align-middle"
+                    className="block object-cover w-8 h-8 align-middle rounded"
                 />
                 <div className="ml-2">
                     <div className="text-[13px] text-backend-muted font-medium truncate group-hover:text-backend-primary">

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ButtonFE from "../Element/Button/ButtonFE";
 import CommentForm from "../Element/Comment/CommentForm";
 import CommentList from "../Element/Comment/CommentList";
@@ -6,6 +6,9 @@ import SkeletonCard from "../Element/Skeleton/SkeletonCard";
 import getCommentsPost from "@/Services/getCommentsPost";
 
 const PostComments = () => {
+    const query = new URLSearchParams(window.location.search);
+    const source = query.get("source");
+    const commentId = query.get("commentId");
     const pathname = window.location.pathname;
     const slug = pathname.split("/")[3];
     const [showComments, setShowComments] = useState(false);
@@ -22,6 +25,32 @@ const PostComments = () => {
         setLoadingComment(true);
         getCommentsPost(slug, setLoadingComment, setComments);
     };
+
+    const scrollToElement = (selector, offset = 0, duration = 300) => {
+        const element = document.querySelector(selector);
+        if (element && comments) {
+            const top =
+                element.getBoundingClientRect().top +
+                window.pageYOffset -
+                offset;
+            window.scrollTo({
+                top,
+                behavior: "smooth",
+            });
+        }
+    };
+
+    useEffect(() => {
+        if (source == "comments" && commentId) {
+            showCommentClick();
+            if (commentId) {
+                setTimeout(() => {
+                    scrollToElement(`#${commentId}`, 50, 300);
+                    console.log("RUN");
+                }, 1000);
+            }
+        }
+    }, [source, commentId]);
 
     return (
         <>

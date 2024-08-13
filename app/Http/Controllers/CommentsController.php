@@ -6,6 +6,7 @@ use App\Models\Article;
 use App\Models\Comment;
 use App\Models\MentionNotification;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class CommentsController extends Controller
 {
@@ -19,13 +20,18 @@ class CommentsController extends Controller
     {
         $myComments = Comment::with('article', 'user')
             ->where('user_id', auth()->user()->id)
-            ->get();
+            ->orderBy(request('sort_field', 'created_at'), request('sort_direction', 'desc'))
+            ->paginate(20)->withQueryString();
 
         $data = [
             'title' => 'My Comments',
         ];
 
-        return view('pages.back.comments.myComments', compact('data', 'myComments'));
+        return Inertia::render("Dashboard/Comment/MyComment", [
+            'meta' => $data,
+            'comments' => $myComments,
+            'queryParams' => request()->query() ?: null
+        ]);
     }
 
     /**
@@ -37,14 +43,18 @@ class CommentsController extends Controller
             ->whereHas('article', function ($query) {
                 $query->where('user_id', auth()->user()->id);
             })
-            ->orderBy('created_at', 'desc')
-            ->get();
+            ->orderBy(request('sort_field', 'created_at'), request('sort_direction', 'desc'))
+            ->paginate(20)->withQueryString();
 
         $data = [
             'title' => 'Comments',
         ];
 
-        return view('pages.back.comments.comments', compact('data', 'comments'));
+        return Inertia::render("Dashboard/Comment/Index", [
+            'meta' => $data,
+            'comments' => $comments,
+            'queryParams' => request()->query() ?: null
+        ]);
     }
 
 
@@ -98,22 +108,6 @@ class CommentsController extends Controller
         return response()->json(['error' => 'Something went wrong'], 500);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
 
     /**
      * Remove the specified resource from storage.
@@ -123,15 +117,9 @@ class CommentsController extends Controller
      */
     public function destroy(Comment $comment)
     {
-        if (request()->ajax()) {
-            Comment::where('id', $comment->id)->delete();
-
-            return response()->json(['success' => 'Comment deleted successfully']);
-        }
-
         Comment::where('id', $comment->id)->delete();
 
-        return redirect()->route('admin.mycomments.index')->with('success', 'Comment deleted successfully');
+        return redirect()->back()->with('success', 'Comment deleted successfully');
     }
 
 

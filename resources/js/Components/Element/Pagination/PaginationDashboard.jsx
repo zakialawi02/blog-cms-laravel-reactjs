@@ -6,6 +6,7 @@ const PaginationDashboard = ({ links }) => {
         <nav className="mt-4 space-x-1 text-center">
             {links.map((link) => (
                 <Link
+                    preserveState
                     preserveScroll
                     href={link.url || ""}
                     key={link.label}
