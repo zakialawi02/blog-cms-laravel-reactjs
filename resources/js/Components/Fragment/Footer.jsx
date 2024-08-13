@@ -21,7 +21,6 @@ const Footer = () => {
             })
             .catch((error) => {
                 console.log(error);
-
                 setError("email", error.response.data.message);
             });
     };
@@ -35,6 +34,7 @@ const Footer = () => {
                             <div className="grid grid-cols-1 gap-6 xl:grid-cols-6 md:grid-cols-4">
                                 <div className="md:col-span-2">
                                     <Link
+                                        preserveState
                                         className="block mb-6 navbar-brand"
                                         href="/blog"
                                     >
@@ -139,7 +139,7 @@ const Footer = () => {
                                             onSubmit={submitEmail}
                                             className="w-full max-w-lg mt-6 ms-auto"
                                         >
-                                            <p className="text-base font-medium text-frontend-dark p-1">
+                                            <p className="p-1 text-base font-medium text-frontend-dark">
                                                 Subscribe to our newsletter
                                             </p>
                                             <div className="relative flex items-center px-1 overflow-hidden bg-white rounded-md shadow">

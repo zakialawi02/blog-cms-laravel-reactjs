@@ -61,6 +61,7 @@ const ForgotPassword = () => {
                     <div className="mt-2">
                         Already have an account?
                         <Link
+                            preserveState
                             href={route("login")}
                             className="ml-1 text-backend-primary hover:text-backend-secondary"
                         >
@@ -71,6 +72,7 @@ const ForgotPassword = () => {
                     <div className="mt-2">
                         Don't have an account?
                         <Link
+                            preserveState
                             href={route("register")}
                             className="ml-1 text-backend-primary hover:text-backend-secondary"
                         >

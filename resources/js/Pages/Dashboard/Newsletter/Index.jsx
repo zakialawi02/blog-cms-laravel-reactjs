@@ -76,7 +76,7 @@ const Index = ({ auth, data, meta, queryParams = null }) => {
                                         <tr>
                                             <td
                                                 colSpan="3"
-                                                className="p-6 m-1 text-center font-medium text-base"
+                                                className="p-6 m-1 text-base font-medium text-center"
                                             >
                                                 No data
                                             </td>

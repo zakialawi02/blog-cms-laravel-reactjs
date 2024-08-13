@@ -250,8 +250,8 @@ const Index = ({
                                     {posts.data.length === 0 ? (
                                         <tr>
                                             <td
-                                                colSpan="3"
-                                                className="p-6 m-1 text-center font-medium text-base"
+                                                colSpan="8"
+                                                className="p-6 m-1 text-base font-medium text-center"
                                             >
                                                 No data
                                             </td>

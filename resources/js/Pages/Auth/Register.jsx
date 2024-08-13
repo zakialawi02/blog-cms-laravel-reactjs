@@ -149,6 +149,7 @@ const Register = () => {
                         <div className="mt-2">
                             By registering you agree to the
                             <Link
+                                preserveState
                                 href="#"
                                 className="ml-1 text-backend-primary hover:text-backend-secondary"
                             >
@@ -158,6 +159,7 @@ const Register = () => {
                         <div className="mt-2">
                             Already have an account?
                             <Link
+                                preserveState
                                 href={route("login")}
                                 className="ml-1 text-backend-primary hover:text-backend-secondary"
                             >

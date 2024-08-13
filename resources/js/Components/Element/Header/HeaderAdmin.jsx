@@ -40,10 +40,10 @@ const HeaderAdmin = ({ user, toggleSidebar }) => {
     }, []);
 
     return (
-        <div className="sticky top-0 left-0 z-30 flex items-center px-6 py-2 bg-backend-base-100 shadow-md shadow-black/5">
+        <div className="sticky top-0 left-0 z-30 flex items-center px-6 py-2 shadow-md bg-backend-base-100 shadow-black/5">
             <button
                 type="button"
-                className="text-lg w-8 h-8 text-backend-dark hover:bg-gray-200 hover:text-backend-accent sidebar-toggle"
+                className="w-8 h-8 text-lg text-backend-dark hover:bg-gray-200 hover:text-backend-accent sidebar-toggle"
                 onClick={() => toggleSidebar()}
             >
                 <i className="ri-menu-line" />
@@ -51,6 +51,7 @@ const HeaderAdmin = ({ user, toggleSidebar }) => {
             <ul className="flex items-center ml-4 text-sm">
                 <li className="mr-2">
                     <Link
+                        preserveState
                         href="/dashboard"
                         className="font-medium text-backend-muted hover:text-backend-accent"
                     >
@@ -64,7 +65,7 @@ const HeaderAdmin = ({ user, toggleSidebar }) => {
                 <li className="mr-1 dropdown" ref={searchRef}>
                     <button
                         type="button"
-                        className="flex items-center justify-center w-8 h-8 text-backend-dark rounded dropdown-toggle hover:bg-gray-200 hover:text-backend-accent"
+                        className="flex items-center justify-center w-8 h-8 rounded text-backend-dark dropdown-toggle hover:bg-gray-200 hover:text-backend-accent"
                         onClick={() => setIsOpenSearch(!isOpenSearch)}
                     >
                         <i className="ri-search-line" />
@@ -78,7 +79,7 @@ const HeaderAdmin = ({ user, toggleSidebar }) => {
                 <li className="dropdown" ref={notificationRef}>
                     <button
                         type="button"
-                        className="flex items-center justify-center w-8 h-8 text-backend-dark rounded dropdown-toggle hover:bg-gray-200 hover:text-backend-accent"
+                        className="flex items-center justify-center w-8 h-8 rounded text-backend-dark dropdown-toggle hover:bg-gray-200 hover:text-backend-accent"
                         onClick={() =>
                             setIsOpenNotification(!isOpenNotification)
                         }
@@ -123,6 +124,7 @@ const HeaderAdmin = ({ user, toggleSidebar }) => {
                                 text="Logout"
                                 to={route("logout")}
                                 method="post"
+                                as="button"
                             />
                         </DropdownMenu>
                     )}

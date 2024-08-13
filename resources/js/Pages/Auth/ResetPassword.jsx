@@ -102,6 +102,7 @@ const ResetPassword = ({ token, email }) => {
                         <div className="mt-2">
                             Already have an account?
                             <Link
+                                preserveState
                                 href={route("login")}
                                 className="text-backend-primary hover:text-backend-secondary"
                             >

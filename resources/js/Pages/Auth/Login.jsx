@@ -98,13 +98,17 @@ const Login = () => {
 
                     <div className="p-1 mt-4 text-center">
                         <div className="ml-1 text-backend-muted hover:underline">
-                            <Link href={route("password.request")}>
+                            <Link
+                                preserveState
+                                href={route("password.request")}
+                            >
                                 Forgot your password?
                             </Link>
                         </div>
                         <div className="mt-2">
                             Don't have an account?
                             <Link
+                                preserveState
                                 href={route("register")}
                                 className="ml-1 text-backend-primary hover:text-backend-secondary"
                             >

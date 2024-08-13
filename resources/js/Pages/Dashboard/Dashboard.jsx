@@ -201,7 +201,8 @@ const Dashboard = ({ auth }) => {
                                 Total of my comments : {info?.myComments}
                             </p>
                             <Link
-                                href="/comments"
+                                preserveState
+                                href="/dashboard/my-comments"
                                 className="text-backend-primary hover:text-backend-secondary"
                             >
                                 View My Comments More

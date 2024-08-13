@@ -1,20 +1,22 @@
-import GuestLayout from "@/Layouts/GuestLayout";
 import { Head, Link } from "@inertiajs/react";
+import { useEffect, useState } from "react";
+import GuestLayout from "@/Layouts/GuestLayout";
 import Prism from "prismjs";
 import "/public/assets/css/prism.css";
 import "/public/assets/js/prism.js";
-import { useEffect, useState } from "react";
 import SharePost from "@/Components/Element/Button/SharePost";
 import TagsPost from "@/Components/Element/Button/TagsPost";
 import CardAsidePost from "@/Components/Element/Card/CardAsidePost";
 import axios from "axios";
 import SkeletonOneLine from "@/Components/Element/Skeleton/SkeletonOneLine";
+import CommentArticle from "@/Components/Fragment/CommentArticle";
 
 const SinglePost = ({ article }) => {
     const [loading, setLoading] = useState(true);
     const [popularPosts, setPopularPosts] = useState([]);
     const [categories, setCategories] = useState([]);
     const [tags, setTags] = useState([]);
+
     const pathname = window.location.pathname;
     const segments = pathname.split("/").filter((segment) => segment !== "");
     const secondSegment = segments[1] || "";
@@ -51,7 +53,6 @@ const SinglePost = ({ article }) => {
             .then((res) => {
                 setTags(res.data);
                 setLoading(false);
-                console.log(res.data);
             })
             .catch((err) => {
                 console.log(err);
@@ -71,7 +72,6 @@ const SinglePost = ({ article }) => {
 
         fecthData();
     }, []);
-    console.log(tags);
 
     return (
         <>
@@ -255,33 +255,8 @@ const SinglePost = ({ article }) => {
 
                             <div className="py-1 my-2 border-b-2 border-frontend-dark border-opacity-40"></div>
 
-                            <div id="comments">
-                                <div id="" className="mt-4">
-                                    <div className="mb-3">
-                                        <h2 className="text-3xl font-bold">
-                                            Comments
-                                        </h2>
-                                    </div>
-
-                                    <div id="comments-section"></div>
-
-                                    <div className="flex justify-start mt-3">
-                                        <button
-                                            type="button"
-                                            id="btn-show-comments-section"
-                                            className="px-4 py-2 font-bold text-white transition-all duration-300 rounded-lg bg-frontend-primary hover:bg-frontend-secondary focus:outline-none"
-                                        >
-                                            Show Comments Section
-                                        </button>
-                                    </div>
-
-                                    <div
-                                        id="content-comment-container"
-                                        className="mt-10"
-                                    >
-                                        {" "}
-                                    </div>
-                                </div>
+                            <div className="mt-3">
+                                <CommentArticle />
                             </div>
                         </div>
 

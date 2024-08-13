@@ -50,27 +50,28 @@ const Index = ({ auth, tags, meta, queryParams = null }) => {
 
             <DashboardLayout metaTitle={meta.title} user={auth.user}>
                 <Card>
-                    <div className="overflow-x-auto">
-                        <div className="flex justify-end py-2">
-                            <Link
-                                href={route("admin.tags.create")}
-                                className="px-4 py-2 rounded bg-backend-primary text-backend-base-100 hover:bg-backend-primary/80"
-                            >
-                                New Tag
-                            </Link>
-                        </div>
+                    <div className="flex justify-end py-2">
+                        <Link
+                            href={route("admin.tags.create")}
+                            className="px-4 py-2 rounded bg-backend-primary text-backend-base-100 hover:bg-backend-primary/80"
+                        >
+                            New Tag
+                        </Link>
+                    </div>
 
-                        <div className="mb-4">
-                            <TextInput
-                                className="w-full"
-                                defaultValue={queryParams.search}
-                                placeholder="Search..."
-                                onBlur={(e) =>
-                                    searchFieldChanged("search", e.target.value)
-                                }
-                                onKeyPress={(e) => onKeyPress("search", e)}
-                            />
-                        </div>
+                    <div className="mb-4">
+                        <TextInput
+                            className="w-full"
+                            defaultValue={queryParams.search}
+                            placeholder="Search..."
+                            onBlur={(e) =>
+                                searchFieldChanged("search", e.target.value)
+                            }
+                            onKeyPress={(e) => onKeyPress("search", e)}
+                        />
+                    </div>
+
+                    <div className="overflow-x-auto">
                         <table className="w-full text-sm text-left">
                             <thead className="text-xs uppercase border-b border-gray-700">
                                 <tr className="text-nowrap">
@@ -115,7 +116,7 @@ const Index = ({ auth, tags, meta, queryParams = null }) => {
                                     <tr>
                                         <td
                                             colSpan="3"
-                                            className="p-6 m-1 text-center font-medium text-base"
+                                            className="p-6 m-1 text-base font-medium text-center"
                                         >
                                             No data
                                         </td>

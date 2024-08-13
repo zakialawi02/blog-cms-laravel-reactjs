@@ -4,6 +4,7 @@ const AuthLayout = ({ children }) => {
     return (
         <div className="relative flex items-center justify-center min-h-screen bg-gray-400 ">
             <Link
+                preserveState
                 href="/"
                 className="absolute m-2 text-xl top-1 right-1 md:top-3 md:right-3 text-backend-light hover:text-backend-primary"
             >

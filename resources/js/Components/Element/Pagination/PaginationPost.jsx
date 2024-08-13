@@ -21,6 +21,7 @@ const PaginationPost = ({ links, current, last }) => {
             if (link.url) {
                 return (
                     <Link
+                        preserveState
                         key={index}
                         href={link.url || ""}
                         className={`px-3 py-1 mx-1 text-sm font-medium rounded-md ${
@@ -48,6 +49,7 @@ const PaginationPost = ({ links, current, last }) => {
     return (
         <div className="px-3 py-5 mt-4 space-y-5">
             <Link
+                preserveState
                 preserveScroll={links[0].url ? false : true}
                 href={links[0].url ?? " "}
                 as="button"
@@ -64,6 +66,7 @@ const PaginationPost = ({ links, current, last }) => {
             {renderPageNumbers()}
 
             <Link
+                preserveState
                 preserveScroll={links[links.length - 1].url ? false : true}
                 href={links[links.length - 1].url}
                 as="button"
