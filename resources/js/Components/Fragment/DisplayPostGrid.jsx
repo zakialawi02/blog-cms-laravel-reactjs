@@ -30,7 +30,7 @@ const DisplayPost = ({ articles }) => {
                                 {item.title}
                             </CardPost.Title>
                             <CardPost.Category>
-                                {item.category.category}
+                                {item?.category?.category || "Uncategorized"}
                             </CardPost.Category>
                             <CardPost.Excerpt>{item.excerpt}</CardPost.Excerpt>
                         </CardPost.Body>

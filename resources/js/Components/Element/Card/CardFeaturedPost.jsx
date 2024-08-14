@@ -59,7 +59,7 @@ const CardFeaturedPost = ({ article, isMain }) => {
                             }
                         )}
                         <div className="inline-block h-3 ml-2 mr-2 border-l-2 border-frontend-accent"></div>
-                        {article.category.category}
+                        {article?.category?.category || "Uncategorized"}
                     </div>
                 </div>
             </div>

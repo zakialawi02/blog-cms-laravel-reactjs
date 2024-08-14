@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Tag;
+use App\Models\User;
 use Inertia\Inertia;
 use App\Models\Article;
 use App\Models\Category;
@@ -111,23 +113,6 @@ class ArticleController extends Controller
         });
     }
 
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
     /**
      * Show a specific article based on the year and slug.
      *
@@ -156,27 +141,80 @@ class ArticleController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Article $article)
+
+    // ARCHIVE ↓↓↓↓↓
+
+    public function getArticlesByCategory($cat)
     {
-        //
+        $search = request()->query('search');
+        $articles = $this->fetchArticles($search, $cat);
+
+        $this->articlesMappingArray($articles);
+
+        return Inertia::render('Front/Blog/Index', [
+            'articles' => $articles
+        ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Article $article)
+    public function getArticlesByTag($tag)
     {
-        //
+        (Tag::where('slug', $tag)->firstOrFail());
+        $search = request()->query('search');
+        $articles = $this->fetchArticles($search, "", $tag);
+
+        $this->articlesMappingArray($articles);
+
+        return Inertia::render('Front/Blog/Archive', [
+            'articles' => $articles
+        ]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Article $article)
+    public function getArticlesByUser($username)
     {
-        //
+        $user = User::where('username', $username)->firstOrFail();
+        $search = request()->query('search');
+        $articles = $this->fetchArticles($search, "", "", $username);
+
+        $this->articlesMappingArray($articles);
+
+        return Inertia::render('Front/Blog/Archive', [
+            'articles' => $articles
+        ]);
+    }
+
+    public function getArticlesByYear($year)
+    {
+        (!is_numeric($year)) ? abort(404) : $year;
+        (strlen($year) != 4) ? abort(404) : $year;
+        $articles = Article::with('user', 'category')
+            ->whereYear('published_at', $year)
+            ->where(['status' => 'published', ['published_at', '<', now()]])
+            ->orderBy('published_at', 'desc')
+            ->paginate(12)->withQueryString();
+        $this->articlesMappingArray($articles);
+
+        return Inertia::render('Front/Blog/Archive', [
+            'articles' => $articles
+        ]);
+    }
+
+    public function getArticlesByMonth($year, $month)
+    {
+        (!is_numeric($year)) ? abort(404) : $year;
+        (strlen($year) != 4) ? abort(404) : $year;
+        (!is_numeric($month)) ? abort(404) : $month;
+        (strlen($month) != 2) ? abort(404) : $month;
+        ($month > 12 || $month < 1) ? abort(404) : $month;
+        $articles = Article::with('user', 'category')
+            ->whereYear('published_at', $year)
+            ->whereMonth('published_at', $month)
+            ->where(['status' => 'published', ['published_at', '<', now()]])
+            ->orderBy('published_at', 'desc')
+            ->paginate(12)->withQueryString();
+        $this->articlesMappingArray($articles);
+
+        return Inertia::render('Front/Blog/Archive', [
+            'articles' => $articles
+        ]);
     }
 }

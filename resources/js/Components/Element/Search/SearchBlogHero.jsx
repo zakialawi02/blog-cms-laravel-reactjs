@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-const SearchBlogHero = () => {
+const SearchBlogHero = ({ segmentUrl = null, segmentClass = null }) => {
     const queryParams = new URLSearchParams(window.location.search);
     const searchQuery = queryParams.get("search");
     const hasSearch = searchQuery && searchQuery !== "";
@@ -15,7 +15,12 @@ const SearchBlogHero = () => {
         <>
             <section className="w-full p-3 bg-gradient-to-tr from-frontend-primary to-frontend-secondary">
                 <div className="container py-8 text-center uppercase pt-18 text-frontend-light">
-                    <h1 className="px-3 mb-3 text-3xl font-bold">Blog</h1>
+                    <h1 className="px-3 mb-3 text-3xl font-bold">
+                        Blog{" "}
+                        {segmentUrl == "categories"
+                            ? ` : By Category ${segmentClass}`
+                            : ""}
+                    </h1>
                     <p className="capitalize w-[80%] md:w-[50%] px-3 mx-auto">
                         Discover the latest stories, thoughts and inspiration.
                     </p>

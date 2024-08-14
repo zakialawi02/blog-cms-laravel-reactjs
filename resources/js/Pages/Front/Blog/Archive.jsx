@@ -1,19 +1,12 @@
 import PaginationPost from "@/Components/Element/Pagination/PaginationPost";
-import SearchBlogHero from "@/Components/Element/Search/SearchBlogHero";
 import DisplayPostGrid from "@/Components/Fragment/DisplayPostGrid";
-import FeaturedPostsGrid from "@/Components/Fragment/FeaturedPostsGrid";
 import GuestLayout from "@/Layouts/GuestLayout";
-import { Head, Link } from "@inertiajs/react";
+import { Head } from "@inertiajs/react";
 
-const Index = ({ articles, featured }) => {
-    const queryParams = new URLSearchParams(window.location.search);
-    const searchQuery = queryParams.get("search");
-    const hasSearch = searchQuery && searchQuery !== "";
-    const hasPage = queryParams.has("page") && queryParams.get("page") !== "1";
+const Archive = ({ articles }) => {
     const pathname = window.location.pathname;
     const segments = pathname.split("/").filter((segment) => segment !== "");
-    const segmentUrl = segments[1] || "";
-    const segmentClass = segments[2] || "";
+    const archiveSegment = segments[2] || "";
 
     return (
         <>
@@ -37,30 +30,10 @@ const Index = ({ articles, featured }) => {
             </Head>
 
             <GuestLayout>
-                <SearchBlogHero
-                    segmentUrl={segmentUrl}
-                    segmentClass={segmentClass}
-                />
-
-                {hasSearch || hasPage ? (
-                    <></>
-                ) : (
-                    <>
-                        {" "}
-                        {segmentUrl !== "categories" && (
-                            <section className="pt-4 pb-0">
-                                <div className="px-3 mx-auto 2xl:container sm:px-4 xl:px-2">
-                                    <FeaturedPostsGrid articles={featured} />
-                                </div>
-                            </section>
-                        )}
-                    </>
-                )}
-
                 {/* Recent Blog Post  */}
                 <section className="container px-6 py-10 fluid md:px-4">
                     <div className="mb-6 text-3xl font-semibold">
-                        <h2>{hasSearch ? "Search Result" : "Recent Post"}</h2>
+                        <h2>Archive : {archiveSegment.toUpperCase()}</h2>
                         <div className="w-[50%] md:w-[84%] -translate-y-4 float-end h-[4px] bg-gradient-to-r from-transparent to-frontend-secondary -z-1"></div>
                     </div>
 
@@ -79,4 +52,4 @@ const Index = ({ articles, featured }) => {
     );
 };
 
-export default Index;
+export default Archive;
