@@ -113,17 +113,17 @@ class PostController extends Controller
     {
         $data = $request->validated();
 
-        if ($request->query('status') == "published") {
+        if ($request->get('status') == "published") {
             $data['status'] = 'published';
             if (empty($request->published_at)) {
                 $data['published_at'] = now();
             }
-        } elseif ($request->query('status') == "unpublished") {
+        } elseif ($request->get('status') == "unpublished") {
             $data['status'] = 'draft';
             $data['published_at'] = null;
         }
 
-        if ($request->hasFile('cover')) {
+        if ($request->hasFile('cover') && $request->file('cover')) {
             $user = auth()->user()->username ?? "shared";
             $file = $request->file('cover');
             $filename = time() . '_' . Str::random(20) . '.' . $file->getClientOriginalExtension();
@@ -137,12 +137,11 @@ class PostController extends Controller
         if (request()->has('tags')) {
             $tags = [];
             foreach ($data['tags'] as $tagName) {
-                $tag = Tag::where('tag_name', $tagName)->first();
+                $tag = Tag::where('tag_name', $tagName['text'])->first();
                 if (!$tag) {
-                    echo "Tag not found";
                     $createTag = Tag::create([
-                        'tag_name' => ucwords($tagName),
-                        'slug' => Str::slug($tagName),
+                        'tag_name' => ucwords($tagName['text']),
+                        'slug' => Str::slug($tagName['text']),
                     ]);
                     $tags[] = $createTag->id;
                 } else {
@@ -183,15 +182,15 @@ class PostController extends Controller
             'title' => 'Edit Post',
         ];
 
+        $post = Article::with('user')->where('slug', $post->slug)->first();
         $categories = Category::all();
         $articleTags = $post->tags->map(function ($tag) {
             return [
                 'id' => $tag->id,
-                'tag' => $tag->tag_name,
+                'text' => $tag->tag_name,
             ];
         })->toArray();
         $tags = Tag::all();
-
 
         return Inertia::render('Dashboard/Post/FormData', [
             "meta" => $data,
@@ -207,24 +206,24 @@ class PostController extends Controller
      */
     public function update(ArticleRequest $request, Article $post)
     {
+        // dd($request->all());
         if (auth()->user()->role !== 'admin' && auth()->id() !== $post->user_id) {
             abort(403);
         }
 
         $data = $request->validated();
 
-        if ($request->query('status') == "published") {
-
+        if ($request->get('status') == "published") {
             $data['status'] = 'published';
             if (empty($request->published_at)) {
                 $data['published_at'] = now();
             }
-        } elseif ($request->query('status') == "unpublished") {
+        } elseif ($request->get('status') == "unpublished") {
             $data['status'] = 'draft';
             $data['published_at'] = null;
         }
 
-        if ($request->hasFile('cover')) {
+        if ($request->hasFile('cover') && $request->file('cover')) {
             $user = $post->user->username ?? "shared";
             if ($post->cover) {
                 Storage::delete('public/drive/' . $user . '/img/' . $post->cover);
@@ -244,12 +243,11 @@ class PostController extends Controller
         if (request()->has('tags')) {
             $tags = [];
             foreach ($data['tags'] as $tagName) {
-                $tag = Tag::where('tag_name', $tagName)->first();
+                $tag = Tag::where('tag_name', $tagName['text'])->first();
                 if (!$tag) {
-                    echo "Tag not found";
                     $createTag = Tag::create([
-                        'tag_name' => ucwords($tagName),
-                        'slug' => Str::slug($tagName),
+                        'tag_name' => ucwords($tagName['text']),
+                        'slug' => Str::slug($tagName['text']),
                     ]);
                     $tags[] = $createTag->id;
                 } else {
