@@ -291,24 +291,29 @@ const Index = ({
                                                     </td>
                                                     <td className="px-3 py-2 w-28">
                                                         {post.status ===
-                                                        "published"
-                                                            ? (new Date(
-                                                                  post.published_at
-                                                              ) < new Date()
-                                                                  ? "Published<br>"
-                                                                  : "Scheduled<br>") +
-                                                              Intl.DateTimeFormat(
-                                                                  "id-ID",
-                                                                  {
-                                                                      dateStyle:
-                                                                          "medium",
-                                                                  }
-                                                              ).format(
-                                                                  new Date(
-                                                                      post.published_at
-                                                                  )
-                                                              )
-                                                            : post.status}
+                                                        "published" ? (
+                                                            <>
+                                                                {new Date(
+                                                                    post.published_at
+                                                                ) < new Date()
+                                                                    ? "Published"
+                                                                    : "Scheduled"}
+                                                                <br />
+                                                                {Intl.DateTimeFormat(
+                                                                    "id-ID",
+                                                                    {
+                                                                        dateStyle:
+                                                                            "medium",
+                                                                    }
+                                                                ).format(
+                                                                    new Date(
+                                                                        post.published_at
+                                                                    )
+                                                                )}
+                                                            </>
+                                                        ) : (
+                                                            post.status
+                                                        )}
                                                     </td>
                                                     <td className="px-3 py-2 text-nowrap">
                                                         <i className="ri-eye-fill">

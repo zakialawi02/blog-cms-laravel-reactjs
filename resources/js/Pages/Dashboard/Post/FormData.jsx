@@ -9,6 +9,8 @@ import DashboardLayout from "@/Layouts/DashboardLayout";
 import { Head, useForm } from "@inertiajs/react";
 import debounce from "lodash.debounce";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { WithContext as ReactTags, KEYS } from "react-tag-input";
+import "../../../../css/articlePost.css";
 
 const FormData = ({
     auth,
@@ -16,7 +18,7 @@ const FormData = ({
     postData = null,
     articleTags = null,
     categories,
-    tags,
+    tagsList,
 }) => {
     const [isFormChanged, setIsFormChanged] = useState(false);
     usePreventNavigation(isFormChanged);
@@ -24,6 +26,7 @@ const FormData = ({
     const [editSlug, setEditSlug] = useState(false);
     const [fillSlug, setFillSlug] = useState(postData ? false : true);
 
+    const [tags, setTags] = useState([]);
     const { data, setData, errors, post, put, processing } = useForm({
         title: postData?.title ?? "",
         slug: postData?.slug ?? "",
@@ -34,7 +37,34 @@ const FormData = ({
         published_at: postData?.published_at ?? "",
         user_id: postData?.user_id ?? auth.user.id,
     });
-    console.log(data);
+
+    const suggestions = tagsList.map((tag) => {
+        return {
+            id: tag.tag_name,
+            text: tag.tag_name,
+        };
+    });
+
+    // Method to delete tag from Array
+    const handleDelete = (i) => {
+        setTags(tags.filter((tag, index) => index !== i));
+        setData(
+            "tags",
+            tags.filter((tag, index) => index !== i)
+        );
+    };
+
+    // Method to Add tag into Array
+    const handleAddition = (tag) => {
+        setTags([...tags, tag]);
+        setData("tags", [...tags, tag]);
+    };
+
+    const onTagUpdate = (index, newTag) => {
+        const updatedTags = [...tags];
+        updatedTags.splice(index, 1, newTag);
+        setTags(updatedTags);
+    };
 
     const inputSlug = (e) => {
         setEditSlug(!editSlug);
@@ -78,8 +108,6 @@ const FormData = ({
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
-        console.log(data);
 
         if (e.target.name === "unpublished") {
             if (isUpdate.current) {
@@ -126,13 +154,13 @@ const FormData = ({
             const minutes = String(date.getMinutes()).padStart(2, "0");
             return `${year}-${month}-${day}T${hours}:${minutes}`;
         };
-        if (data.published_at == null) {
+        if (data.published_at == "") {
             setData("published_at", getCurrentDateTime());
         } else {
             const formattedDate = formatDateForInput(data.published_at);
             setData("published_at", formattedDate);
         }
-    }, []);
+    }, [data.published_at]);
 
     return (
         <>
@@ -233,22 +261,27 @@ const FormData = ({
                                     className="mb-3"
                                 />
                             </div>
-                            <div className="mb-3">
+
+                            <div id="tags" className="mb-3">
                                 <InputLabel
                                     htmlFor="tags"
                                     value="Tags"
                                     className="mb-2"
                                 />
-                                <select
-                                    multiple
-                                    className="w-full border-gray-300 rounded-md shadow-sm focus:border-backend-primary focus:ring-backend-primary"
-                                >
-                                    {tags.map((tag, index) => (
-                                        <option key={index} value={tag.id}>
-                                            {tag.tag_name}
-                                        </option>
-                                    ))}
-                                </select>
+                                <ReactTags
+                                    inline={false}
+                                    tags={tags}
+                                    delimiters={[KEYS.TAB, KEYS.COMMA]}
+                                    suggestions={suggestions}
+                                    placeholder="Add tags. Press comma to add."
+                                    onTagUpdate={onTagUpdate}
+                                    handleDelete={handleDelete}
+                                    handleAddition={handleAddition}
+                                    inputFieldPosition="bottom"
+                                    autocomplete
+                                    allowDragDrop={false}
+                                    maxTags={10}
+                                />
                                 <InputError
                                     message={errors.tags}
                                     className="mb-3"

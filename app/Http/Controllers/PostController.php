@@ -89,7 +89,7 @@ class PostController extends Controller
         return Inertia::render('Dashboard/Post/FormData', [
             "meta" => $data,
             "categories" => $categories,
-            "tags" => $tags
+            "tagsList" => $tags,
         ]);
     }
 
@@ -182,15 +182,22 @@ class PostController extends Controller
         $data = [
             'title' => 'Edit Post',
         ];
+
         $categories = Category::all();
-        $articleTags = $post->tags->pluck('tag_name')->toArray();
+        $articleTags = $post->tags->map(function ($tag) {
+            return [
+                'id' => $tag->id,
+                'tag' => $tag->tag_name,
+            ];
+        })->toArray();
         $tags = Tag::all();
+
 
         return Inertia::render('Dashboard/Post/FormData', [
             "meta" => $data,
             "postData" => $post,
             "categories" => $categories,
-            "tags" => $tags,
+            "tagsList" => $tags,
             "articleTags" => $articleTags
         ]);
     }
