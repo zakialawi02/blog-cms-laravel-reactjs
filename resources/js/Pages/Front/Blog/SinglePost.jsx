@@ -135,10 +135,12 @@ const SinglePost = ({ article }) => {
                                         className="text-frontend-dark hover:text-frontend-accent breadcrumb-next"
                                         href={route(
                                             "article.category",
-                                            article.category.slug
+                                            article?.category?.slug ||
+                                                "uncategorized"
                                         )}
                                     >
-                                        {article.category.category}
+                                        {article?.category?.category ||
+                                            "Uncategorized"}
                                     </Link>
                                 </li>
                                 <li className="">

@@ -1,5 +1,5 @@
 import { Link } from "@inertiajs/react";
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const Dropdown = ({ options = [], label }) => {
     const [isOpen, setIsOpen] = useState(false);

@@ -6,40 +6,56 @@ import InputLabel from "@/Components/Element/Input/InputLabel";
 import InputError from "@/Components/Element/Input/InputError";
 import ButtonBE from "@/Components/Element/Button/ButtonBE";
 import usePreventNavigation from "@/Hook/usePreventNavigation";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
+import debounce from "lodash.debounce";
 
 const Create = ({ auth, tag = null, meta }) => {
     const [isFormChanged, setIsFormChanged] = useState(false);
     usePreventNavigation(isFormChanged);
     const isUpdate = useRef(tag ? true : false);
+    const [editSlug, setEditSlug] = useState(false);
+    const [fillSlug, setFillSlug] = useState(tag ? false : true);
 
     const { data, setData, errors, post, put, processing } = useForm({
         tag_name: tag?.tag_name ?? "",
         slug: tag?.slug ?? "",
     });
 
-    const generateSlug = async (tag_nameName) => {
-        try {
-            const response = await axios.post(
-                route("admin.tags.generateSlug"),
-                {
-                    tag_name: tag_nameName,
-                }
-            );
-
-            setData("slug", response.data.slug);
-        } catch (error) {
-            console.error("Error generating slug", error);
+    const inputSlug = (e) => {
+        setEditSlug(!editSlug);
+        if (fillSlug) {
+            setFillSlug(!fillSlug);
         }
     };
 
-    useEffect(() => {
-        if (data.tag_name) {
-            generateSlug(data.tag_name);
-            console.log(data.tag_name);
-            console.log(data.slug);
+    const fetchSlug = useCallback(
+        debounce(async (text) => {
+            try {
+                const response = await axios.post(
+                    route("admin.tags.generateSlug"),
+                    {
+                        tag_name: text,
+                    }
+                );
+                setData((prevState) => ({
+                    ...prevState,
+                    slug: response.data.slug,
+                }));
+            } catch (error) {
+                console.error("Error generating slug", error);
+            }
+        }, 500),
+        []
+    );
+
+    const changeToSlug = (e) => {
+        const tagName = e.target.value;
+        setData("tag_name", tagName);
+
+        if (fillSlug) {
+            fetchSlug(tagName);
         }
-    }, [data.tag_name]);
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -69,9 +85,7 @@ const Create = ({ auth, tag = null, meta }) => {
                                 className="w-full"
                                 isFocused={true}
                                 value={data.tag_name}
-                                onChange={(e) =>
-                                    setData("tag_name", e.target.value)
-                                }
+                                onChange={changeToSlug}
                             />
                             <InputError
                                 message={errors.tag_name}
@@ -79,21 +93,40 @@ const Create = ({ auth, tag = null, meta }) => {
                             />
                         </div>
 
-                        <div className="mb-3">
+                        <div className="relative mb-4">
                             <InputLabel
                                 htmlFor="slug"
                                 value="Tag Slug / url"
                                 className="mb-2"
                             />
-                            <TextInput
+                            <div className="absolute right-0 flex items-center">
+                                <button
+                                    type="button"
+                                    className="rounded-r-md z-10 bg-backend-neutral border border-l-0 border-gray-300 px-3.5 py-2  shadow-sm ring-1 ring-inset hover:bg-gray-50"
+                                    onClick={(e) => inputSlug(e)}
+                                >
+                                    {editSlug ? (
+                                        <i className="ri-close-line"></i>
+                                    ) : (
+                                        <i className="ri-pencil-line"></i>
+                                    )}
+                                </button>
+                            </div>
+                            <input
                                 type="text"
                                 id="slug"
-                                className="w-full"
+                                typeof="text"
+                                className="block w-full rounded-md border-0 px-3.5 py-2   shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-backend-primary sm:text-sm sm:leading-6 disabled:cursor-not-allowed disabled:opacity-50"
                                 value={data.slug}
+                                disabled={!editSlug}
                                 onChange={(e) =>
-                                    setData("slug", e.target.value)
+                                    setData((prevState) => ({
+                                        ...prevState,
+                                        slug: e.target.value,
+                                    }))
                                 }
                             />
+
                             <InputError
                                 message={errors.slug}
                                 className="mb-3"

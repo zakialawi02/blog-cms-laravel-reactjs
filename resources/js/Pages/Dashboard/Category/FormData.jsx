@@ -6,7 +6,8 @@ import InputLabel from "@/Components/Element/Input/InputLabel";
 import InputError from "@/Components/Element/Input/InputError";
 import ButtonBE from "@/Components/Element/Button/ButtonBE";
 import usePreventNavigation from "@/Hook/usePreventNavigation";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
+import debounce from "lodash.debounce";
 
 const Create = ({ auth, category = null, meta }) => {
     const [isFormChanged, setIsFormChanged] = useState(false);
@@ -27,28 +28,34 @@ const Create = ({ auth, category = null, meta }) => {
         }
     };
 
-    const generateSlug = async (categoryName) => {
-        if (fillSlug) {
+    const fetchSlug = useCallback(
+        debounce(async (text) => {
             try {
                 const response = await axios.post(
                     route("admin.categories.generateSlug"),
                     {
-                        category: categoryName,
+                        category: text,
                     }
                 );
-
-                setData("slug", response.data.slug);
+                setData((prevState) => ({
+                    ...prevState,
+                    slug: response.data.slug,
+                }));
             } catch (error) {
                 console.error("Error generating slug", error);
             }
+        }, 500),
+        []
+    );
+
+    const changeToSlug = (e) => {
+        const categoryName = e.target.value;
+        setData("category", categoryName);
+
+        if (fillSlug) {
+            fetchSlug(categoryName);
         }
     };
-
-    useEffect(() => {
-        if (data.category) {
-            generateSlug(data.category);
-        }
-    }, [data.category]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -78,9 +85,7 @@ const Create = ({ auth, category = null, meta }) => {
                                 className="w-full"
                                 isFocused={true}
                                 value={data.category}
-                                onChange={(e) =>
-                                    setData("category", e.target.value)
-                                }
+                                onChange={changeToSlug}
                             />
                             <InputError
                                 message={errors.category}
@@ -115,7 +120,10 @@ const Create = ({ auth, category = null, meta }) => {
                                 value={data.slug}
                                 disabled={!editSlug}
                                 onChange={(e) =>
-                                    setData("slug", e.target.value)
+                                    setData((prevState) => ({
+                                        ...prevState,
+                                        slug: e.target.value,
+                                    }))
                                 }
                             />
 

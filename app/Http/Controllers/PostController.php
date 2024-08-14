@@ -7,8 +7,11 @@ use App\Models\User;
 use Inertia\Inertia;
 use App\Models\Article;
 use App\Models\Category;
+use App\Models\ArticlesTag;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Http\Requests\ArticleRequest;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -106,9 +109,57 @@ class PostController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ArticleRequest $request)
     {
-        //
+        $data = $request->validated();
+
+        if ($request->query('status') == "published") {
+            $data['status'] = 'published';
+            if (empty($request->published_at)) {
+                $data['published_at'] = now();
+            }
+        } elseif ($request->query('status') == "unpublished") {
+            $data['status'] = 'draft';
+            $data['published_at'] = null;
+        }
+
+        if ($request->hasFile('cover')) {
+            $user = auth()->user()->username ?? "shared";
+            $file = $request->file('cover');
+            $filename = time() . '_' . Str::random(20) . '.' . $file->getClientOriginalExtension();
+            $file->storeAs('public/drive/' . $user . '/img', $filename);
+            $path = asset('storage/drive/' . $user . '/img/' . $filename);
+            $data['cover'] = $filename;
+        }
+
+        $article = Article::create($data);
+
+        if (request()->has('tags')) {
+            $tags = [];
+            foreach ($data['tags'] as $tagName) {
+                $tag = Tag::where('tag_name', $tagName)->first();
+                if (!$tag) {
+                    echo "Tag not found";
+                    $createTag = Tag::create([
+                        'tag_name' => ucwords($tagName),
+                        'slug' => Str::slug($tagName),
+                    ]);
+                    $tags[] = $createTag->id;
+                } else {
+                    $tags[] = $tag->id;
+                }
+            }
+            $data['tags'] = $tags;
+
+            foreach ($data['tags'] as $key => $tagId) {
+                ArticlesTag::create([
+                    'article_id' => $article->id,
+                    'tag_id' => $tagId
+                ]);
+            }
+        }
+
+        return redirect()->route('admin.posts.index')->with('success', 'Post created successfully');
     }
 
     /**
@@ -139,23 +190,91 @@ class PostController extends Controller
             "meta" => $data,
             "postData" => $post,
             "categories" => $categories,
-            "tags" => $tags
+            "tags" => $tags,
+            "articleTags" => $articleTags
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Article $article)
+    public function update(ArticleRequest $request, Article $post)
     {
-        //
+        if (auth()->user()->role !== 'admin' && auth()->id() !== $post->user_id) {
+            abort(403);
+        }
+
+        $data = $request->validated();
+
+        if ($request->query('status') == "published") {
+
+            $data['status'] = 'published';
+            if (empty($request->published_at)) {
+                $data['published_at'] = now();
+            }
+        } elseif ($request->query('status') == "unpublished") {
+            $data['status'] = 'draft';
+            $data['published_at'] = null;
+        }
+
+        if ($request->hasFile('cover')) {
+            $user = $post->user->username ?? "shared";
+            if ($post->cover) {
+                Storage::delete('public/drive/' . $user . '/img/' . $post->cover);
+            }
+            $file = $request->file('cover');
+            $filename = time() . '_' . Str::random(20) . '.' . $file->getClientOriginalExtension();
+            $file->storeAs('public/drive/' . $user . '/img', $filename);
+            $path = asset('storage/drive/' . $user . '/img/' . $filename);
+            $data['cover'] = $filename;
+        } else {
+            $data['cover'] = $post->cover;
+        }
+
+        $post->update($data);
+
+        ArticlesTag::where('article_id', $post->id)->delete();
+        if (request()->has('tags')) {
+            $tags = [];
+            foreach ($data['tags'] as $tagName) {
+                $tag = Tag::where('tag_name', $tagName)->first();
+                if (!$tag) {
+                    echo "Tag not found";
+                    $createTag = Tag::create([
+                        'tag_name' => ucwords($tagName),
+                        'slug' => Str::slug($tagName),
+                    ]);
+                    $tags[] = $createTag->id;
+                } else {
+                    $tags[] = $tag->id;
+                }
+            }
+            $data['tags'] = $tags;
+
+            foreach ($data['tags'] as $key => $tagId) {
+                ArticlesTag::create([
+                    'article_id' => $post->id,
+                    'tag_id' => $tagId
+                ]);
+            }
+        }
+
+        return redirect()->route('admin.posts.index')->with('success', 'Post updated successfully');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Article $article)
+
+    public function destroy(Article $post)
     {
-        //
+        if (auth()->user()->role !== 'admin' && auth()->id() !== $post->user_id) {
+            abort(403);
+        }
+
+        $user = $post->user->username ?? "shared";
+        if ($post->cover) {
+            Storage::delete('public/drive/' . $user . '/img/' . $post->cover);
+        }
+        Article::where('slug', $post->slug)->delete();
+
+        return redirect()->back()->with('success', 'Post deleted successfully');
     }
 }

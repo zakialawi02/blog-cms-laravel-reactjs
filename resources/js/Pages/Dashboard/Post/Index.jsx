@@ -54,6 +54,12 @@ const Index = ({
         router.get(route("admin.posts.index"), queryParams);
     };
 
+    const handleDeletePost = (post) => {
+        if (confirm("Are you sure you want to delete this post?")) {
+            router.delete(route("admin.posts.destroy", post));
+        }
+    };
+
     return (
         <>
             <Head title={meta.title}></Head>
@@ -267,7 +273,9 @@ const Index = ({
                                                         {post.title}
                                                     </td>
                                                     <td className="px-3 py-2">
-                                                        {post.category.category}
+                                                        {post?.category
+                                                            ?.category ||
+                                                            "uncategory"}
                                                     </td>
                                                     <td className="px-3 py-2">
                                                         {post.tags.map(
@@ -282,17 +290,25 @@ const Index = ({
                                                         )}
                                                     </td>
                                                     <td className="px-3 py-2 w-28">
-                                                        {post.status} <br />
-                                                        {new Date(
-                                                            post.published_at
-                                                        ).toLocaleDateString(
-                                                            "en-US",
-                                                            {
-                                                                day: "numeric",
-                                                                month: "short",
-                                                                year: "numeric",
-                                                            }
-                                                        )}
+                                                        {post.status ===
+                                                        "published"
+                                                            ? (new Date(
+                                                                  post.published_at
+                                                              ) < new Date()
+                                                                  ? "Published<br>"
+                                                                  : "Scheduled<br>") +
+                                                              Intl.DateTimeFormat(
+                                                                  "id-ID",
+                                                                  {
+                                                                      dateStyle:
+                                                                          "medium",
+                                                                  }
+                                                              ).format(
+                                                                  new Date(
+                                                                      post.published_at
+                                                                  )
+                                                              )
+                                                            : post.status}
                                                     </td>
                                                     <td className="px-3 py-2 text-nowrap">
                                                         <i className="ri-eye-fill">
@@ -316,21 +332,24 @@ const Index = ({
                                                         )}
                                                     </td>
                                                     <td className="text-nowrap">
-                                                        <a
-                                                            href={route(
-                                                                "article.show",
-                                                                {
-                                                                    year: post.published_at.substring(
-                                                                        0,
-                                                                        4
-                                                                    ),
-                                                                    slug: post.slug,
-                                                                }
-                                                            )}
-                                                            className="w-8 p-2 ml-1 font-medium rounded-md hover:bg-opacity-70 text-backend-light bg-backend-muted"
-                                                        >
-                                                            <i className="ri-computer-fill"></i>
-                                                        </a>
+                                                        {post.published_at && (
+                                                            <a
+                                                                href={route(
+                                                                    "article.show",
+                                                                    {
+                                                                        year: post.published_at.substring(
+                                                                            0,
+                                                                            4
+                                                                        ),
+                                                                        slug: post.slug,
+                                                                    }
+                                                                )}
+                                                                className="w-8 p-2 ml-1 font-medium rounded-md hover:bg-opacity-70 text-backend-light bg-backend-muted"
+                                                            >
+                                                                <i className="ri-computer-fill"></i>
+                                                            </a>
+                                                        )}
+
                                                         <Link
                                                             href={route(
                                                                 "admin.posts.edit",
@@ -343,7 +362,7 @@ const Index = ({
                                                         </Link>
                                                         <button
                                                             onClick={(e) =>
-                                                                deleteProject(
+                                                                handleDeletePost(
                                                                     post
                                                                 )
                                                             }

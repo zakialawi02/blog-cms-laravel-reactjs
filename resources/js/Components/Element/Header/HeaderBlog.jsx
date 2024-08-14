@@ -60,7 +60,7 @@ const HeaderBlog = () => {
                     <nav
                         id="nav-menu"
                         className={`${
-                            isNavOpen ? "block shadow-lg" : "hidden"
+                            isNavOpen ? "flex shadow-lg" : "hidden"
                         } md:flex absolute items-start md:items-center left-0 right-0  flex-col p-3 text-[1.1rem] md:w-[50rem] md:flex-wrap lg:w-full md:justify-end font-semibold md:relative top-20 md:flex-row md:opacity-100 md:top-0 md:p-0 text-frontend-dark uppercase bg-frontend-base-100 md:bg-transparent z-10`}
                     >
                         <Link

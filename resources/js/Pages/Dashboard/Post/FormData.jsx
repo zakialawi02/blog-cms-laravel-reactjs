@@ -3,12 +3,21 @@ import Card from "@/Components/Element/Card/Card";
 import InputError from "@/Components/Element/Input/InputError";
 import InputLabel from "@/Components/Element/Input/InputLabel";
 import TextInput from "@/Components/Element/Input/TextInput";
+import ArticlePost from "@/Components/Element/WYSWYG/articlePost";
 import usePreventNavigation from "@/Hook/usePreventNavigation";
 import DashboardLayout from "@/Layouts/DashboardLayout";
 import { Head, useForm } from "@inertiajs/react";
-import { useEffect, useRef, useState } from "react";
+import debounce from "lodash.debounce";
+import { useCallback, useEffect, useRef, useState } from "react";
 
-const FormData = ({ auth, meta, postData = null, categories, tags }) => {
+const FormData = ({
+    auth,
+    meta,
+    postData = null,
+    articleTags = null,
+    categories,
+    tags,
+}) => {
     const [isFormChanged, setIsFormChanged] = useState(false);
     usePreventNavigation(isFormChanged);
     const isUpdate = useRef(postData ? true : false);
@@ -21,9 +30,11 @@ const FormData = ({ auth, meta, postData = null, categories, tags }) => {
         excerpt: postData?.excerpt ?? "",
         content: postData?.content ?? "",
         category_id: postData?.category_id ?? "",
-        tags: postData?.tags ?? [],
-        published_at: postData?.published_at ?? null,
+        tags: articleTags ?? [],
+        published_at: postData?.published_at ?? "",
+        user_id: postData?.user_id ?? auth.user.id,
     });
+    console.log(data);
 
     const inputSlug = (e) => {
         setEditSlug(!editSlug);
@@ -32,45 +43,96 @@ const FormData = ({ auth, meta, postData = null, categories, tags }) => {
         }
     };
 
-    const generateSlug = async (titleName) => {
-        if (fillSlug) {
+    const fetchSlug = useCallback(
+        debounce(async (text) => {
             try {
                 const response = await axios.post(
                     route("admin.posts.generateSlug"),
                     {
-                        data: titleName,
+                        data: text,
                     }
                 );
-
-                setData("slug", response.data.slug);
+                setData((prevState) => ({
+                    ...prevState,
+                    slug: response.data.slug,
+                }));
             } catch (error) {
                 console.error("Error generating slug", error);
+            }
+        }, 500),
+        []
+    );
+
+    const changeToSlug = (e) => {
+        const title = e.target.value;
+        setData("title", title);
+
+        if (fillSlug) {
+            fetchSlug(title);
+        }
+    };
+
+    const handleChangeContent = (content) => {
+        setData("content", content);
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        console.log(data);
+
+        if (e.target.name === "unpublished") {
+            if (isUpdate.current) {
+                put(
+                    route(
+                        "admin.posts.update",
+                        postData.slug + "?status=unpublished"
+                    )
+                );
+            } else {
+                post(route("admin.posts.store", { status: "unpublished" }));
+            }
+        } else {
+            if (isUpdate.current) {
+                put(
+                    route(
+                        "admin.posts.update",
+                        postData.slug + "?status=published"
+                    )
+                );
+            } else {
+                post(route("admin.posts.store", { status: "published" }));
             }
         }
     };
 
     useEffect(() => {
-        if (data.title) {
-            generateSlug(data.title);
-        }
-    }, [data.title]);
+        const getCurrentDateTime = () => {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, "0"); // Bulan dimulai dari 0
+            const day = String(now.getDate()).padStart(2, "0");
+            const hours = String(now.getHours()).padStart(2, "0");
+            const minutes = String(now.getMinutes()).padStart(2, "0");
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        if (e.target.name === "unpublished") {
-            if (isUpdate.current) {
-                put(route("admin.posts.update", postData.slug));
-            } else {
-                post(route("admin.posts.store"));
-            }
+            return `${year}-${month}-${day}T${hours}:${minutes}`;
+        };
+        const formatDateForInput = (dateString) => {
+            const date = new Date(dateString);
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, "0");
+            const day = String(date.getDate()).padStart(2, "0");
+            const hours = String(date.getHours()).padStart(2, "0");
+            const minutes = String(date.getMinutes()).padStart(2, "0");
+            return `${year}-${month}-${day}T${hours}:${minutes}`;
+        };
+        if (data.published_at == null) {
+            setData("published_at", getCurrentDateTime());
         } else {
-            if (isUpdate.current) {
-                put(route("admin.posts.update", postData.slug));
-            } else {
-                post(route("admin.posts.store"));
-            }
+            const formattedDate = formatDateForInput(data.published_at);
+            setData("published_at", formattedDate);
         }
-    };
+    }, []);
 
     return (
         <>
@@ -80,7 +142,8 @@ const FormData = ({ auth, meta, postData = null, categories, tags }) => {
                 <form>
                     <div className="flex justify-end gap-2 mb-3">
                         <ButtonBE
-                            name="submit"
+                            type="submit"
+                            name="published"
                             disabled={processing}
                             onClick={handleSubmit}
                         >
@@ -89,6 +152,7 @@ const FormData = ({ auth, meta, postData = null, categories, tags }) => {
                                 : "Save and Publish"}
                         </ButtonBE>
                         <ButtonBE
+                            type="submit"
                             name="unpublished"
                             disabled={processing}
                             color="bg-backend-muted"
@@ -112,9 +176,7 @@ const FormData = ({ auth, meta, postData = null, categories, tags }) => {
                                     className="w-full"
                                     isFocused={true}
                                     value={data.title}
-                                    onChange={(e) =>
-                                        setData("title", e.target.value)
-                                    }
+                                    onChange={changeToSlug}
                                 />
                                 <InputError
                                     message={errors.title}
@@ -223,7 +285,10 @@ const FormData = ({ auth, meta, postData = null, categories, tags }) => {
                                         value={data.slug}
                                         disabled={!editSlug}
                                         onChange={(e) =>
-                                            setData("slug", e.target.value)
+                                            setData((prevState) => ({
+                                                ...prevState,
+                                                slug: e.target.value,
+                                            }))
                                         }
                                     />
                                 </div>
@@ -243,14 +308,9 @@ const FormData = ({ auth, meta, postData = null, categories, tags }) => {
                                     className="w-full border-gray-300 rounded-md shadow-sm focus:border-backend-primary focus:ring-backend-primary"
                                     id="published_at"
                                     name="published_at"
-                                    value={
-                                        data.published_at
-                                            ? new Date(
-                                                  data.published_at.toString()
-                                              )
-                                                  .toISOString()
-                                                  .substring(0, 16)
-                                            : ""
+                                    value={data.published_at}
+                                    onChange={(e) =>
+                                        setData("published_at", e.target.value)
                                     }
                                 />
                                 <InputError
@@ -270,9 +330,16 @@ const FormData = ({ auth, meta, postData = null, categories, tags }) => {
                                     className="w-full border-gray-300 rounded-md shadow-sm focus:border-backend-primary focus:ring-backend-primary"
                                     id="user_id"
                                     name="user_id"
+                                    value={data.user_id}
+                                    onChange={(e) =>
+                                        setData("user_id", e.target.value)
+                                    }
                                 >
                                     <option value="">
                                         -- Select Author --
+                                    </option>
+                                    <option value={auth.user.id}>
+                                        {auth.user.username}
                                     </option>
                                     {/* {users.map((user, index) => (
                                         <option key={index} value={user.id}>
@@ -338,15 +405,10 @@ const FormData = ({ auth, meta, postData = null, categories, tags }) => {
 
                     <Card className="">
                         <InputLabel value="Content" className="mb-2" />
-                        <textarea
-                            className="w-full border-gray-300 rounded-md shadow-sm focus:border-backend-primary focus:ring-backend-primary"
-                            id="content"
-                            name="content"
-                            rows="10"
-                            value={data.content}
-                        >
-                            {data.content}
-                        </textarea>
+                        <ArticlePost
+                            data={data.content}
+                            onChange={handleChangeContent}
+                        />
                     </Card>
                 </form>
             </DashboardLayout>

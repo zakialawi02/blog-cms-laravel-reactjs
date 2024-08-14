@@ -23,10 +23,13 @@
         "vite": "^4.0.0"
     },
     "dependencies": {
+        "@ckeditor/ckeditor5-react": "^9.0.0",
         "@highcharts/map-collection": "^2.3.0",
         "@tailwindcss/container-queries": "^0.1.1",
+        "ckeditor5": "^43.0.0",
         "highcharts": "^11.4.6",
         "highcharts-react-official": "^3.2.1",
+        "lodash.debounce": "^4.0.8",
         "prismjs": "^1.29.0",
         "remixicon": "^4.3.0"
     }
