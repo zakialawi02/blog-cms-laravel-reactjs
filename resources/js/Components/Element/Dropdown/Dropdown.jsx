@@ -27,7 +27,7 @@ const Dropdown = ({ options = [], label }) => {
         <div className="relative group" ref={dropdownRef}>
             <button
                 onClick={toggleDropdown}
-                className="p-2 duration-300 cursor-pointer hover:text-frontend-accent"
+                className="p-2 duration-300 cursor-pointer uppercase hover:text-frontend-accent"
             >
                 {label}
             </button>

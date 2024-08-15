@@ -2,8 +2,12 @@ import { Link, useForm } from "@inertiajs/react";
 import FooterMenu from "../Element/Footer/FooterMenu";
 import InputError from "../Element/Input/InputError";
 import axios from "axios";
+import { useEffect, useState } from "react";
+import SkeletonOneLine from "../Element/Skeleton/SkeletonOneLine";
 
 const Footer = () => {
+    const [loadingMenu, setLoadingMenu] = useState(true);
+    const [navItemData, setNavItemData] = useState([]);
     const { data, setData, errors, setError, clearErrors, reset } = useForm({
         email: "",
     });
@@ -24,6 +28,20 @@ const Footer = () => {
                 setError("email", error.response.data.message);
             });
     };
+
+    useEffect(() => {
+        axios
+            .get(route("navItemFooterData"))
+            .then((res) => {
+                setNavItemData(res.data);
+                setLoadingMenu(false);
+            })
+            .catch((error) => {
+                console.log(error);
+                setNavItemData([]);
+                setLoadingMenu(false);
+            });
+    }, []);
 
     return (
         <>
@@ -84,47 +102,53 @@ const Footer = () => {
                                 </div>
 
                                 <FooterMenu>
-                                    <h5 className="text-2xl font-bold ">
-                                        About
-                                    </h5>
-                                    <FooterMenu.MenuBody>
-                                        <FooterMenu.MenuItem
-                                            url="#"
-                                            children="About Us"
-                                        />
-                                        <FooterMenu.MenuItem
-                                            url="#"
-                                            children="Contact Us"
-                                        />
-                                        <FooterMenu.MenuItem
-                                            url="#"
-                                            children="Privacy Policy"
-                                        />
-                                        <FooterMenu.MenuItem
-                                            url="#"
-                                            children="Terms & Conditions"
-                                        />
-                                    </FooterMenu.MenuBody>
+                                    {loadingMenu && (
+                                        <SkeletonOneLine height={48} />
+                                    )}
+
+                                    {!loadingMenu && navItemData > 0 && (
+                                        <>
+                                            <h5 className="text-2xl font-bold ">
+                                                About
+                                            </h5>
+                                            <FooterMenu.MenuBody>
+                                                {navItemData.footer_a.map(
+                                                    (item, index) => (
+                                                        <FooterMenu.MenuItem
+                                                            key={index}
+                                                            url={item.url}
+                                                            children={item.name}
+                                                        />
+                                                    )
+                                                )}
+                                            </FooterMenu.MenuBody>
+                                        </>
+                                    )}
                                 </FooterMenu>
 
                                 <FooterMenu>
-                                    <h5 className="text-2xl font-bold ">
-                                        Blog
-                                    </h5>
-                                    <FooterMenu.MenuBody>
-                                        <FooterMenu.MenuItem
-                                            url="#"
-                                            children="Menu 1"
-                                        />
-                                        <FooterMenu.MenuItem
-                                            url="#"
-                                            children="Menu 2"
-                                        />
-                                        <FooterMenu.MenuItem
-                                            url="#"
-                                            children="Menu 3"
-                                        />
-                                    </FooterMenu.MenuBody>
+                                    {loadingMenu && (
+                                        <SkeletonOneLine height={48} />
+                                    )}
+
+                                    {!loadingMenu && navItemData > 0 && (
+                                        <>
+                                            <h5 className="text-2xl font-bold ">
+                                                Blog
+                                            </h5>
+                                            <FooterMenu.MenuBody>
+                                                {navItemData.footer_b.map(
+                                                    (item, index) => (
+                                                        <FooterMenu.MenuItem
+                                                            key={index}
+                                                            url={item.url}
+                                                            children={item.name}
+                                                        />
+                                                    )
+                                                )}
+                                            </FooterMenu.MenuBody>
+                                        </>
+                                    )}
                                 </FooterMenu>
 
                                 <div className="md:col-span-2">

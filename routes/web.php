@@ -10,6 +10,7 @@ use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CommentsController;
+use App\Http\Controllers\MenuItemController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\ArticleViewController;
@@ -42,6 +43,8 @@ Route::prefix('dashboard')->as('admin.')->group(function () {
 
         Route::resource('users', UserController::class)->except('create', 'edit');
         Route::get('/user/{user:id}', [UserController::class, 'getUser'])->name('getUser');
+
+        Route::resource('menus-item', MenuItemController::class)->only('index', 'store', 'destroy');
     });
 
 
@@ -113,6 +116,9 @@ Route::get('/blog/{year}/{slug}', [ArticleController::class, 'show'])->name('art
 
 Route::post('/show-comment/{post:slug}', [CommentsController::class, 'getComment'])->name('getComment');
 
+
+Route::get('/navItemFooterData', [MenuItemController::class, 'getMenuFooter'])->name('navItemFooterData');
+Route::get('/navItemHeaderData', [MenuItemController::class, 'getMenuHeader'])->name('navItemHeaderData');
 
 Route::middleware(['auth', 'verified', 'role:admin,writer'])->group(function () {
     Route::get('/blog/{year}/{slug}/preview', [ArticleController::class, 'showPreview'])->name('article.showPreview');

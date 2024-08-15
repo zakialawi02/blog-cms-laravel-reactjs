@@ -139,6 +139,18 @@ const SidebarAdmin = ({ show, toggleSidebar }) => {
                                 />
 
                                 <NavMenu
+                                    icon="ri-menu-2-line"
+                                    text="Menus Item"
+                                    to="/dashboard/menus-item"
+                                />
+
+                                <NavMenu
+                                    icon="ri-chat-heart-line"
+                                    text="Pesan"
+                                    to="/dashboard/pesan"
+                                />
+
+                                <NavMenu
                                     icon="ri-news-line"
                                     text="Newsletter"
                                     to="/dashboard/newsletter"
