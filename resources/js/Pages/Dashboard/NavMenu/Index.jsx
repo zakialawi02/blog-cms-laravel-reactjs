@@ -162,7 +162,7 @@ const Index = ({ auth, meta, menuLinks }) => {
                                         }
                                     >
                                         <option value="">None</option>
-                                        {menuLinks.length != [] && (
+                                        {menuLinks?.header?.length != [] && (
                                             <>
                                                 {menuLinks.header.map(
                                                     (item, index) => (
@@ -201,9 +201,7 @@ const Index = ({ auth, meta, menuLinks }) => {
                                 <div className="text-xl my-3">
                                     <h3>Header Nav</h3>
                                 </div>
-                                {menuLinks.length == 0 ? (
-                                    <span>No menu items</span>
-                                ) : (
+                                {menuLinks?.header?.length != 0 ? (
                                     <>
                                         {menuLinks.header.map((item, index) => (
                                             <>
@@ -290,6 +288,8 @@ const Index = ({ auth, meta, menuLinks }) => {
                                             </>
                                         ))}
                                     </>
+                                ) : (
+                                    <span>No menu items</span>
                                 )}
                             </div>
 
@@ -297,9 +297,7 @@ const Index = ({ auth, meta, menuLinks }) => {
                                 <div className="text-xl my-3">
                                     <h3>Footer A</h3>
                                 </div>
-                                {menuLinks.length == 0 ? (
-                                    <span>No menu items</span>
-                                ) : (
+                                {menuLinks?.footer_a?.length != 0 ? (
                                     <>
                                         {menuLinks.footer_a.map(
                                             (item, index) => (
@@ -338,6 +336,8 @@ const Index = ({ auth, meta, menuLinks }) => {
                                             )
                                         )}
                                     </>
+                                ) : (
+                                    <span>No menu items</span>
                                 )}
                             </div>
 
@@ -345,9 +345,7 @@ const Index = ({ auth, meta, menuLinks }) => {
                                 <div className="text-xl my-3">
                                     <h3>Footer b</h3>
                                 </div>
-                                {menuLinks.length == 0 ? (
-                                    <span>No menu items</span>
-                                ) : (
+                                {menuLinks?.footer_b?.length != 0 ? (
                                     <>
                                         {menuLinks.footer_b.map(
                                             (item, index) => (
@@ -386,6 +384,8 @@ const Index = ({ auth, meta, menuLinks }) => {
                                             )
                                         )}
                                     </>
+                                ) : (
+                                    <span>No menu items</span>
                                 )}
                             </div>
                         </Card>

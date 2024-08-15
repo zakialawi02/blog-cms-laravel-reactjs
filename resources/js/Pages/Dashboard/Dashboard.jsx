@@ -1,14 +1,65 @@
 import ButtonBE from "@/Components/Element/Button/ButtonBE";
 import Card from "@/Components/Element/Card/Card";
+import TextInput from "@/Components/Element/Input/TextInput";
 import SkeletonCard from "@/Components/Element/Skeleton/SkeletonCard";
+import SkeletonOneLine from "@/Components/Element/Skeleton/SkeletonOneLine";
 import DashboardLayout from "@/Layouts/DashboardLayout";
-import { Link } from "@inertiajs/react";
+import { Link, router } from "@inertiajs/react";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
 const Dashboard = ({ auth }) => {
     const [loading, setLoading] = useState(true);
     const [info, setInfo] = useState([]);
+    const [sendJoin, setSendJoin] = useState(false);
+    const [message, setMessage] = useState(null);
+    const [code, setCode] = useState(null);
+
+    const joinContributors = () => {
+        setSendJoin(true);
+        setCode(null);
+        setMessage(null);
+        axios
+            .post(route("admin.requestsContributors"))
+            .then((response) => {
+                if (response.status === 200 || 201) {
+                    setMessage(response.data.message);
+                    setSendJoin(false);
+                    router.reload();
+                } else {
+                    throw new Error(response);
+                }
+            })
+            .catch((response) => {
+                const message = JSON.parse(response?.request?.response).message;
+                setMessage(message);
+                setSendJoin(false);
+                router.reload();
+            });
+    };
+
+    const confirmCode = () => {
+        setSendJoin(true);
+        setCode(null);
+        setMessage(null);
+        axios
+            .post(route("admin.confirmCodeContributor"), { code: code })
+            .then((response) => {
+                if (response.status === 200 || 201) {
+                    setMessage(response?.data?.message);
+                    setSendJoin(false);
+                    location.reload();
+                } else {
+                    throw new Error(response);
+                }
+            })
+            .catch((response) => {
+                const message = JSON.parse(response?.request?.response).message;
+                setMessage(message);
+                setSendJoin(false);
+                router.reload();
+            });
+    };
 
     useEffect(() => {
         axios
@@ -18,10 +69,9 @@ const Dashboard = ({ auth }) => {
                 setLoading(false);
             })
             .catch((response) => {
-                console.log(response);
                 setInfo([]);
             });
-    }, []);
+    }, [message]);
 
     return (
         <>
@@ -191,41 +241,115 @@ const Dashboard = ({ auth }) => {
                     </div>
                 )}
 
+                <Card className="">
+                    <div className="mb-3">
+                        <h4 className="mb-0 text-2xl">My Comments</h4>
+                    </div>
+                    <p className="mb-4">
+                        Total of my comments : {info?.myComments}
+                    </p>
+                    <Link
+                        preserveState
+                        href="/dashboard/my-comments"
+                        className="text-backend-primary hover:text-backend-secondary"
+                    >
+                        View My Comments More
+                    </Link>
+
+                    {message && (
+                        <p className="text-backend-primary py-2">{message}</p>
+                    )}
+                </Card>
+
                 {auth.user.role == "user" && (
                     <>
-                        <Card className="">
-                            <div className="mb-3">
-                                <h4 className="mb-0 text-2xl">My Comments</h4>
-                            </div>
-                            <p className="mb-4">
-                                Total of my comments : {info?.myComments}
-                            </p>
-                            <Link
-                                preserveState
-                                href="/dashboard/my-comments"
-                                className="text-backend-primary hover:text-backend-secondary"
-                            >
-                                View My Comments More
-                            </Link>
-                        </Card>
+                        {loading && <SkeletonOneLine height={40} />}
 
-                        <Card className="">
-                            <div className="mb-3">
-                                <h4 className="mb-0 text-2xl">
-                                    Become a Contributor
-                                </h4>
-                            </div>
-                            <p>
-                                Want to be a part of our community and
-                                contribute as a writer? Click the button below
-                                to join our team!
-                            </p>
-                            <div className="flex justify-center p-2 my-3">
-                                <ButtonBE className="">
-                                    Join us as a contributor/writer
-                                </ButtonBE>
-                            </div>
-                        </Card>
+                        {!loading && (
+                            <>
+                                {(info.join == null ||
+                                    new Date(info.join.valid_code_until) <
+                                        new Date()) && (
+                                    <Card className="">
+                                        <div className="mb-3">
+                                            <h4 className="mb-0 text-2xl">
+                                                Become a Contributor
+                                            </h4>
+                                        </div>
+                                        <p>
+                                            Want to be a part of our community
+                                            and contribute as a writer? Click
+                                            the button below to join our team!
+                                        </p>
+                                        {message && (
+                                            <p className="text-backend-primary py-2">
+                                                {message}
+                                            </p>
+                                        )}
+                                        <div className="flex justify-center p-2 my-3">
+                                            <ButtonBE
+                                                className=""
+                                                onClick={joinContributors}
+                                                disabled={sendJoin}
+                                            >
+                                                Join us as a contributor/writer
+                                            </ButtonBE>
+                                        </div>
+                                    </Card>
+                                )}
+
+                                {info.join !== null &&
+                                    new Date(info.join.valid_code_until) >
+                                        new Date() && (
+                                        <>
+                                            <Card className="">
+                                                <div className="mb-3 w-[95%] md:w-[80%] mx-auto text-center">
+                                                    <h4 className="mb-0 text-xl">
+                                                        Enter your code to
+                                                        confirm your request to
+                                                        become a contributor
+                                                    </h4>
+                                                    <p class="text-muted">
+                                                        We've sent a code to
+                                                        your mail,{" "}
+                                                        {auth.user.email}
+                                                    </p>
+                                                    {message && (
+                                                        <p className="text-backend-primary py-2">
+                                                            {message}
+                                                        </p>
+                                                    )}
+                                                </div>
+                                                <div className="mb-3 w-[95%] md:w-[80%] mx-auto">
+                                                    <TextInput
+                                                        type="text"
+                                                        id="code"
+                                                        name="code"
+                                                        className="w-full"
+                                                        placeholder="Enter code"
+                                                        value={code}
+                                                        onChange={(e) =>
+                                                            setCode(
+                                                                e.target.value
+                                                            )
+                                                        }
+                                                    />
+                                                </div>
+
+                                                <div className="flex justify-center p-2 my-3">
+                                                    <ButtonBE
+                                                        className=""
+                                                        onClick={confirmCode}
+                                                        disabled={sendJoin}
+                                                    >
+                                                        Confirm
+                                                    </ButtonBE>
+                                                </div>
+                                            </Card>
+                                        </>
+                                    )}
+                            </>
+                        )}
                     </>
                 )}
 

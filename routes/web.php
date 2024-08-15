@@ -97,6 +97,10 @@ Route::prefix('dashboard')->as('admin.')->group(function () {
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
         Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+
+        Route::post('/requests-contributors', [UserController::class, 'joinContributor'])->name('requestsContributors');
+        Route::post('/requests-contributors/confirm', [UserController::class, 'confirmCodeContributor'])->name('confirmCodeContributor');
     });
 });
 

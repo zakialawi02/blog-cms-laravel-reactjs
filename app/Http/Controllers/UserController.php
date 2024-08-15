@@ -6,6 +6,10 @@ use App\Models\User;
 use Inertia\Inertia;
 use App\Models\Article;
 use Illuminate\Http\Request;
+use App\Mail\RequestContributorMail;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Models\RequestContributor as ModelsRequestContributor;
 
 class UserController extends Controller
 {
@@ -137,5 +141,50 @@ class UserController extends Controller
         User::where('id', $user->id)->delete();
 
         return response()->json(['message' => 'User deleted successfully']);
+    }
+
+
+    public function joinContributor()
+    {
+        $user = Auth::user();
+        $email = $user->email;
+        $code = rand(1000, 9999);
+        $contentMail = [
+            'username' => $user->username,
+            'body' => 'You have been requested as contributor',
+            'code' => $code,
+        ];
+
+        $requestContributor = ModelsRequestContributor::firstOrNew([
+            'user_id' => $user->id,
+        ])->fill([
+            'code' => $code,
+            'valid_code_until' => now()->addMinutes(30)->format('Y-m-d H:i:s'),
+            'is_confirmed' => 0
+        ])->save();
+
+        if ($requestContributor) {
+            Mail::to($email)->send(new RequestContributorMail($contentMail));
+
+            return response()->json(['message' => 'Request sent successfully, please check your email'], 200);
+        }
+
+        return response()->json(['message' => 'Request failed'], 500);
+    }
+
+    public function confirmCodeContributor(Request $request)
+    {
+        $code = $request->code;
+        $saved = ModelsRequestContributor::where(['user_id' => Auth::user()->id, 'code' => $code])
+            ->where('valid_code_until', '>', now()->format('Y-m-d H:i:s'))
+            ->update(['is_confirmed' => 1]);
+
+        if ($saved) {
+            User::where('id', Auth::user()->id)->update(['role' => 'writer']);
+
+            return response()->json(['message' => 'Code confirmed successfully. You can now start contributing and can write articles'], 200);
+        }
+
+        return response()->json(['message' => 'Code not match, please try again'], 500);
     }
 }
