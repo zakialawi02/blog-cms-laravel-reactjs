@@ -18,16 +18,41 @@ const Index = ({ articles, featured }) => {
     return (
         <>
             <Head>
-                <title>Blog</title>
-                <meta name="description" content="Blog" />
-                <meta name="keywords" content="blog" />
-
-                <meta property="og:title" content="Blog" />
-                <meta property="og:description" content="Blog" />
+                <title>{`Blog ${
+                    segmentUrl
+                        ? "in Category " + segmentClass.replace("-", " ")
+                        : ""
+                }`}</title>
                 <meta
-                    property="og:image"
-                    content="https://ahmadzaki.me/favicon.png"
+                    name="description"
+                    content={`Blog ${
+                        segmentUrl
+                            ? "in Category " + segmentClass.replace("-", " ")
+                            : ""
+                    } | zakialawi.my.id website`}
                 />
+                <meta
+                    name="keywords"
+                    content="zakialawi, blog, personal, web, developer, laravel, wep programming, webgis, gis, geospatial, surveyor, tutorials, tips, ahmad zaki alawi, geomatika, geomatics, geography"
+                />
+
+                <meta
+                    property="og:title"
+                    content={`Blog ${
+                        segmentUrl
+                            ? "in Category " + segmentClass.replace("-", " ")
+                            : ""
+                    } | zakialawi.my.id website`}
+                />
+                <meta
+                    property="og:description"
+                    content={`Blog ${
+                        segmentUrl
+                            ? "in Category " + segmentClass.replace("-", " ")
+                            : ""
+                    } | zakialawi.my.id website | Discover the latest stories, thoughts and inspiration.`}
+                />
+                <meta property="og:image" content="/favicon.png" />
                 <meta property="og:url" content={window.location.href} />
 
                 <meta name="author" content="Ahmad Zaki Alawi" />
@@ -39,7 +64,7 @@ const Index = ({ articles, featured }) => {
             <GuestLayout>
                 <SearchBlogHero
                     segmentUrl={segmentUrl}
-                    segmentClass={segmentClass}
+                    segmentClass={segmentClass.replace("-", " ")}
                 />
 
                 {hasSearch || hasPage ? (

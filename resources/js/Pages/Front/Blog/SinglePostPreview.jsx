@@ -23,7 +23,10 @@ const SinglePostPreview = ({ article }) => {
             <Head>
                 <title>{article.title}</title>
                 <meta name="description" content={article.excerpt} />
-                <meta name="keywords" content="blong, post" />
+                <meta
+                    name="keywords"
+                    content="zakialawi, blog, post, personal, web, developer, laravel, wep programming, webgis, gis, geospatial, surveyor, tutorials, tips, ahmad zaki alawi, geomatika, geomatics, geography"
+                />
 
                 <meta property="og:type" content="website" />
                 <meta property="og:title" content={article.title} />
@@ -34,13 +37,13 @@ const SinglePostPreview = ({ article }) => {
                 />
                 <meta property="og:url" content={window.location.href} />
 
-                {/* <meta name="author" content="Ahmad Zaki Alawi" /> */}
+                <meta name={article.user.username + ", Ahmad Zaki Alawi"} />
                 <meta
                     name="copyright"
                     content={article.user.username + ", Ahmad Zaki Alawi"}
                 />
-                <meta name="robots" content="noindex, nofollow" />
-                <meta name="googlebot" content="noindex, nofollow" />
+                <meta name="robots" content="index, follow" />
+                <meta name="googlebot" content="index, follow" />
             </Head>
 
             <GuestLayout className="container w-full p-6 md:p-10">

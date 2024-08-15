@@ -6,21 +6,35 @@ import { Head } from "@inertiajs/react";
 const Archive = ({ articles }) => {
     const pathname = window.location.pathname;
     const segments = pathname.split("/").filter((segment) => segment !== "");
+    const parentSegment = segments[1] || "";
     const archiveSegment = segments[2] || "";
 
     return (
         <>
             <Head>
-                <title>Blog</title>
-                <meta name="description" content="Blog" />
-                <meta name="keywords" content="blog" />
-
-                <meta property="og:title" content="Blog" />
-                <meta property="og:description" content="Blog" />
+                <title>{`Post by ${
+                    parentSegment == "user"
+                        ? archiveSegment
+                        : "tag " + archiveSegment
+                }`}</title>
                 <meta
-                    property="og:image"
-                    content="https://ahmadzaki.me/favicon.png"
+                    name="description"
+                    content={`Blog Post by ${parentSegment} ${archiveSegment} | zakialawi.my.id website`}
                 />
+                <meta
+                    name="keywords"
+                    content="zakialawi, blog, personal, web, developer, laravel, wep programming, webgis, gis, geospatial, surveyor, tutorials, tips, ahmad zaki alawi, geomatika, geomatics, geography"
+                />
+
+                <meta
+                    property="og:title"
+                    content="Blog of zakialawi.my.id website"
+                />
+                <meta
+                    property="og:description"
+                    content={`Blog Post by ${parentSegment} ${archiveSegment} | zakialawi.my.id website | Discover the latest stories, thoughts and inspiration.`}
+                />
+                <meta property="og:image" content="/favicon.png" />
                 <meta property="og:url" content={window.location.href} />
 
                 <meta name="author" content="Ahmad Zaki Alawi" />

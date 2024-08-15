@@ -72,7 +72,7 @@ const HeaderBlog = () => {
 
                         <Link
                             className="p-2 duration-300 hover:text-frontend-accent"
-                            href="https://zakialawi.my.id/#about"
+                            href="/"
                         >
                             About
                         </Link>

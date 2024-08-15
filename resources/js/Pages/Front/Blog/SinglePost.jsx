@@ -78,10 +78,16 @@ const SinglePost = ({ article }) => {
             <Head>
                 <title>{article.title}</title>
                 <meta name="description" content={article.excerpt} />
-                <meta name="keywords" content="blong, post" />
+                <meta
+                    name="keywords"
+                    content="zakialawi, blog, post, personal, web, developer, laravel, wep programming, webgis, gis, geospatial, surveyor, tutorials, tips, ahmad zaki alawi, geomatika, geomatics, geography"
+                />
 
                 <meta property="og:type" content="website" />
-                <meta property="og:title" content={article.title} />
+                <meta
+                    property="og:title"
+                    content={`${article.title} | zakialawi.my.id`}
+                />
                 <meta property="og:description" content={article.excerpt} />
                 <meta
                     property="og:image"
@@ -89,7 +95,7 @@ const SinglePost = ({ article }) => {
                 />
                 <meta property="og:url" content={window.location.href} />
 
-                {/* <meta name="author" content="Ahmad Zaki Alawi" /> */}
+                <meta name={article.user.username + ", Ahmad Zaki Alawi"} />
                 <meta
                     name="copyright"
                     content={article.user.username + ", Ahmad Zaki Alawi"}
