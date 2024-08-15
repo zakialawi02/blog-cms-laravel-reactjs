@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from "react";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
-
 import {
     ClassicEditor,
     AccessibilityHelp,
@@ -76,9 +75,11 @@ import {
     TodoList,
     Underline,
     Undo,
+    StandardEditingMode,
 } from "ckeditor5";
-
 import "ckeditor5/ckeditor5.css";
+import CustomUploadAdapterPlugin from "./CustomUploadAdapterPlugin";
+import MathType from "@wiris/mathtype-ckeditor5/dist/index.js";
 
 const ArticlePost = ({ data = null, onChange }) => {
     const editorContainerRef = useRef(null);
@@ -117,9 +118,10 @@ const ArticlePost = ({ data = null, onChange }) => {
     const editorConfig = {
         ui: {
             viewportOffset: {
-                top: 50,
+                top: 48,
             },
         },
+        extraPlugins: [CustomUploadAdapterPlugin],
         toolbar: {
             items: [
                 "undo",
@@ -169,6 +171,9 @@ const ArticlePost = ({ data = null, onChange }) => {
                 "indent",
                 "|",
                 "accessibilityHelp",
+                "MathType",
+                "ChemType",
+                "restrictedEditingException",
             ],
             shouldNotGroupWhenFull: shouldNotGroup,
         },
@@ -246,6 +251,8 @@ const ArticlePost = ({ data = null, onChange }) => {
             TodoList,
             Underline,
             Undo,
+            MathType,
+            StandardEditingMode,
         ],
         balloonToolbar: [
             "bold",
@@ -445,7 +452,7 @@ const ArticlePost = ({ data = null, onChange }) => {
 
     return (
         <div>
-            <div className="main-container mx-5">
+            <div className="main-container ml-5">
                 <div
                     className="editor-container editor-container_classic-editor editor-container_include-style editor-container_include-block-toolbar"
                     ref={editorContainerRef}
@@ -459,17 +466,14 @@ const ArticlePost = ({ data = null, onChange }) => {
                                     config={editorConfig}
                                     data={data}
                                     onReady={(editor) => {
-                                        console.log(
-                                            "Editor is ready to use!",
-                                            editor
-                                        );
+                                        console.log("Editor is ready to use!");
                                         onChange(editor.getData());
+                                    }}
+                                    onError={(error) => {
+                                        console.error("CKEditor error:", error);
                                     }}
                                     onChange={handleChangeContent}
                                     onBlur={handleChangeContent}
-                                    onFocus={(event, editor) => {
-                                        console.log("Focus.", editor);
-                                    }}
                                 />
                             )}
                         </div>

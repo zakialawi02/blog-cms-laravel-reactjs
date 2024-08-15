@@ -72,7 +72,10 @@ const Create = ({ auth, category = null, meta }) => {
 
             <DashboardLayout metaTitle={meta.title} user={auth.user}>
                 <Card>
-                    <form onSubmit={handleSubmit}>
+                    <form
+                        onChange={(e) => setIsFormChanged(true)}
+                        onSubmit={handleSubmit}
+                    >
                         <div className="mb-3">
                             <InputLabel
                                 htmlFor="category"

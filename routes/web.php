@@ -53,6 +53,7 @@ Route::prefix('dashboard')->as('admin.')->group(function () {
         Route::get('/posts/{post:slug}/edit', [PostController::class, 'edit'])->name('posts.edit');
         Route::put('/posts/{post:slug}', [PostController::class, 'update'])->name('posts.update');
         Route::delete('/posts/{post:slug}', [PostController::class, 'destroy'])->name('posts.destroy');
+        Route::post('/posts/upload-image', [PostController::class, 'uploadImage'])->name('posts.uploadImage');
 
         Route::post('/categories/generateSlug', [CategoryController::class, 'generateSlug'])->name('categories.generateSlug');
         Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
@@ -112,5 +113,9 @@ Route::get('/blog/{year}/{slug}', [ArticleController::class, 'show'])->name('art
 
 Route::post('/show-comment/{post:slug}', [CommentsController::class, 'getComment'])->name('getComment');
 
+
+Route::middleware(['auth', 'verified', 'role:admin,writer'])->group(function () {
+    Route::get('/blog/{year}/{slug}/preview', [ArticleController::class, 'showPreview'])->name('article.showPreview');
+});
 
 require __DIR__ . '/auth.php';

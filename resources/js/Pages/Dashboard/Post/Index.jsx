@@ -269,7 +269,7 @@ const Index = ({
                                                     className="border-b"
                                                     key={post.id}
                                                 >
-                                                    <td className="px-3 py-2">
+                                                    <td className="px-3 py-2 min-w-60">
                                                         {post.title}
                                                     </td>
                                                     <td className="px-3 py-2">
@@ -289,7 +289,7 @@ const Index = ({
                                                                 }`
                                                         )}
                                                     </td>
-                                                    <td className="px-3 py-2 w-28">
+                                                    <td className="px-3 py-2 min-w-28">
                                                         {post.status ===
                                                         "published" ? (
                                                             <>
@@ -337,6 +337,21 @@ const Index = ({
                                                         )}
                                                     </td>
                                                     <td className="text-nowrap">
+                                                        <Link
+                                                            href={route(
+                                                                "article.showPreview",
+                                                                {
+                                                                    year: post.published_at.substring(
+                                                                        0,
+                                                                        4
+                                                                    ),
+                                                                    slug: post.slug,
+                                                                }
+                                                            )}
+                                                            className="w-8 p-2 ml-1 font-medium rounded-md hover:bg-opacity-70 text-backend-light bg-backend-info"
+                                                        >
+                                                            <i className="ri-eye-fill"></i>
+                                                        </Link>
                                                         {post.published_at && (
                                                             <a
                                                                 href={route(

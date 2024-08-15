@@ -25,109 +25,116 @@ const StatPerArticle = ({ auth, meta, article, views }) => {
                 <div className="grid grid-cols-1 gap-2 lg:grid-cols-2 lg:gap-4">
                     <div className="">
                         <Card className="flex flex-col justify-center w-full">
-                            <table
-                                id="myTable"
-                                className="table table-hover table-striped"
-                                style={{ width: "100%" }}
-                            >
-                                <tbody>
-                                    <tr className="border-b">
-                                        <td>Title</td>
-                                        <td width="4px">:</td>
-                                        <td>{article.title}</td>
-                                    </tr>
-                                    <tr className="border-b">
-                                        <td>url</td>
-                                        <td width="4px">:</td>
-                                        <td>
-                                            <Link
-                                                href={route("article.show", {
-                                                    year: article.published_at.substring(
-                                                        0,
-                                                        4
-                                                    ),
-                                                    slug: article.slug,
+                            <div className="overflow-x-auto">
+                                <table
+                                    id="myTable"
+                                    className="table table-hover table-striped"
+                                    style={{ width: "100%" }}
+                                >
+                                    <tbody>
+                                        <tr className="border-b">
+                                            <td>Title</td>
+                                            <td width="4px">:</td>
+                                            <td>{article.title}</td>
+                                        </tr>
+                                        <tr className="border-b">
+                                            <td>url</td>
+                                            <td width="4px">:</td>
+                                            <td>
+                                                <Link
+                                                    href={route(
+                                                        "article.show",
+                                                        {
+                                                            year: article.published_at.substring(
+                                                                0,
+                                                                4
+                                                            ),
+                                                            slug: article.slug,
+                                                        }
+                                                    )}
+                                                    target="_blank"
+                                                    className="text-backend-primary hover:text-backend-secondary hover:underline"
+                                                >
+                                                    {route("article.show", {
+                                                        year: article.published_at.substring(
+                                                            0,
+                                                            4
+                                                        ),
+                                                        slug: article.slug,
+                                                    })}
+                                                </Link>
+                                            </td>
+                                        </tr>
+                                        <tr className="border-b">
+                                            <td>Author</td>
+                                            <td width="4px">:</td>
+                                            <td>
+                                                <p
+                                                    className={`px-2 m-1 rounded text-backend-light  w-fit ${
+                                                        article.user.role ==
+                                                        "admin"
+                                                            ? "bg-backend-primary"
+                                                            : article.user
+                                                                  .role ==
+                                                              "writer"
+                                                            ? "bg-backend-secondary"
+                                                            : "bg-backend-muted"
+                                                    }`}
+                                                >
+                                                    {article.user.username}
+                                                </p>
+                                            </td>
+                                        </tr>
+                                        <tr className="border-b">
+                                            <td>Status</td>
+                                            <td width="4px">:</td>
+                                            <td>
+                                                <p
+                                                    className={`px-2 m-1 rounded text-backend-light  w-fit ${
+                                                        article.status ==
+                                                        "published"
+                                                            ? "bg-backend-success"
+                                                            : "bg-backend-muted"
+                                                    }`}
+                                                >
+                                                    {article.status}
+                                                </p>
+                                            </td>
+                                        </tr>
+                                        <tr className="border-b">
+                                            <td width="100rem">Published at</td>
+                                            <td width="4px">:</td>
+                                            <td>
+                                                {new Date(
+                                                    article.published_at
+                                                ).toDateString("en-US", {
+                                                    year: "numeric",
+                                                    month: "short",
+                                                    day: "numeric",
                                                 })}
-                                                target="_blank"
-                                                className="text-backend-primary hover:text-backend-secondary hover:underline"
-                                            >
-                                                {route("article.show", {
-                                                    year: article.published_at.substring(
-                                                        0,
-                                                        4
-                                                    ),
-                                                    slug: article.slug,
-                                                })}
-                                            </Link>
-                                        </td>
-                                    </tr>
-                                    <tr className="border-b">
-                                        <td>Author</td>
-                                        <td width="4px">:</td>
-                                        <td>
-                                            <p
-                                                className={`px-2 m-1 rounded text-backend-light  w-fit ${
-                                                    article.user.role == "admin"
-                                                        ? "bg-backend-primary"
-                                                        : article.user.role ==
-                                                          "writer"
-                                                        ? "bg-backend-secondary"
-                                                        : "bg-backend-muted"
-                                                }`}
-                                            >
-                                                {article.user.username}
-                                            </p>
-                                        </td>
-                                    </tr>
-                                    <tr className="border-b">
-                                        <td>Status</td>
-                                        <td width="4px">:</td>
-                                        <td>
-                                            <p
-                                                className={`px-2 m-1 rounded text-backend-light  w-fit ${
-                                                    article.status ==
-                                                    "published"
-                                                        ? "bg-backend-success"
-                                                        : "bg-backend-muted"
-                                                }`}
-                                            >
-                                                {article.status}
-                                            </p>
-                                        </td>
-                                    </tr>
-                                    <tr className="border-b">
-                                        <td width="100rem">Published at</td>
-                                        <td width="4px">:</td>
-                                        <td>
-                                            {new Date(
-                                                article.published_at
-                                            ).toDateString("en-US", {
-                                                year: "numeric",
-                                                month: "short",
-                                                day: "numeric",
-                                            })}
-                                        </td>
-                                    </tr>
-                                    <tr className="border-b">
-                                        <td>Created at</td>
-                                        <td width="4px">:</td>
-                                        <td>
-                                            {new Date(
-                                                article.created_at
-                                            ).toDateString("en-US", {
-                                                year: "numeric",
-                                                month: "short",
-                                                day: "numeric",
-                                            })}{" "}
-                                        </td>
-                                    </tr>
-                                    <tr className="border-b">
-                                        <td>Visitors</td>
-                                        <td width="4px">:</td>
-                                        <td>{article.total_views}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                                            </td>
+                                        </tr>
+                                        <tr className="border-b">
+                                            <td>Created at</td>
+                                            <td width="4px">:</td>
+                                            <td>
+                                                {new Date(
+                                                    article.created_at
+                                                ).toDateString("en-US", {
+                                                    year: "numeric",
+                                                    month: "short",
+                                                    day: "numeric",
+                                                })}{" "}
+                                            </td>
+                                        </tr>
+                                        <tr className="border-b">
+                                            <td>Visitors</td>
+                                            <td width="4px">:</td>
+                                            <td>{article.total_views}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </Card>
                     </div>
 

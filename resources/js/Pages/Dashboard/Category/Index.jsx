@@ -132,10 +132,10 @@ const Index = ({ auth, categories, meta, queryParams = null }) => {
                                                 className="border-b"
                                                 key={category.id}
                                             >
-                                                <td className="px-3 py-2">
+                                                <td className="px-3 py-2 min-w-60">
                                                     {category.category}
                                                 </td>
-                                                <td className="px-3 py-2">
+                                                <td className="px-3 py-2 min-w-40">
                                                     <Link
                                                         href={`/blog/${category.slug}`}
                                                         className="text-backend-accent hover:underline"

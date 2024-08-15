@@ -238,7 +238,7 @@ const FormData = ({
             <Head title={meta.title} />
 
             <DashboardLayout metaTitle={meta.title} user={auth.user}>
-                <form>
+                <form onChange={(e) => setIsFormChanged(true)}>
                     <div className="flex justify-end gap-2 mb-3">
                         <ButtonBE
                             type="submit"
@@ -326,6 +326,9 @@ const FormData = ({
                                     rows="5"
                                     className="w-full border-gray-300 rounded-md shadow-sm focus:border-backend-primary focus:ring-backend-primary"
                                     value={data.excerpt}
+                                    onChange={(e) =>
+                                        setData("excerpt", e.target.value)
+                                    }
                                 ></textarea>
                                 <InputError
                                     message={errors.excerpt}
@@ -342,6 +345,7 @@ const FormData = ({
                                 <ReactTags
                                     inline={false}
                                     tags={tags}
+                                    autofocus={false}
                                     delimiters={[KEYS.TAB, KEYS.COMMA]}
                                     suggestions={suggestionsTag}
                                     placeholder="Add tags. Press comma to add."
@@ -474,7 +478,7 @@ const FormData = ({
                                 >
                                     <div className="text-center">
                                         <i
-                                            class={`ri-image-fill text-3xl ${
+                                            className={`ri-image-fill text-3xl ${
                                                 dragging
                                                     ? "text-backend-info"
                                                     : "text-gray-900/25"

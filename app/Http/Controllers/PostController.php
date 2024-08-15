@@ -12,6 +12,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Requests\ArticleRequest;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class PostController extends Controller
 {
@@ -267,7 +268,6 @@ class PostController extends Controller
         return redirect()->route('admin.posts.index')->with('success', 'Post updated successfully');
     }
 
-
     public function destroy(Article $post)
     {
         if (auth()->user()->role !== 'admin' && auth()->id() !== $post->user_id) {
@@ -281,5 +281,34 @@ class PostController extends Controller
         Article::where('slug', $post->slug)->delete();
 
         return redirect()->back()->with('success', 'Post deleted successfully');
+    }
+
+    public function uploadImage(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'upload' => 'required|image|mimes:jpg,jpeg,png,gif|max:4048',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'error' => $validator->errors(),
+            ], 400);
+        }
+
+        if ($request->hasFile('upload')) {
+            $user = auth()->user()->username ?? "shared";
+            $file = $request->file('upload');
+            $filename = time() . '_' . Str::random(20) . '.' . $file->getClientOriginalExtension();
+            $path = $file->storeAs('public/drive/' . $user . '/img', $filename);
+            $url = Storage::url($path);
+
+            return response()->json([
+                'url' => $url
+            ], 201);
+        }
+
+        return response()->json([
+            'error' => ['message' => 'File upload failed.'],
+        ], 400);
     }
 }

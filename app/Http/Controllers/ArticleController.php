@@ -141,6 +141,20 @@ class ArticleController extends Controller
         ]);
     }
 
+    public function showPreview(Request $request, $year, $slug)
+    {
+        $article = Article::with('user', 'category', 'tags')
+            ->where('slug', $slug)
+            ->whereYear('published_at', $year)
+            ->firstOrFail();
+        $article['cover'] = (!empty($article->cover) ? $article->cover = asset("storage/drive/" . $article->user->username . "/img/" . $article->cover) : $article->cover = asset("assets/img/image-placeholder.png"));
+        $article['excerpt'] = !empty($article->excerpt) ? $article->excerpt : Str::limit(strip_tags($article->content), 200);
+
+        return Inertia::render('Front/Blog/SinglePostPreview', [
+            'article' => $article,
+        ]);
+    }
+
 
     // ARCHIVE ↓↓↓↓↓
 

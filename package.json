@@ -26,6 +26,7 @@
         "@ckeditor/ckeditor5-react": "^9.0.0",
         "@highcharts/map-collection": "^2.3.0",
         "@tailwindcss/container-queries": "^0.1.1",
+        "@wiris/mathtype-ckeditor5": "^8.10.0",
         "ckeditor5": "^43.0.0",
         "highcharts": "^11.4.6",
         "highcharts-react-official": "^3.2.1",

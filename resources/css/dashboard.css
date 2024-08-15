@@ -33,8 +33,3 @@
     background: #bdbdbd;
     border-radius: 50px;
 }
-
-/* CKEDITOR */
-.ck.ck-content.ck-editor__editable_inline {
-    padding: 10px 25px;
-}

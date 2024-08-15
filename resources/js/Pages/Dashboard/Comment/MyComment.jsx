@@ -78,20 +78,17 @@ const MyComment = ({ auth, meta, comments, queryParams = null }) => {
                             <tbody>
                                 {comments.data.length > 0 ? (
                                     comments.data.map((comment, index) => (
-                                        <tr
-                                            className="border-b text-nowrap"
-                                            key={index}
-                                        >
+                                        <tr className="border-b" key={index}>
                                             <th className="px-3 py-2 pr-2">
                                                 {index + 1}
                                             </th>
-                                            <td className="px-3 py-2">
+                                            <td className="px-3 py-2 min-w-72">
                                                 {comment.content}
                                             </td>
-                                            <td className="px-3 py-2">
+                                            <td className="px-3 py-2 min-w-60">
                                                 {comment.article.title}
                                             </td>
-                                            <td className="px-3 py-2">
+                                            <td className="px-3 py-2 min-w-28">
                                                 {new Date(
                                                     comment.created_at
                                                 ).toLocaleDateString("en-US", {
@@ -103,7 +100,7 @@ const MyComment = ({ auth, meta, comments, queryParams = null }) => {
                                                     second: "numeric",
                                                 })}
                                             </td>
-                                            <td className="w-1 px-1 py-2">
+                                            <td className="w-1 px-1 py-2 text-nowrap">
                                                 <Link
                                                     href={
                                                         route("article.show", {

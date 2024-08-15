@@ -197,7 +197,7 @@ const StatView = ({ auth, meta }) => {
                                                                             index
                                                                         }
                                                                     >
-                                                                        <td className="p-2">
+                                                                        <td className="p-2 min-w-28">
                                                                             {new Date(
                                                                                 item.viewed_at
                                                                             ).toLocaleString(
@@ -211,7 +211,7 @@ const StatView = ({ auth, meta }) => {
                                                                                 }
                                                                             )}
                                                                         </td>
-                                                                        <td className="p-2">
+                                                                        <td className="p-2 min-w-60">
                                                                             <Link
                                                                                 preserveState
                                                                                 href={
@@ -236,7 +236,7 @@ const StatView = ({ auth, meta }) => {
                                                                                 item.ip_address
                                                                             }
                                                                         </td>
-                                                                        <td className="p-2">
+                                                                        <td className="p-2 min-w-28">
                                                                             {
                                                                                 item.location
                                                                             }
@@ -307,7 +307,7 @@ const StatView = ({ auth, meta }) => {
                                                                             index
                                                                         }
                                                                     >
-                                                                        <td className="max-w-lg p-2">
+                                                                        <td className="min-w-60 max-w-lg p-2">
                                                                             {
                                                                                 item.title
                                                                             }
@@ -317,7 +317,7 @@ const StatView = ({ auth, meta }) => {
                                                                                 item.status
                                                                             }
                                                                         </td>
-                                                                        <td className="p-2">
+                                                                        <td className="p-2 min-w-28">
                                                                             {new Date(
                                                                                 item.published_at
                                                                             ).toLocaleDateString(
