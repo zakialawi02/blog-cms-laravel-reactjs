@@ -347,7 +347,7 @@ const Index = ({
                                                             <i className="ri-eye-fill"></i>
                                                         </Link>
                                                         {post.published_at && (
-                                                            <a
+                                                            <Link
                                                                 href={route(
                                                                     "article.show",
                                                                     {
@@ -361,7 +361,7 @@ const Index = ({
                                                                 className="w-8 p-2 ml-1 font-medium rounded-md hover:bg-opacity-70 text-backend-light bg-backend-muted"
                                                             >
                                                                 <i className="ri-computer-fill"></i>
-                                                            </a>
+                                                            </Link>
                                                         )}
 
                                                         <Link

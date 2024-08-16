@@ -25,6 +25,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::prefix('v1')->as('api.')->group(function () {
     Route::get('/articles/popular', [ArticleController::class, 'popularPosts'])->name('article.popular');
 
+    Route::post('/stats/article/hit', [ArticleController::class, 'saveVisitor'])->name('hitVisitor');
+
 
     Route::get('/list/categories', [CategoryController::class, 'categoryLists'])->name('categories');
     Route::get('/list/tags', [TagController::class, 'tagLists'])->name('tags');

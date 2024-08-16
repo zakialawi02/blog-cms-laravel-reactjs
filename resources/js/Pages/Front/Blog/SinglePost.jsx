@@ -71,6 +71,26 @@ const SinglePost = ({ article }) => {
         Prism.highlightAll();
 
         fecthData();
+
+        const fetchAndSendData = async () => {
+            const urlSlug = window.location.href.split("/").pop();
+            try {
+                // Mendapatkan IP pengguna
+                const response = await axios.get("https://ipinfo.io/json");
+                const ip = response.data.ip;
+                // Mengirim data ke backend
+                const result = await axios.post(route("api.hitVisitor"), {
+                    slug: urlSlug,
+                    ip: ip,
+                });
+                // Menampilkan hasil jika diperlukan
+                console.log(result.data);
+            } catch (error) {
+                console.error("Error save stats...");
+            }
+        };
+
+        fetchAndSendData();
     }, []);
 
     return (

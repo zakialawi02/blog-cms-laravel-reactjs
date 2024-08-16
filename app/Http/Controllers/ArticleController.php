@@ -7,9 +7,12 @@ use App\Models\User;
 use Inertia\Inertia;
 use App\Models\Article;
 use App\Models\Category;
+use ipinfo\ipinfo\IPinfo;
+use App\Models\ArticleView;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Cache;
 
 class ArticleController extends Controller
 {
@@ -111,6 +114,53 @@ class ArticleController extends Controller
         $articles->map(function ($article) {
             $article->excerpt = Str::limit($article->excerpt, 200);
         });
+    }
+
+
+    /**
+     * Get the IP visitor details using IPinfo API.
+     *
+     * @param datatype $ip The IP address of the visitor
+     * @return mixed The details of the visitor based on the IP address
+     */
+    protected function getIpVisitor($ip)
+    {
+        $access_token = 'cdd7aa7e08e80d';
+        $client = new IPinfo($access_token);
+        $ip_address = $ip;
+        $details = $client->getDetails($ip_address);
+        $dataV = $details->all;
+        return $dataV;
+    }
+
+    /**
+     * Store visitor data/Save visitor information if not already cached.
+     *
+     * @param datatype $article_id The ID of the article visited
+     * @param datatype $ip The IP address of the visitor
+     * @throws \Throwable Description of the exception
+     * @return void
+     */
+    protected function saveVisitor($article_id, $ip)
+    {
+        $cacheKey = 'article-view:' . $article_id . ':' . $ip;
+        $cacheDuration = 60 * 1; // Cache for 1 minutes
+        if (!Cache::has($cacheKey)) {
+            $dataIpVisitor = $this->getIpVisitor($ip);
+            try {
+                ArticleView::create([
+                    'article_id' => $article_id,
+                    'ip_address' => $ip,
+                    'code' => array_key_exists('country', $dataIpVisitor) ? $dataIpVisitor['country'] : NULL,
+                    'location' => array_key_exists('country_name', $dataIpVisitor) ? $dataIpVisitor['country_name'] : NULL,
+                    'viewed_at' => Carbon::now(),
+                ]);
+
+                Cache::put($cacheKey, true, $cacheDuration);
+            } catch (\Throwable $th) {
+                //throw $th;
+            }
+        }
     }
 
     /**
