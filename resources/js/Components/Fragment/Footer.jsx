@@ -106,13 +106,13 @@ const Footer = () => {
                                         <SkeletonOneLine height={48} />
                                     )}
 
-                                    {!loadingMenu && navItemData > 0 && (
+                                    {!loadingMenu && navItemData?.footer_a && (
                                         <>
                                             <h5 className="text-2xl font-bold ">
                                                 About
                                             </h5>
                                             <FooterMenu.MenuBody>
-                                                {navItemData.footer_a.map(
+                                                {navItemData?.footer_a?.map(
                                                     (item, index) => (
                                                         <FooterMenu.MenuItem
                                                             key={index}
@@ -131,13 +131,13 @@ const Footer = () => {
                                         <SkeletonOneLine height={48} />
                                     )}
 
-                                    {!loadingMenu && navItemData > 0 && (
+                                    {!loadingMenu && navItemData?.footer_b && (
                                         <>
                                             <h5 className="text-2xl font-bold ">
                                                 Blog
                                             </h5>
                                             <FooterMenu.MenuBody>
-                                                {navItemData.footer_b.map(
+                                                {navItemData?.footer_b?.map(
                                                     (item, index) => (
                                                         <FooterMenu.MenuItem
                                                             key={index}

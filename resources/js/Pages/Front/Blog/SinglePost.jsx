@@ -49,7 +49,7 @@ const SinglePost = ({ article }) => {
 
     const getTags = async () => {
         const res = await axios
-            .get(route("api.tags") + "?max=10")
+            .get(route("api.tags") + "?max=20")
             .then((res) => {
                 setTags(res.data);
                 setLoading(false);
@@ -199,7 +199,7 @@ const SinglePost = ({ article }) => {
                                         {article.title}
                                     </h1>
                                     <div className="inline-flex items-center">
-                                        <a
+                                        <Link
                                             href={route(
                                                 "article.user",
                                                 article.user.username
@@ -216,8 +216,8 @@ const SinglePost = ({ article }) => {
                                                 alt="author"
                                             />
                                             {article.user.username}
-                                        </a>
-                                        <a
+                                        </Link>
+                                        <Link
                                             href={route("article.month", {
                                                 year: article.published_at.substring(
                                                     0,
@@ -238,7 +238,7 @@ const SinglePost = ({ article }) => {
                                                 month: "short",
                                                 year: "numeric",
                                             })}
-                                        </a>
+                                        </Link>
                                     </div>
                                 </div>
                             </div>
@@ -273,7 +273,7 @@ const SinglePost = ({ article }) => {
                                         <TagsPost tags={article.tags} />
                                     </div>
 
-                                    <div className="text-2xl">
+                                    <div id="share" className="text-2xl">
                                         <SharePost />
                                     </div>
                                 </div>

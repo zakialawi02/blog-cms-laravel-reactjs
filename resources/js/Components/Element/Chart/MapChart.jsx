@@ -2,25 +2,27 @@ import Highcharts from "highcharts/highstock";
 import HighchartsReact from "highcharts-react-official";
 import HighchartsMap from "highcharts/modules/map";
 import axios from "axios";
+import { useEffect, useState } from "react";
+import SkeletonOneLine from "../Skeleton/SkeletonOneLine";
 
 // Initialize the map module
 HighchartsMap(Highcharts);
 
-const geojson = async () => {
-    const response = await axios.get(
-        "https://code.highcharts.com/mapdata/custom/world.topo.json"
-    );
-    return response.data;
-};
-
-let topology;
-const loadTopology = async () => {
-    topology = await geojson();
-};
-
-loadTopology();
-
 const MapChart = ({ graphData }) => {
+    const [ready, setReady] = useState(false);
+    const [topology, setTopology] = useState({});
+
+    useEffect(() => {
+        const geojson = async () => {
+            const response = await axios.get(
+                "https://code.highcharts.com/mapdata/custom/world.topo.json"
+            );
+            setTopology(response.data);
+            setReady(true);
+        };
+        geojson();
+    }, []);
+
     const mapData = graphData.map((item) => ({
         "hc-key": item.code.toLowerCase(),
         value: item?.total_views || item?.views,
@@ -76,11 +78,15 @@ const MapChart = ({ graphData }) => {
 
     return (
         <>
-            <HighchartsReact
-                highcharts={Highcharts}
-                constructorType={"mapChart"}
-                options={options}
-            />
+            {!ready && <SkeletonOneLine height={64} />}
+
+            {ready ? (
+                <HighchartsReact
+                    highcharts={Highcharts}
+                    constructorType={"mapChart"}
+                    options={options}
+                />
+            ) : null}
         </>
     );
 };

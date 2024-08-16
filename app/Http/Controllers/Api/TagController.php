@@ -51,7 +51,7 @@ class TagController extends Controller
     public function tagLists()
     {
         if (request(("max"))) {
-            $tags = Tag::take(request("max"))->get();
+            $tags = Tag::inRandomOrder()->limit(request('max'))->get();
         } else {
             $tags = Tag::all();
         }

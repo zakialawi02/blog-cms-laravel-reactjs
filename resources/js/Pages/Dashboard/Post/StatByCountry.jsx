@@ -45,13 +45,7 @@ const StatByCountry = ({ auth, meta }) => {
                 </Card>
 
                 <Card>
-                    {loading ? (
-                        <SkeletonOneLine height={48} />
-                    ) : (
-                        <>
-                            <MapChart graphData={graphData} />
-                        </>
-                    )}
+                    <MapChart graphData={graphData} />
                 </Card>
 
                 <Card>
