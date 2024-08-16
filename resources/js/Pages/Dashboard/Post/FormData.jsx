@@ -11,6 +11,7 @@ import debounce from "lodash.debounce";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { WithContext as ReactTags, KEYS } from "react-tag-input";
 import "../../../../css/articlePost.css";
+import SelectInput from "@/Components/Element/Input/SelectInput";
 
 const FormData = ({
     auth,
@@ -144,7 +145,6 @@ const FormData = ({
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(data);
 
         if (e.target.name === "unpublished") {
             if (isUpdate.current) {
@@ -224,7 +224,6 @@ const FormData = ({
         if (postData?.cover) {
             setData("cover", null);
         }
-        console.log(postData);
 
         setImagePreview(
             postData?.cover
@@ -288,8 +287,7 @@ const FormData = ({
                                     value="Category"
                                     className="mb-2"
                                 />
-                                <select
-                                    className="w-full border-gray-300 rounded-md shadow-sm focus:border-backend-primary focus:ring-backend-primary"
+                                <SelectInput
                                     id="category_id"
                                     name="category_id"
                                     value={data.category_id}
@@ -308,7 +306,7 @@ const FormData = ({
                                             {category.category}
                                         </option>
                                     ))}
-                                </select>
+                                </SelectInput>
                                 <InputError
                                     message={errors.category_id}
                                     className="mb-3"
@@ -434,8 +432,7 @@ const FormData = ({
                                     value="Author"
                                     className="mb-2"
                                 />
-                                <select
-                                    className="w-full border-gray-300 rounded-md shadow-sm focus:border-backend-primary focus:ring-backend-primary"
+                                <SelectInput
                                     id="user_id"
                                     name="user_id"
                                     value={data.user_id}
@@ -454,7 +451,7 @@ const FormData = ({
                                             {user.name}
                                         </option>
                                     ))} */}
-                                </select>
+                                </SelectInput>
                                 <InputError
                                     message={errors.user_id}
                                     className="mb-3"

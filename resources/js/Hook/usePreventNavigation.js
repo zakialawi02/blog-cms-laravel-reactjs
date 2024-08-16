@@ -11,22 +11,26 @@ const usePreventNavigation = (isFormChanged) => {
             }
         };
 
-        const handleNavigation = (e) => {
+        const handlePopState = (e) => {
             if (isFormChanged) {
                 const confirmationMessage =
                     "You have unsaved changes, are you sure you want to leave?";
                 if (!window.confirm(confirmationMessage)) {
+                    history.pushState(null, "", window.location.href);
                     e.preventDefault();
                 }
             }
         };
 
+        // Menambahkan entry fiktif ke history stack
+        history.pushState(null, "", window.location.href);
+
         window.addEventListener("beforeunload", handleBeforeUnload);
-        window.addEventListener("popstate", handleNavigation);
+        window.addEventListener("popstate", handlePopState);
 
         return () => {
             window.removeEventListener("beforeunload", handleBeforeUnload);
-            window.removeEventListener("popstate", handleNavigation);
+            window.removeEventListener("popstate", handlePopState);
         };
     }, [isFormChanged]);
 };

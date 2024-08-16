@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef } from "react";
-import DropdownItem from "../Dropdown/DropdownItem";
-import DropdownMenu from "../Dropdown/DropdownMenu";
-import Search from "../Search/Search";
-import Notification from "../Notification/Notification";
 import { Link } from "@inertiajs/react";
+import DropdownMenu from "../Element/Dropdown/DropdownMenu";
+import Search from "../Element/Search/Search";
+import Notification from "../Element/Notification/Notification";
+import DropdownItem from "../Element/Dropdown/DropdownItem";
 
 const HeaderAdmin = ({ user, toggleSidebar }) => {
     const [isOpenDropdownUser, setIsOpenDropdownUser] = useState(false);

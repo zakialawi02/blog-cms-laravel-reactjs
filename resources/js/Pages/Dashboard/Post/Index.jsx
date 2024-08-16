@@ -1,5 +1,6 @@
 import Card from "@/Components/Element/Card/Card";
 import InputLabel from "@/Components/Element/Input/InputLabel";
+import SelectInput from "@/Components/Element/Input/SelectInput";
 import TextInput from "@/Components/Element/Input/TextInput";
 import PaginationDashboard from "@/Components/Element/Pagination/PaginationDashboard";
 import TableHeading from "@/Components/Element/Table/TableHeading";
@@ -96,10 +97,9 @@ const Index = ({
                                 >
                                     Status
                                 </label>
-                                <select
+                                <SelectInput
                                     name="status"
                                     id="publish"
-                                    className="block w-full md:w-auto rounded-md border-0 py-1.5  shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-backend-primary sm:max-w-xs sm:text-sm sm:leading-6"
                                     value={queryParams.status || "all"}
                                     onChange={(e) =>
                                         filterChanged("status", e.target.value)
@@ -108,7 +108,7 @@ const Index = ({
                                     <option value="all">All</option>
                                     <option value="published">Published</option>
                                     <option value="draft">Draft</option>
-                                </select>
+                                </SelectInput>
                             </div>
                             <div className="mr-2">
                                 <label
@@ -340,13 +340,7 @@ const Index = ({
                                                         <Link
                                                             href={route(
                                                                 "article.showPreview",
-                                                                {
-                                                                    year: post.published_at.substring(
-                                                                        0,
-                                                                        4
-                                                                    ),
-                                                                    slug: post.slug,
-                                                                }
+                                                                post.slug
                                                             )}
                                                             className="w-8 p-2 ml-1 font-medium rounded-md hover:bg-opacity-70 text-backend-light bg-backend-info"
                                                         >

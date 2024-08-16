@@ -27,7 +27,6 @@ const Index = ({ auth, meta, menuLinks }) => {
     };
 
     const handleDelete = (data) => {
-        console.log(data.id);
         router.delete(route("admin.menus-item.destroy", data.id), {
             onBefore: () => confirm("Are you sure?"),
             onSuccess: () => {

@@ -14,12 +14,11 @@ const StatByCountry = ({ auth, meta }) => {
         const res = await axios
             .get(route("admin.posts.statslocation"))
             .then((res) => {
-                console.log(res.data);
                 setData(res.data);
                 setGraphData(res.data.views);
             })
             .catch((err) => {
-                console.log(err);
+                console.error(err);
             });
     };
 
@@ -27,7 +26,7 @@ const StatByCountry = ({ auth, meta }) => {
         getStats()
             .then(() => setLoading(false))
             .catch((error) => {
-                console.log(error);
+                console.error(error);
                 setLoading(true);
             });
     };

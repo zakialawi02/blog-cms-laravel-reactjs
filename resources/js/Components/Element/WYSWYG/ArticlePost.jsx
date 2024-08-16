@@ -466,7 +466,7 @@ const ArticlePost = ({ data = null, onChange }) => {
                                     config={editorConfig}
                                     data={data}
                                     onReady={(editor) => {
-                                        console.log("Editor is ready to use!");
+                                        console.info("Editor is ready to use!");
                                         onChange(editor.getData());
                                     }}
                                     onError={(error) => {

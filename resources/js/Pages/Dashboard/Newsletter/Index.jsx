@@ -6,7 +6,6 @@ import { router } from "@inertiajs/react";
 
 const Index = ({ auth, data, meta, queryParams = null }) => {
     queryParams = queryParams || {};
-    console.log(data);
 
     const sortChanged = (name) => {
         if (name === queryParams.sort_field) {

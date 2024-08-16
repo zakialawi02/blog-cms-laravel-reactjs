@@ -5,7 +5,7 @@ const getCommentsPost = async (slug, loading, callback) => {
         loading(false);
         callback(data);
     } catch (err) {
-        console.log(err);
+        console.error(err);
         loading(false);
     }
 };

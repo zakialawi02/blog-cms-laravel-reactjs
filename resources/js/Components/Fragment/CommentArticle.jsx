@@ -46,7 +46,6 @@ const PostComments = () => {
             if (commentId) {
                 setTimeout(() => {
                     scrollToElement(`#${commentId}`, 50, 300);
-                    console.log("RUN");
                 }, 1000);
             }
         }

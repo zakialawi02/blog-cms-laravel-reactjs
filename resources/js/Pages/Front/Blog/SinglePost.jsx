@@ -29,7 +29,7 @@ const SinglePost = ({ article }) => {
                 setLoading(false);
             })
             .catch((err) => {
-                console.log(err);
+                console.error(err);
                 setPopularPosts([]);
             });
     };
@@ -42,7 +42,7 @@ const SinglePost = ({ article }) => {
                 setLoading(false);
             })
             .catch((err) => {
-                console.log(err);
+                console.error(err);
                 setCategories([]);
             });
     };
@@ -55,7 +55,7 @@ const SinglePost = ({ article }) => {
                 setLoading(false);
             })
             .catch((err) => {
-                console.log(err);
+                console.error(err);
                 setTags([]);
             });
     };
@@ -64,7 +64,7 @@ const SinglePost = ({ article }) => {
         getPopularPosts()
             .then(() => getCategories())
             .then(() => getTags())
-            .catch((err) => console.log(err));
+            .catch((err) => console.error(err));
     };
 
     useEffect(() => {

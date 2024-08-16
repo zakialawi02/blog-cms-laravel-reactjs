@@ -1,23 +1,12 @@
 import { Link, usePage } from "@inertiajs/react";
 import { useEffect, useState } from "react";
-import Dropdown from "../Dropdown/Dropdown";
-import SkeletonOneLine from "../Skeleton/SkeletonOneLine";
+import Dropdown from "../Element/Dropdown/Dropdown";
 
 const HeaderBlog = () => {
     const { auth } = usePage().props;
-    const [navItemData, setNavItemData] = useState([
-        { url: "/", name: "Home" },
-        { url: "/blog", name: "Blog" },
-        { url: "/about", name: "About" },
-        { url: "/contact", name: "Contact" },
-    ]);
+    const [navItemData, setNavItemData] = useState([]);
     const [isNavOpen, setIsNavOpen] = useState(false);
     const toggleNav = () => setIsNavOpen(!isNavOpen);
-    const listMenu = [
-        { label: "Home", link: "/" },
-        { label: "About", link: "/about" },
-        { label: "Contact", link: "/contact" },
-    ];
 
     useEffect(() => {
         const handleResize = () => {
@@ -33,11 +22,16 @@ const HeaderBlog = () => {
         axios
             .get(route("navItemHeaderData"))
             .then((res) => {
-                console.log(res.data);
                 setNavItemData(res.data);
             })
             .catch((error) => {
-                console.log(error);
+                console.error(error);
+                setNavItemData([
+                    { url: "/", name: "Home" },
+                    { url: "/blog", name: "Blog" },
+                    { url: "/about", name: "About" },
+                    { url: "/contact", name: "Contact" },
+                ]);
             });
     }, []);
 

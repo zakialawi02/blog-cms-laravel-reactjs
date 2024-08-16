@@ -104,6 +104,10 @@ Route::prefix('dashboard')->as('admin.')->group(function () {
     });
 });
 
+Route::middleware(['auth', 'verified', 'role:admin,writer'])->group(function () {
+    Route::get('/blog/{slug}/preview', [ArticleController::class, 'showPreview'])->name('article.showPreview');
+});
+
 
 Route::post('/newsletter', [NewsletterController::class, 'store'])->name('newsletter.store');
 
@@ -124,8 +128,5 @@ Route::post('/show-comment/{post:slug}', [CommentsController::class, 'getComment
 Route::get('/navItemFooterData', [MenuItemController::class, 'getMenuFooter'])->name('navItemFooterData');
 Route::get('/navItemHeaderData', [MenuItemController::class, 'getMenuHeader'])->name('navItemHeaderData');
 
-Route::middleware(['auth', 'verified', 'role:admin,writer'])->group(function () {
-    Route::get('/blog/{year}/{slug}/preview', [ArticleController::class, 'showPreview'])->name('article.showPreview');
-});
 
 require __DIR__ . '/auth.php';

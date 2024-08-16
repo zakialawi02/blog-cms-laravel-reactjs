@@ -1,5 +1,5 @@
 import Footer from "@/Components/Fragment/Footer";
-import HeaderBlog from "@/Components/Element/Header/HeaderBlog";
+import HeaderBlog from "@/Components/Fragment/HeaderBlog";
 
 const GuestLayout = ({ className = "", children }) => {
     className = className ? className : "w-full";

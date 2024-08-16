@@ -65,9 +65,6 @@ const Index = ({ auth, meta, users, queryParams = null }) => {
     };
 
     const openModal = (param = "") => {
-        console.log(param);
-        console.log(typeof param == "string");
-
         if (typeof param == "string") {
             window.history.pushState({}, "", "?modal=open&edit=" + param);
         } else {

@@ -74,15 +74,12 @@ const SinglePostPreview = ({ article }) => {
                                     </Link>
                                 </li>
                                 <li className="">
-                                    <Link
+                                    <a
+                                        href="#"
                                         className="text-frontend-dark hover:text-frontend-accent breadcrumb-next"
-                                        href={route(
-                                            "article.year",
-                                            secondSegment
-                                        )}
                                     >
-                                        {secondSegment}
-                                    </Link>
+                                        Year Published
+                                    </a>
                                 </li>
                                 <li className="">
                                     <Link
@@ -146,26 +143,11 @@ const SinglePostPreview = ({ article }) => {
                                             {article.user.username}
                                         </a>
                                         <a
-                                            href={route("article.month", {
-                                                year: article.published_at.substring(
-                                                    0,
-                                                    4
-                                                ),
-                                                month: article.published_at.substring(
-                                                    5,
-                                                    7
-                                                ),
-                                            })}
+                                            href="#"
                                             className="hover:text-frontend-primary"
                                             target="_blank"
                                         >
-                                            {new Date(
-                                                article.created_at
-                                            ).toDateString("en-US", {
-                                                day: "numeric",
-                                                month: "short",
-                                                year: "numeric",
-                                            })}
+                                            Date Published
                                         </a>
                                     </div>
                                 </div>

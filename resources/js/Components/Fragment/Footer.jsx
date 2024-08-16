@@ -24,7 +24,7 @@ const Footer = () => {
                 }
             })
             .catch((error) => {
-                console.log(error);
+                console.error(error);
                 setError("email", error.response.data.message);
             });
     };
@@ -37,7 +37,7 @@ const Footer = () => {
                 setLoadingMenu(false);
             })
             .catch((error) => {
-                console.log(error);
+                console.error(error);
                 setNavItemData([]);
                 setLoadingMenu(false);
             });

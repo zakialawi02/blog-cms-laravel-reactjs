@@ -1,8 +1,8 @@
-import HeaderAdmin from "@/Components/Element/Header/HeaderAdmin";
 import "../../css/dashboard.css";
 import { useEffect, useState } from "react";
 import { Head } from "@inertiajs/react";
 import SidebarAdmin from "@/Components/Fragment/SidebarAdmin";
+import HeaderAdmin from "@/Components/Fragment/HeaderAdmin";
 
 const DashboardLayout = ({ user, metaTitle = "", children }) => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(

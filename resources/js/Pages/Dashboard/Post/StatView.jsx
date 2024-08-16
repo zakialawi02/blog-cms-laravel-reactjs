@@ -46,7 +46,7 @@ const StatView = ({ auth, meta }) => {
                 setGraphData(res.data);
             })
             .catch((err) => {
-                console.log(err);
+                console.error(err);
             });
     };
 
@@ -57,7 +57,7 @@ const StatView = ({ auth, meta }) => {
                 setRecent(res.data);
             })
             .catch((err) => {
-                console.log(err);
+                console.error(err);
             });
     };
 
@@ -68,7 +68,7 @@ const StatView = ({ auth, meta }) => {
                 setPopular(res.data);
             })
             .catch((err) => {
-                console.log(err);
+                console.error(err);
             });
     };
 
@@ -78,7 +78,7 @@ const StatView = ({ auth, meta }) => {
             .then(() => getStatsPopular())
             .then(() => setLoading(false))
             .catch((error) => {
-                console.log(error);
+                console.error(error);
             });
     };
 
