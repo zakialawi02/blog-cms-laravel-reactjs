@@ -133,4 +133,7 @@ Route::get('/navItemFooterData', [MenuItemController::class, 'getMenuFooter'])->
 Route::get('/navItemHeaderData', [MenuItemController::class, 'getMenuHeader'])->name('navItemHeaderData');
 
 
+Route::get('/sitemap.xml', [\App\Http\Controllers\SitemapController::class, 'index'])->name('sitemap');
+
+
 require __DIR__ . '/auth.php';
