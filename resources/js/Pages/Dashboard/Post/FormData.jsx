@@ -24,9 +24,9 @@ const FormData = ({
     const [isFormChanged, setIsFormChanged] = useState(false);
     usePreventNavigation(isFormChanged);
     const isUpdate = useRef(postData ? true : false);
+    const [metaTab, setMetaTab] = useState(false);
     const [editSlug, setEditSlug] = useState(false);
     const [fillSlug, setFillSlug] = useState(postData ? false : true);
-
     const [tags, setTags] = useState([]);
     const [imagePreview, setImagePreview] = useState(null);
     const [dragging, setDragging] = useState(false);
@@ -40,7 +40,14 @@ const FormData = ({
         tags: articleTags ?? [],
         published_at: postData?.published_at ?? "",
         user_id: postData?.user_id ?? auth.user.id,
+        meta_title: postData?.meta_title ?? "",
+        meta_description: postData?.meta_description ?? "",
+        meta_keywords: postData?.meta_keywords ?? "",
     });
+
+    const handleMetaTab = () => {
+        setMetaTab(!metaTab);
+    };
 
     const suggestionsTag = tagsList.map((tag) => {
         return {
@@ -260,271 +267,406 @@ const FormData = ({
                         </ButtonBE>
                     </div>
 
-                    <div className="flex flex-col gap-2 mb-3 lg:flex-row">
-                        <Card className="flex-1">
-                            <div className="mb-3">
-                                <InputLabel
-                                    htmlFor="title"
-                                    value="Title"
-                                    className="mb-2"
-                                />
-                                <TextInput
-                                    type="text"
-                                    id="title"
-                                    className="w-full"
-                                    isFocused={true}
-                                    value={data.title}
-                                    onChange={changeToSlug}
-                                />
-                                <InputError
-                                    message={errors.title}
-                                    className="mb-3"
-                                />
-                            </div>
-                            <div className="mb-3">
-                                <InputLabel
-                                    htmlFor="category_id"
-                                    value="Category"
-                                    className="mb-2"
-                                />
-                                <SelectInput
-                                    id="category_id"
-                                    name="category_id"
-                                    value={data.category_id}
-                                    onChange={(e) =>
-                                        setData("category_id", e.target.value)
-                                    }
+                    <div>
+                        <div className="hidden mb-4 sm:block">
+                            <div className="border-b border-gray-200">
+                                <nav
+                                    className="flex gap-6 -mb-px"
+                                    aria-label="Tabs"
                                 >
-                                    <option value="">
-                                        -- Select Category --
-                                    </option>
-                                    {categories.map((category) => (
-                                        <option
-                                            key={category.id}
-                                            value={category.id}
-                                        >
-                                            {category.category}
-                                        </option>
-                                    ))}
-                                </SelectInput>
-                                <InputError
-                                    message={errors.category_id}
-                                    className="mb-3"
-                                />
+                                    <button
+                                        type="button"
+                                        className={`px-1 pb-2 text-sm font-medium border-b-2 border-transparent shrink-0 ${
+                                            !metaTab
+                                                ? "border-sky-500 text-sky-600"
+                                                : "text-gray-500 hover:border-gray-300 hover:text-gray-700"
+                                        }`}
+                                        onClick={handleMetaTab}
+                                    >
+                                        Basic
+                                    </button>
+                                    <button
+                                        type="button"
+                                        className={`px-1 pb-2 text-sm font-medium border-b-2 shrink-0 ${
+                                            metaTab
+                                                ? "border-sky-500 text-sky-600"
+                                                : "text-gray-500 hover:border-gray-300 hover:text-gray-700"
+                                        }`}
+                                        onClick={handleMetaTab}
+                                    >
+                                        Meta Data
+                                    </button>
+                                </nav>
                             </div>
-                            <div className="mb-3">
-                                <InputLabel
-                                    htmlFor="excerpt"
-                                    value="Excerpt/Summary/Intro"
-                                    className="mb-2"
-                                />
-                                <textarea
-                                    id="excerpt"
-                                    name="excerpt"
-                                    rows="5"
-                                    className="w-full border-gray-300 rounded-md shadow-sm focus:border-backend-primary focus:ring-backend-primary"
-                                    value={data.excerpt}
-                                    onChange={(e) =>
-                                        setData("excerpt", e.target.value)
-                                    }
-                                ></textarea>
-                                <InputError
-                                    message={errors.excerpt}
-                                    className="mb-3"
-                                />
-                            </div>
+                        </div>
+                    </div>
 
-                            <div id="tags" className="mb-3">
-                                <InputLabel
-                                    htmlFor="tags"
-                                    value="Tags"
-                                    className="mb-2"
-                                />
-                                <ReactTags
-                                    inline={false}
-                                    tags={tags}
-                                    autofocus={false}
-                                    delimiters={[KEYS.TAB, KEYS.COMMA]}
-                                    suggestions={suggestionsTag}
-                                    placeholder="Add tags. Press comma to add."
-                                    onTagUpdate={onTagUpdate}
-                                    handleDelete={handleDeleteTag}
-                                    handleAddition={handleAdditionTag}
-                                    inputFieldPosition="bottom"
-                                    autocomplete
-                                    allowDragDrop={false}
-                                    maxTags={10}
-                                />
-                                <InputError
-                                    message={errors.tags}
-                                    className="mb-3"
-                                />
-                            </div>
-                        </Card>
-
-                        <Card className="w-full lg:w-1/3">
-                            <div className="mb-3">
-                                <InputLabel
-                                    htmlFor="slug"
-                                    value="Slug / url post"
-                                    className="mb-2"
-                                />
-                                <div className="relative mt-2.5">
-                                    <div className="absolute inset-y-0 right-0 flex items-center">
-                                        <button
-                                            type="button"
-                                            className="rounded-r-md z-10 bg-backend-neutral border border-l-0 border-gray-300 px-3.5 py-2  shadow-sm ring-1 ring-inset hover:bg-gray-50"
-                                            onClick={(e) => inputSlug(e)}
-                                        >
-                                            {editSlug ? (
-                                                <i className="ri-close-line"></i>
-                                            ) : (
-                                                <i className="ri-pencil-line"></i>
-                                            )}
-                                        </button>
-                                    </div>
-                                    <input
+                    {!metaTab && (
+                        <div className="flex flex-col gap-2 mb-3 lg:flex-row">
+                            <Card className="flex-1">
+                                <div className="mb-3">
+                                    <InputLabel
+                                        htmlFor="title"
+                                        value="Title"
+                                        className="mb-2"
+                                    />
+                                    <TextInput
                                         type="text"
-                                        id="slug"
-                                        typeof="text"
-                                        className="block w-full rounded-md border-0 px-3.5 py-2   shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-backend-primary sm:text-sm sm:leading-6 disabled:cursor-not-allowed disabled:opacity-50"
-                                        value={data.slug}
-                                        disabled={!editSlug}
-                                        onChange={(e) =>
-                                            setData((prevState) => ({
-                                                ...prevState,
-                                                slug: e.target.value,
-                                            }))
-                                        }
+                                        id="title"
+                                        className="w-full"
+                                        isFocused={true}
+                                        value={data.title}
+                                        onChange={changeToSlug}
+                                    />
+                                    <InputError
+                                        message={errors.title}
+                                        className="mb-3"
                                     />
                                 </div>
-                                <InputError
-                                    message={errors.slug}
-                                    className="mb-3"
-                                />
-                            </div>
-                            <div className="mb-3">
-                                <InputLabel
-                                    htmlFor="published_at"
-                                    value="Publish At"
-                                />
-                                <i>*by default immediately</i>
-                                <input
-                                    type="datetime-local"
-                                    className="w-full border-gray-300 rounded-md shadow-sm focus:border-backend-primary focus:ring-backend-primary"
-                                    id="published_at"
-                                    name="published_at"
-                                    value={data.published_at}
-                                    onChange={(e) =>
-                                        setData("published_at", e.target.value)
-                                    }
-                                />
-                                <InputError
-                                    message={errors.published_at}
-                                    className="mb-3"
-                                />
-                            </div>
+                                <div className="mb-3">
+                                    <InputLabel
+                                        htmlFor="category_id"
+                                        value="Category"
+                                        className="mb-2"
+                                    />
+                                    <SelectInput
+                                        id="category_id"
+                                        name="category_id"
+                                        value={data.category_id}
+                                        onChange={(e) =>
+                                            setData(
+                                                "category_id",
+                                                e.target.value
+                                            )
+                                        }
+                                    >
+                                        <option value="">
+                                            -- Select Category --
+                                        </option>
+                                        {categories.map((category) => (
+                                            <option
+                                                key={category.id}
+                                                value={category.id}
+                                            >
+                                                {category.category}
+                                            </option>
+                                        ))}
+                                    </SelectInput>
+                                    <InputError
+                                        message={errors.category_id}
+                                        className="mb-3"
+                                    />
+                                </div>
+                                <div className="mb-3">
+                                    <InputLabel
+                                        htmlFor="excerpt"
+                                        value="Excerpt/Summary/Intro"
+                                        className="mb-2"
+                                    />
+                                    <textarea
+                                        id="excerpt"
+                                        name="excerpt"
+                                        rows="5"
+                                        className="w-full border-gray-300 rounded-md shadow-sm focus:border-backend-primary focus:ring-backend-primary"
+                                        value={data.excerpt}
+                                        onChange={(e) =>
+                                            setData("excerpt", e.target.value)
+                                        }
+                                    ></textarea>
+                                    <InputError
+                                        message={errors.excerpt}
+                                        className="mb-3"
+                                    />
+                                </div>
 
-                            {/**  AUTHOR MASIH BELOM BERFUNGSI  **/}
-                            <div className="mb-3">
-                                <InputLabel
-                                    htmlFor="user_id"
-                                    value="Author"
-                                    className="mb-2"
-                                />
-                                <SelectInput
-                                    id="user_id"
-                                    name="user_id"
-                                    value={data.user_id}
-                                    onChange={(e) =>
-                                        setData("user_id", e.target.value)
-                                    }
-                                >
-                                    <option value="">
-                                        -- Select Author --
-                                    </option>
-                                    <option value={auth.user.id}>
-                                        {auth.user.username}
-                                    </option>
-                                    {/* {users.map((user, index) => (
+                                <div id="tags" className="mb-3">
+                                    <InputLabel
+                                        htmlFor="tags"
+                                        value="Tags"
+                                        className="mb-2"
+                                    />
+                                    <ReactTags
+                                        inline={false}
+                                        tags={tags}
+                                        autofocus={false}
+                                        delimiters={[KEYS.TAB, KEYS.COMMA]}
+                                        suggestions={suggestionsTag}
+                                        placeholder="Add tags. Press comma to add."
+                                        onTagUpdate={onTagUpdate}
+                                        handleDelete={handleDeleteTag}
+                                        handleAddition={handleAdditionTag}
+                                        inputFieldPosition="bottom"
+                                        autocomplete
+                                        allowDragDrop={false}
+                                        maxTags={10}
+                                    />
+                                    <InputError
+                                        message={errors.tags}
+                                        className="mb-3"
+                                    />
+                                </div>
+                            </Card>
+
+                            <Card className="w-full lg:w-1/3">
+                                <div className="mb-3">
+                                    <InputLabel
+                                        htmlFor="slug"
+                                        value="Slug / url post"
+                                        className="mb-2"
+                                    />
+                                    <div className="relative mt-2.5">
+                                        <div className="absolute inset-y-0 right-0 flex items-center">
+                                            <button
+                                                type="button"
+                                                className="rounded-r-md z-10 bg-backend-neutral border border-l-0 border-gray-300 px-3.5 py-2  shadow-sm ring-1 ring-inset hover:bg-gray-50"
+                                                onClick={(e) => inputSlug(e)}
+                                            >
+                                                {editSlug ? (
+                                                    <i className="ri-close-line"></i>
+                                                ) : (
+                                                    <i className="ri-pencil-line"></i>
+                                                )}
+                                            </button>
+                                        </div>
+                                        <input
+                                            type="text"
+                                            id="slug"
+                                            typeof="text"
+                                            className="block w-full rounded-md border-0 px-3.5 py-2   shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-backend-primary sm:text-sm sm:leading-6 disabled:cursor-not-allowed disabled:opacity-50"
+                                            value={data.slug}
+                                            disabled={!editSlug}
+                                            onChange={(e) =>
+                                                setData((prevState) => ({
+                                                    ...prevState,
+                                                    slug: e.target.value,
+                                                }))
+                                            }
+                                        />
+                                    </div>
+                                    <InputError
+                                        message={errors.slug}
+                                        className="mb-3"
+                                    />
+                                </div>
+                                <div className="mb-3">
+                                    <InputLabel
+                                        htmlFor="published_at"
+                                        value="Publish At"
+                                    />
+                                    <i>*by default immediately</i>
+                                    <input
+                                        type="datetime-local"
+                                        className="w-full border-gray-300 rounded-md shadow-sm focus:border-backend-primary focus:ring-backend-primary"
+                                        id="published_at"
+                                        name="published_at"
+                                        value={data.published_at}
+                                        onChange={(e) =>
+                                            setData(
+                                                "published_at",
+                                                e.target.value
+                                            )
+                                        }
+                                    />
+                                    <InputError
+                                        message={errors.published_at}
+                                        className="mb-3"
+                                    />
+                                </div>
+
+                                {/**  AUTHOR MASIH BELOM BERFUNGSI  **/}
+                                <div className="mb-3">
+                                    <InputLabel
+                                        htmlFor="user_id"
+                                        value="Author"
+                                        className="mb-2"
+                                    />
+                                    <SelectInput
+                                        id="user_id"
+                                        name="user_id"
+                                        value={data.user_id}
+                                        onChange={(e) =>
+                                            setData("user_id", e.target.value)
+                                        }
+                                    >
+                                        <option value="">
+                                            -- Select Author --
+                                        </option>
+                                        <option value={auth.user.id}>
+                                            {auth.user.username}
+                                        </option>
+                                        {/* {users.map((user, index) => (
                                         <option key={index} value={user.id}>
                                             {user.name}
                                         </option>
                                     ))} */}
-                                </SelectInput>
-                                <InputError
-                                    message={errors.user_id}
-                                    className="mb-3"
-                                />
-                            </div>
+                                    </SelectInput>
+                                    <InputError
+                                        message={errors.user_id}
+                                        className="mb-3"
+                                    />
+                                </div>
 
-                            <div className="mb-3">
-                                <InputLabel
-                                    value="Featured Image"
-                                    className="mb-2"
-                                />
-                                <div
-                                    className={`flex justify-center p-6 mt-2 border border-dashed rounded-lg ${
-                                        dragging
-                                            ? "border-backend-info"
-                                            : "border-gray-900/25"
-                                    }`}
-                                    onDrop={handleDrop}
-                                    onDragOver={handleDragOver}
-                                    onDragLeave={handleDragLeave}
-                                >
-                                    <div className="text-center">
-                                        <i
-                                            className={`ri-image-fill text-3xl ${
-                                                dragging
-                                                    ? "text-backend-info"
-                                                    : "text-gray-900/25"
-                                            }`}
-                                        ></i>
-                                        <div className="flex mt-4 text-sm leading-6 text-gray-600">
-                                            <label
-                                                htmlFor="cover"
-                                                className="relative font-semibold rounded-md cursor-pointer text-backend-primary bg-backend-light focus-within:outline-none focus-within:ring-2 focus-within:ring-backend-primary focus-within:ring-offset-2 hover:text-backend-primary"
-                                            >
-                                                <span>Upload a file</span>
-                                                <input
-                                                    id="cover"
-                                                    name="cover"
-                                                    type="file"
-                                                    className="sr-only"
-                                                    accept="image/*"
-                                                    onChange={handleImageChange}
-                                                />
-                                            </label>
-                                            <p className="pl-1">
-                                                or drag and drop
+                                <div className="mb-3">
+                                    <InputLabel
+                                        value="Featured Image"
+                                        className="mb-2"
+                                    />
+                                    <div
+                                        className={`flex justify-center p-6 mt-2 border border-dashed rounded-lg ${
+                                            dragging
+                                                ? "border-backend-info"
+                                                : "border-gray-900/25"
+                                        }`}
+                                        onDrop={handleDrop}
+                                        onDragOver={handleDragOver}
+                                        onDragLeave={handleDragLeave}
+                                    >
+                                        <div className="text-center">
+                                            <i
+                                                className={`ri-image-fill text-3xl ${
+                                                    dragging
+                                                        ? "text-backend-info"
+                                                        : "text-gray-900/25"
+                                                }`}
+                                            ></i>
+                                            <div className="flex mt-4 text-sm leading-6 text-gray-600">
+                                                <label
+                                                    htmlFor="cover"
+                                                    className="relative font-semibold rounded-md cursor-pointer text-backend-primary bg-backend-light focus-within:outline-none focus-within:ring-2 focus-within:ring-backend-primary focus-within:ring-offset-2 hover:text-backend-primary"
+                                                >
+                                                    <span>Upload a file</span>
+                                                    <input
+                                                        id="cover"
+                                                        name="cover"
+                                                        type="file"
+                                                        className="sr-only"
+                                                        accept="image/*"
+                                                        onChange={
+                                                            handleImageChange
+                                                        }
+                                                    />
+                                                </label>
+                                                <p className="pl-1">
+                                                    or drag and drop
+                                                </p>
+                                            </div>
+                                            <p className="text-xs leading-5 text-gray-600">
+                                                PNG, JPG, GIF up to 10MB
                                             </p>
                                         </div>
-                                        <p className="text-xs leading-5 text-gray-600">
-                                            PNG, JPG, GIF up to 10MB
-                                        </p>
                                     </div>
+                                    <InputError
+                                        message={errors.cover}
+                                        className="mb-3"
+                                    />
+
+                                    {imagePreview && (
+                                        <>
+                                            <div className="mt-3 space-y-1">
+                                                <span>Preview</span>
+                                                <img
+                                                    src={imagePreview}
+                                                    alt="Preview featured image"
+                                                    className="object-cover w-full h-40 rounded-md max-w-80 max-h-72"
+                                                />
+                                            </div>
+                                        </>
+                                    )}
                                 </div>
+                            </Card>
+                        </div>
+                    )}
+
+                    {metaTab && (
+                        <Card className="mb-3">
+                            <div className="mb-3">
+                                <div className="mb-4">
+                                    <InputLabel
+                                        htmlFor="meta_title"
+                                        value="Meta Title"
+                                    />
+                                    <span className="text-sm text-gray-500">
+                                        Use meta title for customing title on
+                                        browser tab
+                                    </span>
+                                </div>
+                                <TextInput
+                                    type="text"
+                                    id="meta_title"
+                                    className="w-full"
+                                    maxLength={255}
+                                    value={data.meta_title}
+                                    onChange={(e) => {
+                                        setData("meta_title", e.target.value);
+                                    }}
+                                />
                                 <InputError
-                                    message={errors.cover}
+                                    message={errors.meta_title}
                                     className="mb-3"
                                 />
-
-                                {imagePreview && (
-                                    <>
-                                        <div className="mt-3 space-y-1">
-                                            <span>Preview</span>
-                                            <img
-                                                src={imagePreview}
-                                                alt="Preview featured image"
-                                                className="w-full h-40 object-cover rounded-md max-w-80 max-h-72"
-                                            />
-                                        </div>
-                                    </>
-                                )}
+                            </div>
+                            <div className="mb-3">
+                                <div className="mb-4">
+                                    <InputLabel
+                                        htmlFor="meta_description"
+                                        value="Description"
+                                    />
+                                    <span className="text-sm text-gray-500">
+                                        Use summary for custom description SEO
+                                    </span>
+                                </div>
+                                <textarea
+                                    id="meta_description"
+                                    name="meta_description"
+                                    rows="5"
+                                    className="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                    placeholder="Enter description"
+                                    maxLength={300}
+                                    value={data.meta_description}
+                                    onChange={(e) => {
+                                        setData(
+                                            "meta_description",
+                                            e.target.value
+                                        );
+                                    }}
+                                ></textarea>
+                                <InputError
+                                    message={errors.meta_description}
+                                    className="mb-3"
+                                />
+                            </div>
+                            <div className="mb-3">
+                                <div className="mb-4">
+                                    <InputLabel
+                                        htmlFor="meta_keywords"
+                                        value="Keywords"
+                                    />
+                                    <span className="text-sm text-gray-500">
+                                        Use keywords for custom description SEO
+                                    </span>
+                                </div>
+                                <textarea
+                                    id="meta_keywords"
+                                    name="meta_keywords"
+                                    rows="5"
+                                    className="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                    placeholder="Enter keywords. Use comma to separate. Example: keyword1, keyword2, keyword3"
+                                    maxLength={255}
+                                    value={data.meta_keywords}
+                                    onChange={(e) => {
+                                        setData(
+                                            "meta_keywords",
+                                            e.target.value
+                                        );
+                                    }}
+                                ></textarea>
+                                <InputError
+                                    message={errors.meta_keywords}
+                                    className="mb-3"
+                                />
                             </div>
                         </Card>
-                    </div>
+                    )}
 
                     <Card className="">
                         <InputLabel value="Content" className="mb-2" />

@@ -41,10 +41,10 @@ const Index = ({ auth, meta, menuLinks }) => {
             <Head title="Menu Setting"></Head>
 
             <DashboardLayout user={auth.user} metaTitle={meta.title}>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
                     <div className="">
                         <Card>
-                            <div className="text-xl mb-3">
+                            <div className="mb-3 text-xl">
                                 <h3>Add new menu item</h3>
                             </div>
 
@@ -185,7 +185,7 @@ const Index = ({ auth, meta, menuLinks }) => {
                                 <div className="mb-3">
                                     <ButtonBE
                                         color={"bg-backend-primary"}
-                                        className="px-2 py-1  hover:bg-backend-primary/75 text-white rounded"
+                                        className="px-2 py-1 text-white rounded hover:bg-backend-primary/75"
                                         disabled={processing}
                                     >
                                         Save
@@ -197,7 +197,7 @@ const Index = ({ auth, meta, menuLinks }) => {
                     <div className="">
                         <Card>
                             <div className="">
-                                <div className="text-xl my-3">
+                                <div className="my-3 text-xl">
                                     <h3>Header Nav</h3>
                                 </div>
                                 {menuLinks?.header?.length != 0 ? (
@@ -206,7 +206,7 @@ const Index = ({ auth, meta, menuLinks }) => {
                                             <>
                                                 <Card
                                                     key={index}
-                                                    className="shadow-none border-2 border-backend-dark mb-2 flex justify-between"
+                                                    className="flex justify-between mb-2 border-2 shadow-none border-backend-dark"
                                                 >
                                                     <div className="">
                                                         <h4>
@@ -225,7 +225,7 @@ const Index = ({ auth, meta, menuLinks }) => {
                                                             color={
                                                                 "bg-backend-error"
                                                             }
-                                                            className="px-2 py-1  hover:bg-backend-error/75 text-white rounded"
+                                                            className="px-2 py-1 text-white rounded hover:bg-backend-error/75"
                                                             onClick={() =>
                                                                 handleDelete(
                                                                     item
@@ -242,7 +242,7 @@ const Index = ({ auth, meta, menuLinks }) => {
                                                             (item, index) => (
                                                                 <Card
                                                                     key={index}
-                                                                    className="shadow-none border-2 border-backend-dark mb-2 flex justify-between ml-3"
+                                                                    className="flex justify-between mb-2 ml-3 border-2 shadow-none border-backend-dark"
                                                                 >
                                                                     <div className="">
                                                                         <h4>
@@ -269,7 +269,7 @@ const Index = ({ auth, meta, menuLinks }) => {
                                                                             color={
                                                                                 "bg-backend-error"
                                                                             }
-                                                                            className="px-2 py-1  hover:bg-backend-error/75 text-white rounded"
+                                                                            className="px-2 py-1 text-white rounded hover:bg-backend-error/75"
                                                                             onClick={() =>
                                                                                 handleDelete(
                                                                                     item
@@ -293,7 +293,7 @@ const Index = ({ auth, meta, menuLinks }) => {
                             </div>
 
                             <div className="">
-                                <div className="text-xl my-3">
+                                <div className="my-3 text-xl">
                                     <h3>Footer A</h3>
                                 </div>
                                 {menuLinks?.footer_a?.length != 0 ? (
@@ -302,7 +302,7 @@ const Index = ({ auth, meta, menuLinks }) => {
                                             (item, index) => (
                                                 <Card
                                                     key={index}
-                                                    className="shadow-none border-2 border-backend-dark mb-2 flex justify-between"
+                                                    className="flex justify-between mb-2 border-2 shadow-none border-backend-dark"
                                                 >
                                                     <div className="">
                                                         <h4>
@@ -321,7 +321,7 @@ const Index = ({ auth, meta, menuLinks }) => {
                                                             color={
                                                                 "bg-backend-error"
                                                             }
-                                                            className="px-2 py-1  hover:bg-backend-error/75 text-white rounded"
+                                                            className="px-2 py-1 text-white rounded hover:bg-backend-error/75"
                                                             onClick={() =>
                                                                 handleDelete(
                                                                     item
@@ -341,7 +341,7 @@ const Index = ({ auth, meta, menuLinks }) => {
                             </div>
 
                             <div className="">
-                                <div className="text-xl my-3">
+                                <div className="my-3 text-xl">
                                     <h3>Footer b</h3>
                                 </div>
                                 {menuLinks?.footer_b?.length != 0 ? (
@@ -350,9 +350,9 @@ const Index = ({ auth, meta, menuLinks }) => {
                                             (item, index) => (
                                                 <Card
                                                     key={index}
-                                                    className="shadow-none border-2 border-backend-dark mb-2 flex justify-between"
+                                                    className="flex justify-between mb-2 border-2 shadow-none border-backend-dark"
                                                 >
-                                                    <div className="">
+                                                    <div className="w-3/4">
                                                         <h4>
                                                             <b>{item.name}</b>
                                                         </h4>
@@ -369,7 +369,7 @@ const Index = ({ auth, meta, menuLinks }) => {
                                                             color={
                                                                 "bg-backend-error"
                                                             }
-                                                            className="px-2 py-1  hover:bg-backend-error/75 text-white rounded"
+                                                            className="px-2 py-1 text-white rounded hover:bg-backend-error/75"
                                                             onClick={() =>
                                                                 handleDelete(
                                                                     item

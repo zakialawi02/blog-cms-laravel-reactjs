@@ -42,6 +42,9 @@ class ArticleRequest extends FormRequest
             'content' => 'nullable',
             'excerpt' => 'nullable|max:300',
             'cover' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+            'meta_title' => 'nullable|max:100',
+            'meta_description' => 'nullable|max:300',
+            'meta_keywords' => 'nullable|max:255',
         ];
     }
 }

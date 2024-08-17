@@ -125,7 +125,7 @@ class ArticleController extends Controller
      */
     protected function getIpVisitor($ip)
     {
-        $access_token = 'cdd7aa7e08e80d';
+        $access_token = env('IPINFO_ACCESS_TOKEN');
         $client = new IPinfo($access_token);
         $ip_address = $ip;
         $details = $client->getDetails($ip_address);
@@ -181,8 +181,11 @@ class ArticleController extends Controller
             ->firstOrFail();
         $article['cover'] = (!empty($article->cover) ? $article->cover = asset("storage/drive/" . $article->user->username . "/img/" . $article->cover) : $article->cover = asset("assets/img/image-placeholder.png"));
         $article['excerpt'] = !empty($article->excerpt) ? $article->excerpt : Str::limit(strip_tags($article->content), 200);
+        $article['meta_title'] = !empty($article->meta_title) ? $article->meta_title : $article->title;
+        $article['meta_description'] = !empty($article->meta_description) ? Str::limit(strip_tags($article->meta_description), 299) : (!empty($article->excerpt) ? $article->excerpt : Str::limit(strip_tags($article->content), 299));
+        $article['meta_keywords'] = !empty($article->meta_keywords) ? $article->meta_keywords : $article->tags->pluck('name')->toArray();
 
-        $ipAddress = $request->header('CF-Connecting-IP') ?? $request->header('X-Forwarded-For');
+        // $ipAddress = $request->header('CF-Connecting-IP') ?? $request->header('X-Forwarded-For');
 
         // $this->saveVisitor($article->id, $ipAddress);
 

@@ -82,7 +82,7 @@ class ArticleController extends Controller
      */
     protected function getIpVisitor($ip)
     {
-        $access_token = 'cdd7aa7e08e80d';
+        $access_token = env('IPINFO_ACCESS_TOKEN');
         $client = new IPinfo($access_token);
         $ip_address = $ip;
         $details = $client->getDetails($ip_address);

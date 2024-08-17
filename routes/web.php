@@ -26,13 +26,17 @@ use App\Http\Controllers\ArticleViewController;
 |
 */
 
+// Route::get('/', function () {
+//     return Inertia::render('Welcome', [
+//         'canLogin' => Route::has('login'),
+//         'canRegister' => Route::has('register'),
+//         'laravelVersion' => Application::VERSION,
+//         'phpVersion' => PHP_VERSION,
+//     ]);
+// });
+
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
+    return redirect('/blog');
 });
 
 
@@ -69,11 +73,11 @@ Route::prefix('dashboard')->as('admin.')->group(function () {
         Route::resource('tags', TagController::class)->parameters(['tags' => 'tag:slug']);
         Route::post('/tags/generateSlug', [TagController::class, 'generateSlug'])->name('tags.generateSlug');
 
-        Route::get('/posts/stats', [ArticleViewController::class, 'index'])->name('posts.stats');
-        Route::get('/posts/stats/location', [ArticleViewController::class, 'index2'])->name('posts.statsByLocation');
-        Route::get('/posts/statspopular', [ArticleViewController::class, 'getStatsPopular'])->name('posts.statspopular');
-        Route::get('/posts/statsrecent', [ArticleViewController::class, 'getStatsRecent'])->name('posts.statsrecent');
-        Route::get('/posts/stats/6months', [ArticleViewController::class, 'getViewsLast6Months'])->name('posts.statslast6months');
+        Route::get('/stats/posts', [ArticleViewController::class, 'index'])->name('posts.stats');
+        Route::get('/stats/posts/location', [ArticleViewController::class, 'index2'])->name('posts.statsByLocation');
+        Route::get('/stats/postspopular', [ArticleViewController::class, 'getStatsPopular'])->name('posts.statspopular');
+        Route::get('/stats/postsrecent', [ArticleViewController::class, 'getStatsRecent'])->name('posts.statsrecent');
+        Route::get('/stats/posts/6months', [ArticleViewController::class, 'getViewsLast6Months'])->name('posts.statslast6months');
         Route::get('/stats/posts/{slug}', [ArticleViewController::class, 'statsPerArticle'])->name('posts.statsdetail');
         Route::get('/stats/locations', [ArticleViewController::class, 'statsByLocation'])->name('posts.statslocation');
     });

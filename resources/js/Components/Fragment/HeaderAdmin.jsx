@@ -6,6 +6,21 @@ import Notification from "../Element/Notification/Notification";
 import DropdownItem from "../Element/Dropdown/DropdownItem";
 
 const HeaderAdmin = ({ user, toggleSidebar }) => {
+    const pathname = window.location.pathname;
+    const url1 = pathname.split("/")[1];
+    const url2 = pathname
+        .split("/")[2]
+        ?.split("-")
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(" ")
+        .trim();
+    const url3 = pathname
+        .split("/")[3]
+        ?.split("-")
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(" ")
+        .trim();
+
     const [isOpenDropdownUser, setIsOpenDropdownUser] = useState(false);
     const [isOpenSearch, setIsOpenSearch] = useState(false);
     const [isOpenNotification, setIsOpenNotification] = useState(false);
@@ -58,8 +73,14 @@ const HeaderAdmin = ({ user, toggleSidebar }) => {
                         Dashboard
                     </Link>
                 </li>
-                <li className="mr-2 font-medium text-backend-dark">/</li>
-                <li className="mr-2 font-medium text-backend-dark">Page</li>
+                <li className="mr-2 font-medium text-backend-dark">
+                    {url2 && "/"}
+                </li>
+                <li className="mr-2 font-medium text-backend-dark">{url2}</li>
+                <li className="mr-2 font-medium text-backend-dark">
+                    {url3 && "/"}
+                </li>
+                <li className="mr-2 font-medium text-backend-dark">{url3}</li>
             </ul>
             <ul className="flex items-center ml-auto">
                 <li className="mr-1 dropdown" ref={searchRef}>

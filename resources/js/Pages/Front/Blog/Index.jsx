@@ -29,7 +29,7 @@ const Index = ({ articles, featured }) => {
                         segmentUrl
                             ? "in Category " + segmentClass.replace("-", " ")
                             : ""
-                    } | zakialawi.my.id website`}
+                    } | Zakialawi Personal Blog & web platform | zakialawi.my.id website`}
                 />
                 <meta
                     name="keywords"

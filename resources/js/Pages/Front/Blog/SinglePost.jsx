@@ -96,11 +96,11 @@ const SinglePost = ({ article }) => {
     return (
         <>
             <Head>
-                <title>{article.title}</title>
-                <meta name="description" content={article.excerpt} />
+                <title>{article.meta_title}</title>
+                <meta name="description" content={article.meta_description} />
                 <meta
                     name="keywords"
-                    content="zakialawi, blog, post, personal, web, developer, laravel, wep programming, webgis, gis, geospatial, surveyor, tutorials, tips, ahmad zaki alawi, geomatika, geomatics, geography"
+                    content={`${article.meta_keywords} zakialawi, blog, post, personal, web, developer, laravel, wep programming, webgis, gis, geospatial, surveyor, tutorials, tips, ahmad zaki alawi, geomatika, geomatics, geography`}
                 />
 
                 <meta property="og:type" content="website" />

@@ -7,8 +7,8 @@
 
         <title inertia>{{ config("app.name", "Laravel") }}</title>
         <link rel="icon" type="image/png" href="/favicon.png" />
-        <meta name="description" content="Zakialawi Personal Blog & web platform" />
-        <meta name="keywords" content="resume,  portfolio, cv, ahmad zaki alawi, zakialawi, blog, personal, web, developer, laravel, wep programming, webgis, gis, geospatial, surveyor, tutorials, tips, ahmad zaki alawi, geomatika, geomatics, geography" />
+        {{-- <meta name="description" content="Zakialawi Personal Blog & web platform" /> --}}
+        {{-- <meta name="keywords" content="resume,  portfolio, cv, ahmad zaki alawi, zakialawi, blog, personal, web, developer, laravel, wep programming, webgis, gis, geospatial, surveyor, tutorials, tips, ahmad zaki alawi, geomatika, geomatics, geography" /> --}}
         <meta name="author" content="Ahmad Zaki Alawi" />
 
         {{-- <meta property="og:title" content="Ahmad Zaki Alawi" /> --}}
