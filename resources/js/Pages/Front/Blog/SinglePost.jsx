@@ -103,13 +103,23 @@ const SinglePost = ({ article }) => {
                     content={`${article.meta_keywords} zakialawi, blog, post, personal, web, developer, laravel, wep programming, webgis, gis, geospatial, surveyor, tutorials, tips, ahmad zaki alawi, geomatika, geomatics, geography`}
                 />
 
+                <meta itemprop="name" content="zakialawi" />
+                <meta
+                    itemprop="description"
+                    content={article.meta_description}
+                />
+                <meta itemprop="image" content={`${article.cover}`} />
+
                 <meta property="og:type" content="website" />
                 <meta
                     property="og:title"
                     content={`${article.title} | zakialawi`}
                 />
                 <meta property="og:description" content={article.excerpt} />
-                <meta property="og:image" content={`/${article.cover}`} />
+                <meta
+                    property="og:image"
+                    content={`https://zakialawi.com${article.cover}`}
+                />
                 <meta property="og:url" content={window.location.href} />
 
                 <meta name={article.user.username + ", Ahmad Zaki Alawi"} />
