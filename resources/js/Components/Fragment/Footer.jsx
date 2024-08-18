@@ -209,7 +209,7 @@ const Footer = () => {
 
                                 <div>
                                     <Link
-                                        href="#"
+                                        href="/p/term"
                                         className="text-base font-semibold hover:text-frontend-primary text-frontend-muted"
                                     >
                                         Terms Conditions
@@ -219,7 +219,7 @@ const Footer = () => {
                                         &amp;{" "}
                                     </span>
                                     <Link
-                                        href="#"
+                                        href="/p/privacy"
                                         className="text-base font-semibold text-frontend-muted hover:text-frontend-primary"
                                     >
                                         Privacy Policy
