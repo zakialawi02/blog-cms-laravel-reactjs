@@ -151,12 +151,6 @@ const SidebarAdmin = ({ show, toggleSidebar }) => {
                                 />
 
                                 <NavMenu
-                                    icon="ri-chat-heart-line"
-                                    text="Pesan"
-                                    to="/dashboard/pesan"
-                                />
-
-                                <NavMenu
                                     icon="ri-news-line"
                                     text="Newsletter"
                                     to="/dashboard/newsletter"

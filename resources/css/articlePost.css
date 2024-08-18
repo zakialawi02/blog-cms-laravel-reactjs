@@ -115,6 +115,13 @@
     border: none;
 }
 
+.wrs_tickContainer {
+    display: none !important;
+}
+.Wirisformula {
+    display: inline;
+}
+
 /* CKEDITOR */
 #post-content .ck div {
     margin-bottom: 0rem;

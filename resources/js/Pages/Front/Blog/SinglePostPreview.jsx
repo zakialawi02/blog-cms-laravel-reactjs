@@ -42,8 +42,8 @@ const SinglePostPreview = ({ article }) => {
                     name="copyright"
                     content={article.user.username + ", Ahmad Zaki Alawi"}
                 />
-                <meta name="robots" content="index, follow" />
-                <meta name="googlebot" content="index, follow" />
+                <meta name="robots" content="noindex, nofollow" />
+                <meta name="googlebot" content="noindex, nofollow" />
             </Head>
 
             <GuestLayout className="container w-full p-6 md:p-10">
@@ -273,7 +273,7 @@ const SinglePostPreview = ({ article }) => {
                                 </div>
 
                                 <CardAsidePost.Body>
-                                    <Card className="bg-opacity-30 h-20">
+                                    <Card className="h-20 bg-opacity-30">
                                         <p>
                                             Display no avaliable in preview page
                                         </p>
