@@ -66,6 +66,12 @@ const SidebarAdmin = ({ show, toggleSidebar }) => {
                                     text="Tags"
                                     to="/dashboard/tags"
                                 />
+
+                                <NavMenu
+                                    icon="ri-pages-line"
+                                    text="Pages"
+                                    to="/dashboard/pages"
+                                />
                             </>
                         )}
 

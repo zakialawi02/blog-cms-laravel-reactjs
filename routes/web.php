@@ -4,6 +4,7 @@ use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\TagController;
+use App\Http\Controllers\PageController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ArticleController;
@@ -49,6 +50,16 @@ Route::prefix('dashboard')->as('admin.')->group(function () {
         Route::get('/user/{user:id}', [UserController::class, 'getUser'])->name('getUser');
 
         Route::resource('menus-item', MenuItemController::class)->only('index', 'store', 'destroy');
+
+        Route::get('/pages/{id}/load-project', [PageController::class, 'loadProject'])->name('pages.loadproject');
+        Route::patch('/pages/{id}/store-project', [PageController::class, 'storeProject'])->name('pages.storeproject');
+        Route::get('/pages', [PageController::class, 'index'])->name('pages.index');
+        Route::post('/pages', [PageController::class, 'store'])->name('pages.store');
+        Route::get('/pages/create', [PageController::class, 'create'])->name('pages.create');
+        Route::get('/pages/{page:id}/edit', [PageController::class, 'edit'])->name('pages.edit');
+        Route::get('/pages/{page:id}/builder', [PageController::class, 'builder'])->name('pages.builder');
+        Route::put('/pages/{page:id}', [PageController::class, 'update'])->name('pages.update');
+        Route::delete('/pages/{page:id}', [PageController::class, 'destroy'])->name('pages.destroy');
     });
 
 
@@ -128,6 +139,7 @@ Route::get('/blog/{year}/{slug}', [ArticleController::class, 'show'])->name('art
 
 Route::post('/show-comment/{post:slug}', [CommentsController::class, 'getComment'])->name('getComment');
 
+Route::get('/p/{page:slug}', [PageController::class, 'show'])->name('page.show');
 
 Route::get('/navItemFooterData', [MenuItemController::class, 'getMenuFooter'])->name('navItemFooterData');
 Route::get('/navItemHeaderData', [MenuItemController::class, 'getMenuHeader'])->name('navItemHeaderData');
