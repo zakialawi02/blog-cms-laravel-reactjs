@@ -1,9 +1,11 @@
 import CardPost from "../Element/Card/CardPost";
 
 const DisplayPost = ({ articles }) => {
+    console.log(articles);
+
     return (
         <div className="grid grid-cols-1 gap-8 mb-5 md:grid-cols-2 xl:grid-cols-3">
-            {articles.length === 0 ? (
+            {articles.data.length === 0 ? (
                 <p className="my-2 ">No Article Posts Available</p>
             ) : (
                 articles.data.map((item, index) => (

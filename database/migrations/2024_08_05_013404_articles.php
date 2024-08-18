@@ -22,6 +22,9 @@ return new class extends Migration
             $table->string('excerpt', 2048)->nullable();
             $table->string('cover')->nullable();
             $table->enum('status', ['published', 'draft'])->default('draft');
+            $table->string('meta_title', 100)->nullable();
+            $table->string('meta_description', 300)->nullable();
+            $table->string('meta_keywords', 255)->nullable();
             $table->timestamp('published_at')->nullable();
             $table->timestamp('created_at')->useCurrent()->nullable();
             $table->timestamp('updated_at')->useCurrentOnUpdate()->nullable();

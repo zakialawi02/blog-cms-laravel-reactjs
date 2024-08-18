@@ -21,9 +21,6 @@ return new class extends Migration
             $table->rememberToken();
             $table->string('profile_photo_path', 2048)->default('/assets/img/profile/user.png');
             $table->enum('role', ['admin', 'writer', 'user'])->default('user');
-            $table->string('meta_title', 100)->nullable();
-            $table->string('meta_description', 300)->nullable();
-            $table->string('meta_keywords', 255)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
