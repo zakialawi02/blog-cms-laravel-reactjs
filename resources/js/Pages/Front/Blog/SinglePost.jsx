@@ -106,13 +106,10 @@ const SinglePost = ({ article }) => {
                 <meta property="og:type" content="website" />
                 <meta
                     property="og:title"
-                    content={`${article.title} | zakialawi.my.id`}
+                    content={`${article.title} | zakialawi`}
                 />
                 <meta property="og:description" content={article.excerpt} />
-                <meta
-                    property="og:image"
-                    content={window.location.href + article.cover}
-                />
+                <meta property="og:image" content={`/${article.cover}`} />
                 <meta property="og:url" content={window.location.href} />
 
                 <meta name={article.user.username + ", Ahmad Zaki Alawi"} />

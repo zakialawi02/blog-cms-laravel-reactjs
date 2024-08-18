@@ -29,7 +29,7 @@ const Index = ({ articles, featured }) => {
                         segmentUrl
                             ? "in Category " + segmentClass.replace("-", " ")
                             : ""
-                    } | Zakialawi Personal Blog & web platform | zakialawi.my.id website`}
+                    } | Zakialawi Personal Blog & web platform | zakialawi website`}
                 />
                 <meta
                     name="keywords"
@@ -42,7 +42,7 @@ const Index = ({ articles, featured }) => {
                         segmentUrl
                             ? "in Category " + segmentClass.replace("-", " ")
                             : ""
-                    } | zakialawi.my.id website`}
+                    } | zakialawi website`}
                 />
                 <meta
                     property="og:description"
@@ -50,7 +50,7 @@ const Index = ({ articles, featured }) => {
                         segmentUrl
                             ? "in Category " + segmentClass.replace("-", " ")
                             : ""
-                    } | zakialawi.my.id website | Discover the latest stories, thoughts and inspiration.`}
+                    } | zakialawi website | Discover the latest stories, thoughts and inspiration.`}
                 />
                 <meta property="og:image" content="/favicon.png" />
                 <meta property="og:url" content={window.location.href} />

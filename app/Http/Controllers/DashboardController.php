@@ -6,7 +6,7 @@ use App\Models\User;
 use App\Models\Article;
 use App\Models\Comment;
 use App\Models\ArticleView;
-use App\Models\requestContributor;
+use App\Models\RequestContributor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -49,7 +49,7 @@ class DashboardController extends Controller
             $visitors = ArticleView::whereIn('article_id', $articleIds)->count();
             return response()->json(compact('myPosts', 'myPostsPublished', 'myComments', 'visitors'));
         } else {
-            $join = requestContributor::where('user_id', Auth::id())->latest('created_at')->first();
+            $join = RequestContributor::where('user_id', Auth::id())->latest('created_at')->first();
             $myComments = Comment::where('user_id', Auth::id())->count();
             return response()->json(compact('join', 'myComments'));
         }

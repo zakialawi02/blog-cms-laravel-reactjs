@@ -19,20 +19,17 @@ const Archive = ({ articles }) => {
                 }`}</title>
                 <meta
                     name="description"
-                    content={`Blog Post by ${parentSegment} ${archiveSegment} | zakialawi.my.id website`}
+                    content={`Blog Post by ${parentSegment} ${archiveSegment} | zakialawi website`}
                 />
                 <meta
                     name="keywords"
                     content="zakialawi, blog, personal, web, developer, laravel, wep programming, webgis, gis, geospatial, surveyor, tutorials, tips, ahmad zaki alawi, geomatika, geomatics, geography"
                 />
 
-                <meta
-                    property="og:title"
-                    content="Blog of zakialawi.my.id website"
-                />
+                <meta property="og:title" content="Blog of zakialawi website" />
                 <meta
                     property="og:description"
-                    content={`Blog Post by ${parentSegment} ${archiveSegment} | zakialawi.my.id website | Discover the latest stories, thoughts and inspiration.`}
+                    content={`Blog Post by ${parentSegment} ${archiveSegment} | zakialawi website | Discover the latest stories, thoughts and inspiration.`}
                 />
                 <meta property="og:image" content="/favicon.png" />
                 <meta property="og:url" content={window.location.href} />
