@@ -93,11 +93,7 @@
         </style>
 
         <!-- Scripts -->
-        @vite(["resources/css/app.css"])
         <script src="https://cdn.tailwindcss.com"></script>
-        @if ($page->isFullWidth == 1)
-            @vite(["resources/css/app.css"])
-        @endif
 
         <title>{{ $page->title }}</title>
     </head>
@@ -164,6 +160,7 @@
             ];
 
             const editor = grapesjs.init({
+                allowScripts: 1,
                 container: '#gjs',
                 height: '100%',
                 fromElement: true,

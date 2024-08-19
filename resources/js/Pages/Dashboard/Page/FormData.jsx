@@ -17,10 +17,8 @@ const FormData = ({ auth, meta, page = null }) => {
         description: page?.description ?? "",
         content: page?.content ?? "",
         slug: page?.slug ?? "",
-        template_id: parseInt(page?.isFullWidth) ?? 1,
+        template_id: page?.isFullWidth ? parseInt(page?.isFullWidth) : 1,
     });
-
-    console.log(page?.isFullWidth);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -173,7 +171,7 @@ const FormData = ({ auth, meta, page = null }) => {
                         </div>
 
                         <ButtonBE disabled={processing}>
-                            {isUpdate ? "Update" : "Save"}
+                            {page ? "Update" : "Save"}
                         </ButtonBE>
                     </form>
                 </Card>

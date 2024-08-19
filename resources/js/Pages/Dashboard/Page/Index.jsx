@@ -109,13 +109,14 @@ const EmptyPage = ({ auth, meta, pages, queryParams = null }) => {
                                                     {item.description}
                                                 </td>
                                                 <td className="px-3 py-2 min-w-60">
-                                                    <Link
-                                                        href={`/blog/${item.slug}`}
+                                                    <a
+                                                        href={`/p/${item.slug}`}
+                                                        target="_blank"
                                                         className="text-backend-accent hover:underline"
                                                     >
                                                         <i className="mr-2 fa-solid fa-external-link"></i>
-                                                        {item.slug}
-                                                    </Link>
+                                                        /p/{item.slug}
+                                                    </a>
                                                 </td>
                                                 <td className="px-3 py-2 text-nowrap">
                                                     <a

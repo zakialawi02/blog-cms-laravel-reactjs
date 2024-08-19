@@ -3,10 +3,12 @@
 
     <head>
         <meta charset="utf-8" />
-        <title>"{{ $page->title . " | " . config("app.name") }}"</title>
+        <title>{{ $page->title . " | " . config("app.name") }}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta content="{{ $page->description }}" name="description">
         <meta content="Ahmad Zaki Alawi" name="author">
+
+        <link rel="icon" type="image/png" href="/favicon.png" />
 
         <meta property="og:title" content="{{ $page->title . " | " . config("app.name") }}" />
         <meta property="og:type" content=""website" />
@@ -47,11 +49,10 @@
         <script src="https://unpkg.com/grapesjs-tailwind"></script>
         <script src="https://unpkg.com/grapesjs-preset-webpage@1.0.2"></script>
 
-        @stack("css")
-
         <!-- Scripts -->
         <script src="https://cdn.tailwindcss.com"></script>
         @if ($page->isFullWidth == 1)
+            <link rel="stylesheet" href="/build/assets/app-e9e3c3dc.css" />
             @vite(["resources/css/app.css", "resources/js/bootstrap.js"])
         @endif
 
@@ -236,10 +237,12 @@
                                         </script>. All rights reserved.
                                     </p>
 
-                                    <div>
-                                        <a href="/p/terms" class="text-base font-semibold hover:text-frontend-primary text-frontend-muted">Terms Conditions</a>
-                                        <span class="text-base font-semibold text-frontend-muted"> &amp;</span>
-                                        <a href="/p/privacy" class="text-base font-semibold text-frontend-muted hover:text-frontend-primary">Privacy Policy</a>
+                                    <div class="space-x-4">
+                                        <a href="/p/terms" class="text-base hover:text-frontend-primary text-frontend-muted">Terms Conditions</a>
+
+                                        <a href="/p/privacy" class="text-base text-frontend-muted hover:text-frontend-primary">Privacy Policy</a>
+
+                                        <a href="/p/contact" class="text-base text-frontend-muted hover:text-frontend-primary">Contact</a>
                                     </div>
                                 </div>
                             </div>
@@ -292,6 +295,10 @@
                         // console.log('html:', html);
                         // console.log('css:', css);
                         $("#gjs").append(html);
+                        const style = document.createElement('style');
+                        style.type = 'text/css';
+                        style.innerHTML = css;
+                        document.getElementsByTagName('head')[0].appendChild(style);
                         // $("#gjscss").append(css);
                     },
                     error: function(error) {
@@ -305,7 +312,6 @@
                 });
             </script>
 
-            @stack("javascript")
 
         </body>
 

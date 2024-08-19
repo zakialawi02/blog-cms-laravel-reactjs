@@ -80,7 +80,9 @@ const HeaderAdmin = ({ user, toggleSidebar }) => {
                 <li className="mr-2 font-medium text-backend-dark">
                     {url3 && "/"}
                 </li>
-                <li className="mr-2 font-medium text-backend-dark">{url3}</li>
+                <li className="mr-2 font-medium truncate max-w-40 text-backend-dark">
+                    {url3}
+                </li>
             </ul>
             <ul className="flex items-center ml-auto">
                 <li className="mr-1 dropdown" ref={searchRef}>

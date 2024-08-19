@@ -77,7 +77,7 @@ class PageController extends Controller
 
     public function show(Page $page)
     {
-        return view('Dashboard.page.show', compact('page'));
+        return view('Dashboard.Page.Show', compact('page'));
     }
 
     /**
@@ -100,7 +100,7 @@ class PageController extends Controller
      */
     public function builder(Page $page)
     {
-        return view('Dashboard.page.builder', compact('page'));
+        return view('Dashboard.Page.Builder', compact('page'));
     }
 
     /**

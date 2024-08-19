@@ -114,7 +114,7 @@ const Dashboard = ({ auth }) => {
                                     <div className="flex items-center justify-between p-2">
                                         <div>
                                             <h4 className="mb-0 text-lg">
-                                                Total My Posts
+                                                My Posts
                                             </h4>
                                             <p className="text-backend-muted">
                                                 {info?.myPosts} posts
@@ -144,7 +144,7 @@ const Dashboard = ({ auth }) => {
                                     <div className="flex items-center justify-between p-2">
                                         <div>
                                             <h4 className="mb-0 text-lg">
-                                                Total My Comments
+                                                My Comments
                                             </h4>
                                             <p className="text-backend-muted">
                                                 {info?.myComments} comments
@@ -179,7 +179,7 @@ const Dashboard = ({ auth }) => {
                                     <div className="flex items-center justify-between p-2">
                                         <div>
                                             <h4 className="mb-0 text-lg">
-                                                Total My Posts
+                                                Total All Posts
                                             </h4>
                                             <p className="text-backend-muted">
                                                 {info?.allPostsCount} posts
@@ -257,7 +257,7 @@ const Dashboard = ({ auth }) => {
                     </Link>
 
                     {message && (
-                        <p className="text-backend-primary py-2">{message}</p>
+                        <p className="py-2 text-backend-primary">{message}</p>
                     )}
                 </Card>
 
@@ -282,7 +282,7 @@ const Dashboard = ({ auth }) => {
                                             the button below to join our team!
                                         </p>
                                         {message && (
-                                            <p className="text-backend-primary py-2">
+                                            <p className="py-2 text-backend-primary">
                                                 {message}
                                             </p>
                                         )}
@@ -315,7 +315,7 @@ const Dashboard = ({ auth }) => {
                                                         {auth.user.email}
                                                     </p>
                                                     {message && (
-                                                        <p className="text-backend-primary py-2">
+                                                        <p className="py-2 text-backend-primary">
                                                             {message}
                                                         </p>
                                                     )}

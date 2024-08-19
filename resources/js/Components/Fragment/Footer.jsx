@@ -207,23 +207,27 @@ const Footer = () => {
                                     . All rights reserved.
                                 </p>
 
-                                <div>
-                                    <Link
-                                        href="/p/term"
-                                        className="text-base font-semibold hover:text-frontend-primary text-frontend-muted"
+                                <div className="space-x-4">
+                                    <a
+                                        href="/p/terms"
+                                        className="text-base hover:text-frontend-primary text-frontend-muted"
                                     >
                                         Terms Conditions
-                                    </Link>
-                                    <span className="text-base font-semibold text-frontend-muted">
-                                        {" "}
-                                        &amp;{" "}
-                                    </span>
-                                    <Link
+                                    </a>
+
+                                    <a
                                         href="/p/privacy"
-                                        className="text-base font-semibold text-frontend-muted hover:text-frontend-primary"
+                                        className="text-base text-frontend-muted hover:text-frontend-primary"
                                     >
                                         Privacy Policy
-                                    </Link>
+                                    </a>
+
+                                    <a
+                                        href="/p/contact"
+                                        className="text-base text-frontend-muted hover:text-frontend-primary"
+                                    >
+                                        Contact
+                                    </a>
                                 </div>
                             </div>
                         </div>
