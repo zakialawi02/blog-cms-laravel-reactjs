@@ -286,7 +286,7 @@ class PostController extends Controller
     public function uploadImage(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'upload' => 'required|image|mimes:jpg,jpeg,png,gif|max:4048',
+            'upload' => 'required|image|mimes:jpg,jpeg,png,gif|max:2048',
         ]);
 
         if ($validator->fails()) {

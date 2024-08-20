@@ -15,6 +15,7 @@ use App\Http\Controllers\MenuItemController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\ArticleViewController;
+use App\Http\Controllers\WebSettingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,6 +51,9 @@ Route::prefix('dashboard')->as('admin.')->group(function () {
         Route::get('/user/{user:id}', [UserController::class, 'getUser'])->name('getUser');
 
         Route::resource('menus-item', MenuItemController::class)->only('index', 'store', 'destroy');
+
+        Route::get('/web/settings', [WebSettingController::class, 'index'])->name('websettings.index');
+        Route::put('/web/settings{id}', [WebSettingController::class, 'update'])->name('websettings.update');
 
         Route::get('/pages/{id}/load-project', [PageController::class, 'loadProject'])->name('pages.loadproject');
         Route::patch('/pages/{id}/store-project', [PageController::class, 'storeProject'])->name('pages.storeproject');
@@ -119,6 +123,7 @@ Route::prefix('dashboard')->as('admin.')->group(function () {
     });
 });
 
+
 Route::middleware(['auth', 'verified', 'role:admin,writer'])->group(function () {
     Route::get('/blog/{slug}/preview', [ArticleController::class, 'showPreview'])->name('article.showPreview');
 });
@@ -143,6 +148,9 @@ Route::get('/p/{page:slug}', [PageController::class, 'show'])->name('page.show')
 
 Route::get('/navItemFooterData', [MenuItemController::class, 'getMenuFooter'])->name('navItemFooterData');
 Route::get('/navItemHeaderData', [MenuItemController::class, 'getMenuHeader'])->name('navItemHeaderData');
+
+
+Route::get('/meta-web', [WebSettingController::class, 'getData']);
 
 
 Route::get('/sitemap.xml', [\App\Http\Controllers\SitemapController::class, 'index'])->name('sitemap');

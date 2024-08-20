@@ -4,6 +4,8 @@ import Dropdown from "../Element/Dropdown/Dropdown";
 
 const HeaderBlog = () => {
     const { auth } = usePage().props;
+    const [logo, setLogo] = useState(null);
+    const [webName, setWebName] = useState(null);
     const [navItemData, setNavItemData] = useState([]);
     const [isNavOpen, setIsNavOpen] = useState(false);
     const toggleNav = () => setIsNavOpen(!isNavOpen);
@@ -35,24 +37,34 @@ const HeaderBlog = () => {
             });
     }, []);
 
+    useEffect(() => {
+        axios
+            .get("/meta-web")
+            .then((response) => {
+                setLogo(`/${response.data.logo}`);
+                setWebName(response.data.web_name);
+            })
+            .catch((error) => {
+                console.error(error);
+                setLogo(null);
+                setWebName("Blog");
+            });
+    }, []);
+
     return (
         <>
             <header>
                 <div className="z-10 flex items-center justify-between w-full px-6 min-h-20 md:px-14 bg-frontend-base-100">
                     <div
                         id="logo-nav"
-                        className="max-w-[15rem] text-frontend-dark font-semibold uppercase"
+                        className="max-w-[20rem] text-frontend-dark font-bold uppercase"
                     >
                         <Link
                             href="/blog"
                             className="inline-flex items-center text-xl "
                         >
-                            <img
-                                src="/assets/img/logoo.png"
-                                alt="Logo"
-                                className="w-8 h-8"
-                            />
-                            <span className="px-2 ">Blog</span>
+                            <img src={logo} className="w-8 h-8" />
+                            <span className="px-2">{webName}</span>
                         </Link>
                     </div>
 

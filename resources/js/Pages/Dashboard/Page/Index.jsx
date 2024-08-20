@@ -3,7 +3,7 @@ import TableHeading from "@/Components/Element/Table/TableHeading";
 import DashboardLayout from "@/Layouts/DashboardLayout";
 import { Link, router } from "@inertiajs/react";
 
-const EmptyPage = ({ auth, meta, pages, queryParams = null }) => {
+const Index = ({ auth, meta, pages, queryParams = null }) => {
     queryParams = queryParams || {};
 
     const sortChanged = (name) => {
@@ -169,4 +169,4 @@ const EmptyPage = ({ auth, meta, pages, queryParams = null }) => {
     );
 };
 
-export default EmptyPage;
+export default Index;

@@ -3,7 +3,7 @@ import SearchBlogHero from "@/Components/Element/Search/SearchBlogHero";
 import DisplayPostGrid from "@/Components/Fragment/DisplayPostGrid";
 import FeaturedPostsGrid from "@/Components/Fragment/FeaturedPostsGrid";
 import GuestLayout from "@/Layouts/GuestLayout";
-import { Head, Link } from "@inertiajs/react";
+import { Head } from "@inertiajs/react";
 
 const Index = ({ articles, featured }) => {
     const queryParams = new URLSearchParams(window.location.search);
@@ -20,14 +20,14 @@ const Index = ({ articles, featured }) => {
             <Head>
                 <title>{`Blog ${
                     segmentUrl
-                        ? "in Category " + segmentClass.replace("-", " ")
+                        ? " in Category " + segmentClass.replace("-", "")
                         : ""
                 }`}</title>
                 <meta
                     name="description"
-                    content={`Blog ${
+                    content={`Blog${
                         segmentUrl
-                            ? "in Category " + segmentClass.replace("-", " ")
+                            ? " in Category " + segmentClass.replace("-", "")
                             : ""
                     } | Zakialawi Personal Blog & web platform | zakialawi website`}
                 />
@@ -38,17 +38,17 @@ const Index = ({ articles, featured }) => {
 
                 <meta
                     property="og:title"
-                    content={`Blog ${
+                    content={`Blog${
                         segmentUrl
-                            ? "in Category " + segmentClass.replace("-", " ")
+                            ? " in Category " + segmentClass.replace("-", "")
                             : ""
                     } | zakialawi website`}
                 />
                 <meta
                     property="og:description"
-                    content={`Blog ${
+                    content={`Blog${
                         segmentUrl
-                            ? "in Category " + segmentClass.replace("-", " ")
+                            ? " in Category " + segmentClass.replace("-", "")
                             : ""
                     } | zakialawi website | Discover the latest stories, thoughts and inspiration.`}
                 />
@@ -71,7 +71,6 @@ const Index = ({ articles, featured }) => {
                     <></>
                 ) : (
                     <>
-                        {" "}
                         {segmentUrl !== "categories" && (
                             <section className="pt-4 pb-0">
                                 <div className="px-3 mx-auto 2xl:container sm:px-4 xl:px-2">

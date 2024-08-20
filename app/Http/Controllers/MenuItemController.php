@@ -47,7 +47,7 @@ class MenuItemController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'url' => 'required|string|max:255',
-            'class' => 'nullable|exists:menu_items,class',
+            'class' => 'required|in:header,footer-a,footer-b',
             'order' => 'required|integer',
             'parent_id' => 'nullable|exists:menu_items,id',
         ]);

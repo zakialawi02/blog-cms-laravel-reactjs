@@ -29,5 +29,6 @@ class DatabaseSeeder extends Seeder
         $this->call(Tags::class);
         // $this->call(Articles::class);
         // ArticleView::factory(500)->create();
+        $this->call(WebSettings::class);
     }
 }

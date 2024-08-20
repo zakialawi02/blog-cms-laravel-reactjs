@@ -2,6 +2,7 @@ import ButtonBE from "@/Components/Element/Button/ButtonBE";
 import Card from "@/Components/Element/Card/Card";
 import InputError from "@/Components/Element/Input/InputError";
 import InputLabel from "@/Components/Element/Input/InputLabel";
+import SelectInput from "@/Components/Element/Input/SelectInput";
 import TextInput from "@/Components/Element/Input/TextInput";
 import TextInputGroup from "@/Components/Element/Input/TextInputGroup";
 import Modal from "@/Components/Element/Modal/Modal";
@@ -388,7 +389,7 @@ const Index = ({ auth, meta, users, queryParams = null }) => {
                                 >
                                     Role
                                 </label>
-                                <select
+                                <SelectInput
                                     name="role"
                                     id="role"
                                     className="block w-full md:w-auto rounded-md border-0 py-1.5  shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-backend-primary sm:max-w-xs sm:text-sm sm:leading-6"
@@ -401,7 +402,7 @@ const Index = ({ auth, meta, users, queryParams = null }) => {
                                     <option value="admin">Admin</option>
                                     <option value="writer">Writer</option>
                                     <option value="user">User</option>
-                                </select>
+                                </SelectInput>
                             </div>
                         </div>
 
@@ -530,7 +531,7 @@ const Index = ({ auth, meta, users, queryParams = null }) => {
                                                             className="w-8 h-8"
                                                         />
                                                     </td>
-                                                    <td className="px-3 py-2">
+                                                    <td className="px-3 py-2 min-w-40">
                                                         {user.name}
                                                     </td>
                                                     <td className="px-3 py-2">

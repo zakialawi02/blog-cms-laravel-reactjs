@@ -1,13 +1,13 @@
 import { useState, useEffect, useRef } from "react";
-import { Link } from "@inertiajs/react";
+import { Link, usePage } from "@inertiajs/react";
 import DropdownMenu from "../Element/Dropdown/DropdownMenu";
 import Search from "../Element/Search/Search";
 import Notification from "../Element/Notification/Notification";
 import DropdownItem from "../Element/Dropdown/DropdownItem";
 
 const HeaderAdmin = ({ user, toggleSidebar }) => {
+    const { auth } = usePage().props;
     const pathname = window.location.pathname;
-    const url1 = pathname.split("/")[1];
     const url2 = pathname
         .split("/")[2]
         ?.split("-")
@@ -64,7 +64,7 @@ const HeaderAdmin = ({ user, toggleSidebar }) => {
                 <i className="ri-menu-line" />
             </button>
             <ul className="flex items-center ml-4 text-sm">
-                <li className="mr-2">
+                <li className="mr-1">
                     <Link
                         preserveState
                         href="/dashboard"
@@ -73,14 +73,16 @@ const HeaderAdmin = ({ user, toggleSidebar }) => {
                         Dashboard
                     </Link>
                 </li>
-                <li className="mr-2 font-medium text-backend-dark">
+                <li className="mr-1 font-medium text-backend-dark">
                     {url2 && "/"}
                 </li>
-                <li className="mr-2 font-medium text-backend-dark">{url2}</li>
-                <li className="mr-2 font-medium text-backend-dark">
+                <li className="mr-1 font-medium text-backend-dark truncate max-w-20 sm:max-w-40">
+                    {url2}
+                </li>
+                <li className="mr-1 font-medium text-backend-dark">
                     {url3 && "/"}
                 </li>
-                <li className="mr-2 font-medium truncate max-w-40 text-backend-dark">
+                <li className="mr-1 font-medium truncate max-w-20 sm:max-w-40 text-backend-dark">
                     {url3}
                 </li>
             </ul>
@@ -120,9 +122,12 @@ const HeaderAdmin = ({ user, toggleSidebar }) => {
                         }
                     >
                         <img
-                            src="https://placehold.co/32x32"
-                            alt=""
+                            src={auth.user.profile_photo_path}
+                            alt="Profile"
                             className="block object-cover w-8 h-8 align-middle rounded"
+                            onError={(e) => {
+                                e.target.src = "https://placehold.co/32x32";
+                            }}
                         />
                     </button>
                     {isOpenDropdownUser && (
