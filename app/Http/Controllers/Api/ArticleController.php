@@ -63,9 +63,11 @@ class ArticleController extends Controller
     {
         if (request("max")) {
             $popularPosts = Article::has('articleViews')->withCount(['articleViews as total_views'])
+                ->where(['status' => 'published', ['published_at', '<', now()]])
                 ->orderBy('total_views', 'desc')->take(request("max"))->with('user', 'category')->get();
         } else {
             $popularPosts = Article::has('articleViews')->withCount(['articleViews as total_views'])
+                ->where(['status' => 'published', ['published_at', '<', now()]])
                 ->orderBy('total_views', 'desc')->with('user', 'category')->get();
         }
         $this->articlesMappingArray($popularPosts);
