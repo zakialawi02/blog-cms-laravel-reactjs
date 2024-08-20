@@ -2,9 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use Inertia\Inertia;
 use App\Models\WebSetting;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
+
+use Illuminate\Support\Facades\File;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
+
 
 class WebSettingController extends Controller
 {
@@ -31,17 +36,16 @@ class WebSettingController extends Controller
      */
     public function update(Request $request, WebSetting $webSetting)
     {
-
         $request->validate(
             [
                 'web_name' => 'nullable|string|max:100',
                 'description' => 'nullable|string|max:300',
                 'keywords' => 'nullable|string|max:255',
-                'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:1048',
+                'logo' => 'nullable|image|mimes:jpeg,png,jpg,svg|max:1048',
                 'favicon' => [
                     'nullable',
                     'image',
-                    'mimes:jpeg,png,jpg,gif,svg',
+                    'mimes:png',
                     'max:548',
                     'dimensions:max_width=1000,max_height=1000',
                 ],
@@ -60,12 +64,15 @@ class WebSettingController extends Controller
 
         $webSetting = WebSetting::where('id', $request->id)->first();
 
+        // create image manager with desired driver
+        $manager = new ImageManager(new Driver());
+
         if ($request->hasFile('favicon') && $request->file('favicon')) {
             if ($webSetting->favicon) {
                 unlink(public_path($webSetting->favicon));
             }
             $file = $request->file('favicon');
-            $filename = time() . '_favicon' . '.' . $file->getClientOriginalExtension();
+            $filename = 'favicon' . '.' . $file->getClientOriginalExtension();
             $file->move(public_path(), $filename);
             $data['favicon'] = $filename;
         } else {
@@ -73,13 +80,19 @@ class WebSettingController extends Controller
         }
 
         if ($request->hasFile('logo') && $request->file('logo')) {
-            if ($webSetting->logo) {
-                unlink(public_path($webSetting->logo));
+            // hapus folder 'logo' di public_path
+            if (file_exists(public_path('logo'))) {
+                File::deleteDirectory(public_path('logo'));
             }
+
+            // simpan logo baru di public_path folder 'logo'
             $file = $request->file('logo');
-            $filename = time() . '_logo' . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path(), $filename);
-            $data['logo'] = $filename;
+            $filename = 'logo' . '.' . $file->getClientOriginalExtension();
+            $image = $manager->read($file->getRealPath());
+            File::ensureDirectoryExists(public_path('logo'));
+            $image->toWebp()->save(public_path('logo/logo.webp'));
+            $file->move(public_path('logo'), $filename);
+            $data['logo'] = 'logo.webp';
         } else {
             unset($data['logo']);
         }

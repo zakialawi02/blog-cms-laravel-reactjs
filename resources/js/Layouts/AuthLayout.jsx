@@ -1,25 +1,8 @@
-import { Head, Link } from "@inertiajs/react";
-import { useEffect, useState } from "react";
+import { Link } from "@inertiajs/react";
 
 const AuthLayout = ({ children }) => {
-    const [favicon, setFavicon] = useState(null);
-    useEffect(() => {
-        axios
-            .get("/meta-web")
-            .then((response) => {
-                setFavicon(`/${response.data.favicon}`);
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-    }, []);
-
     return (
         <>
-            <Head>
-                <link rel="icon" type="image/*" href={favicon} />
-            </Head>
-
             <div className="relative flex items-center justify-center min-h-screen bg-gray-400 ">
                 <Link
                     preserveState

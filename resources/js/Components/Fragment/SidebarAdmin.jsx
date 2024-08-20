@@ -1,5 +1,5 @@
 import { Link, usePage } from "@inertiajs/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import NavMenu from "../Element/Sidebar/NavMenu";
 import NavItem from "../Element/Sidebar/NavItem";
 
@@ -7,22 +7,10 @@ const SidebarAdmin = ({ show, toggleSidebar }) => {
     const { auth } = usePage().props;
 
     const [selectedMenu, setSelectedMenu] = useState(null);
-    const [logo, setLogo] = useState(null);
 
     const handleNavMenuClick = (menu) => {
         setSelectedMenu((prevMenu) => (prevMenu === menu ? null : menu));
     };
-
-    useEffect(() => {
-        axios
-            .get("/meta-web")
-            .then((response) => {
-                setLogo(`/${response.data.logo}`);
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-    }, []);
 
     return (
         <>
@@ -36,19 +24,11 @@ const SidebarAdmin = ({ show, toggleSidebar }) => {
                     href="/"
                     className="flex items-center pb-4 border-b border-b-backend-muted"
                 >
-                    {logo ? (
-                        <img
-                            src={logo}
-                            alt="Logo"
-                            className="object-cover w-8 h-8 rounded"
-                        />
-                    ) : (
-                        <img
-                            src="https://placehold.co/32x32"
-                            alt="Logo"
-                            className="object-cover w-8 h-8 rounded"
-                        />
-                    )}
+                    <img
+                        src="/logo/logo.webp"
+                        alt="Logo"
+                        className="object-cover w-8 h-8 rounded"
+                    />
 
                     <span className="ml-3 text-lg font-bold text-backend-base-100">
                         Dashboard

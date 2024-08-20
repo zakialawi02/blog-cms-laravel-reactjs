@@ -8,6 +8,7 @@ import SkeletonOneLine from "../Element/Skeleton/SkeletonOneLine";
 const Footer = () => {
     const [loadingMenu, setLoadingMenu] = useState(true);
     const [navItemData, setNavItemData] = useState([]);
+    const [webMeta, setWebMeta] = useState([]);
     const { data, setData, errors, setError, clearErrors, reset } = useForm({
         email: "",
     });
@@ -41,6 +42,22 @@ const Footer = () => {
                 setNavItemData([]);
                 setLoadingMenu(false);
             });
+
+        axios
+            .get("/meta-web")
+            .then((response) => {
+                setWebMeta({
+                    title: response.data.title,
+                    tagline: response.data.tagline,
+                    link_fb: response.data.link_fb,
+                    link_ig: response.data.link_ig,
+                    link_twitter: response.data.link_twitter,
+                    email: response.data.email,
+                });
+            })
+            .catch((error) => {
+                console.error(error);
+            });
     }, []);
 
     return (
@@ -57,11 +74,11 @@ const Footer = () => {
                                         href="/blog"
                                     >
                                         <h2 className="text-3xl font-bold text-frontend-primary">
-                                            Zakialawi Blog
+                                            {webMeta.title}
                                         </h2>
                                     </Link>
                                     <p className="max-w-xs text-base font-medium text-frontend-muted">
-                                        Personal Blog & platform
+                                        {webMeta.tagline}
                                     </p>
 
                                     <h3 className="mt-5 text-xl font-bold text-frontend-dark">
@@ -69,7 +86,7 @@ const Footer = () => {
                                     </h3>
                                     <div className="flex gap-3 mt-4 font-normal text-frontend-dark">
                                         <a
-                                            href="#"
+                                            href={webMeta.link_fb ?? "#"}
                                             className="flex items-center justify-center w-10 h-10 text-xl transition-all duration-500 bg-transparent border border-gray-300 rounded-md hover:border-frontend-primary hover:bg-frontend-primary hover:text-frontend-light"
                                         >
                                             <i
@@ -78,7 +95,7 @@ const Footer = () => {
                                             ></i>
                                         </a>
                                         <a
-                                            href="https://twitter.com/zakialawi_"
+                                            href={webMeta.link_twitter ?? "#"}
                                             className="flex items-center justify-center w-10 h-10 text-xl transition-all duration-500 bg-transparent border border-gray-300 rounded-md hover:border-frontend-primary hover:bg-frontend-primary hover:text-frontend-light"
                                             target="_blank"
                                         >
@@ -92,7 +109,7 @@ const Footer = () => {
                                             <i className="ri-linkedin-box-fill"></i>
                                         </a>
                                         <a
-                                            href="https://www.instagram.com/zakialawi_/"
+                                            href={webMeta.link_ig ?? "#"}
                                             className="flex items-center justify-center w-10 h-10 text-xl transition-all duration-500 bg-transparent border border-gray-300 rounded-md hover:border-frontend-primary hover:bg-frontend-primary hover:text-frontend-light"
                                             target="_blank"
                                         >
@@ -157,7 +174,7 @@ const Footer = () => {
                                             Contact Us
                                         </h5>
                                         <p className="text-base font-medium text-frontend-muted mt-2s">
-                                            hallo@zakialawi.my.id
+                                            {webMeta.email}
                                         </p>
                                         <form
                                             onSubmit={submitEmail}

@@ -13,6 +13,8 @@ const Index = ({ auth, meta, webSetting = null }) => {
     const { data, setData, processing, errors, setError } = useForm({
         id: webSetting?.id ?? null,
         web_name: webSetting?.web_name ?? "",
+        tagline: webSetting?.tagline ?? "",
+        title: webSetting?.title ?? "",
         description: webSetting?.description ?? "",
         keywords: webSetting?.keywords ?? "",
         logo: null,
@@ -63,6 +65,8 @@ const Index = ({ auth, meta, webSetting = null }) => {
                 ...data,
             },
             {
+                preserveScroll: true,
+                preserveState: true,
                 onError: (error) => {
                     setError(error);
                 },
@@ -78,7 +82,7 @@ const Index = ({ auth, meta, webSetting = null }) => {
             webSetting?.favicon ? `/${webSetting?.favicon}` : null
         );
 
-        setLogoPreview(webSetting?.logo ? `/${webSetting?.logo}` : null);
+        setLogoPreview(webSetting?.logo ? `/logo/${webSetting?.logo}` : null);
         console.log(data);
     }, []);
 
@@ -89,24 +93,24 @@ const Index = ({ auth, meta, webSetting = null }) => {
             <DashboardLayout user={auth.user} metaTitle={meta.title}>
                 <Card className="mb-3">
                     <form onSubmit={submit}>
-                        <div className="flex space-x-3 mb-4 justify-end">
+                        <div className="flex justify-end mb-4 space-x-3">
                             <ButtonBE type="submit" disabled={processing}>
                                 Save
                             </ButtonBE>
                         </div>
-                        <div className="col-span-full mb-3">
+                        <div className="mb-3 col-span-full">
                             <label
                                 htmlFor="favicon"
-                                className="block text-sm font-medium leading-6 text-gray-900"
+                                className="block text-lg font-semibold text-gray-900"
                             >
                                 Favicon
                             </label>
-                            <div className="mt-2 flex items-center gap-x-3">
+                            <div className="flex items-center mt-2 gap-x-3">
                                 <div className="space-y-4">
                                     <img
                                         src={faviconPreview}
                                         alt="Favicon"
-                                        className="object-cover rounded-md w-12 max-w-12 max-h-12"
+                                        className="object-cover w-12 rounded-md max-w-12 max-h-12"
                                         onError={(e) => {
                                             e.target.onerror = null;
                                             e.target.src =
@@ -114,10 +118,10 @@ const Index = ({ auth, meta, webSetting = null }) => {
                                         }}
                                     />
                                 </div>
-                                <div className="mt-4 flex text-sm leading-6 text-gray-600">
+                                <div className="flex mt-4 text-sm text-gray-600">
                                     <label
                                         htmlFor="upload-favicon"
-                                        className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
+                                        className="relative font-semibold text-indigo-600 bg-white rounded-md cursor-pointer focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
                                     >
                                         <span className="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
                                             Change
@@ -127,6 +131,7 @@ const Index = ({ auth, meta, webSetting = null }) => {
                                             name="upload-favicon"
                                             type="file"
                                             className="sr-only"
+                                            accept="image/png"
                                             onChange={handleFaviconChange}
                                         />
                                     </label>
@@ -137,20 +142,20 @@ const Index = ({ auth, meta, webSetting = null }) => {
                                 className="my-3"
                             />
                         </div>
-                        <div className="col-span-full mb-3">
+                        <div className="mb-3 col-span-full">
                             <label
                                 htmlFor="logo"
-                                className="block text-sm font-medium leading-6 text-gray-900"
+                                className="block text-lg font-semibold text-gray-900"
                             >
                                 Logo
                             </label>
-                            <div className="mt-2 flex items-center gap-x-3">
+                            <div className="flex items-center mt-2 gap-x-3">
                                 <div className="space-y-4">
                                     {logoPreview ? (
                                         <img
                                             src={logoPreview}
                                             alt="Logo"
-                                            className="object-cover rounded-md w-12 max-w-12 max-h-12"
+                                            className="object-cover w-12 rounded-md max-w-12 max-h-12"
                                             onError={(e) => {
                                                 e.target.onerror = null;
                                                 e.target.src =
@@ -158,15 +163,15 @@ const Index = ({ auth, meta, webSetting = null }) => {
                                             }}
                                         />
                                     ) : (
-                                        <div className="w-full max-w-12 max-h-12 bg-gray-300 rounded-md">
+                                        <div className="w-full bg-gray-300 rounded-md max-w-12 max-h-12">
                                             No Logo
                                         </div>
                                     )}
                                 </div>
-                                <div className="mt-4 flex text-sm leading-6 text-gray-600">
+                                <div className="flex mt-4 text-sm text-gray-600">
                                     <label
                                         htmlFor="upload-logo"
-                                        className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
+                                        className="relative font-semibold text-indigo-600 bg-white rounded-md cursor-pointer focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
                                     >
                                         <span className="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
                                             Change
@@ -189,10 +194,13 @@ const Index = ({ auth, meta, webSetting = null }) => {
                         <div className="mb-3">
                             <div className="mb-1">
                                 <InputLabel
+                                    className="text-lg font-semibold"
                                     htmlFor="web_name"
                                     value="Website Name"
                                 />
-                                <span className="text-sm text-gray-500"></span>
+                                <span className="text-sm text-gray-500">
+                                    Main Title Website, Show in header
+                                </span>
                             </div>
                             <TextInput
                                 type="text"
@@ -212,10 +220,62 @@ const Index = ({ auth, meta, webSetting = null }) => {
                         <div className="mb-3">
                             <div className="mb-1">
                                 <InputLabel
+                                    className="text-lg font-semibold"
+                                    htmlFor="tagline"
+                                    value="Tagline"
+                                />
+                                <span className="text-sm text-gray-500">
+                                    Show in footer section
+                                </span>
+                            </div>
+                            <TextInput
+                                type="text"
+                                id="tagline"
+                                className="w-full"
+                                maxLength={100}
+                                value={data.tagline}
+                                onChange={(e) => {
+                                    setData("tagline", e.target.value);
+                                }}
+                            />
+                            <InputError
+                                message={errors.tagline}
+                                className="mb-3"
+                            />
+                        </div>
+                        <div className="mb-3">
+                            <div className="mb-1">
+                                <InputLabel
+                                    className="text-lg font-semibold"
+                                    htmlFor="title"
+                                    value="Title"
+                                />
+                                <span className="text-sm text-gray-500">
+                                    Show in footer section
+                                </span>
+                            </div>
+                            <TextInput
+                                type="text"
+                                id="title"
+                                className="w-full"
+                                maxLength={100}
+                                value={data.title}
+                                onChange={(e) => {
+                                    setData("title", e.target.value);
+                                }}
+                            />
+                            <InputError
+                                message={errors.title}
+                                className="mb-3"
+                            />
+                        </div>
+                        <div className="mb-3">
+                            <div className="mb-1">
+                                <InputLabel
+                                    className="text-lg font-semibold"
                                     htmlFor="description"
                                     value="Website Description"
                                 />
-                                <span className="text-sm text-gray-500"></span>
                             </div>
                             <textarea
                                 id="description"
@@ -237,10 +297,10 @@ const Index = ({ auth, meta, webSetting = null }) => {
                         <div className="mb-3">
                             <div className="mb-1">
                                 <InputLabel
+                                    className="text-lg font-semibold"
                                     htmlFor="keywords"
                                     value="Website Keywords"
                                 />
-                                <span className="text-sm text-gray-500"></span>
                             </div>
                             <textarea
                                 id="keywords"
@@ -261,31 +321,34 @@ const Index = ({ auth, meta, webSetting = null }) => {
                         </div>
                         <div className="mb-3">
                             <div className="mb-1">
-                                <InputLabel htmlFor="emal" value="Email" />
-                                <span className="text-sm text-gray-500"></span>
+                                <InputLabel
+                                    className="text-lg font-semibold"
+                                    htmlFor="email"
+                                    value="Email"
+                                />
                             </div>
                             <TextInput
                                 type="text"
-                                id="emal"
+                                id="email"
                                 className="w-full"
                                 maxLength={100}
-                                value={data.emal}
+                                value={data.email}
                                 onChange={(e) => {
-                                    setData("emal", e.target.value);
+                                    setData("email", e.target.value);
                                 }}
                             />
                             <InputError
-                                message={errors.emal}
+                                message={errors.email}
                                 className="mb-3"
                             />
                         </div>
                         <div className="mb-3">
                             <div className="mb-1">
                                 <InputLabel
+                                    className="text-lg font-semibold"
                                     htmlFor="link_fb"
                                     value="Facebook Link"
                                 />
-                                <span className="text-sm text-gray-500"></span>
                             </div>
                             <TextInput
                                 type="text"
@@ -296,6 +359,7 @@ const Index = ({ auth, meta, webSetting = null }) => {
                                 onChange={(e) => {
                                     setData("link_fb", e.target.value);
                                 }}
+                                placeholder="https://facebook.com/"
                             />
                             <InputError
                                 message={errors.link_fb}
@@ -305,10 +369,10 @@ const Index = ({ auth, meta, webSetting = null }) => {
                         <div className="mb-3">
                             <div className="mb-1">
                                 <InputLabel
+                                    className="text-lg font-semibold"
                                     htmlFor="link_ig"
                                     value="Instagram Link"
                                 />
-                                <span className="text-sm text-gray-500"></span>
                             </div>
                             <TextInput
                                 type="text"
@@ -319,6 +383,7 @@ const Index = ({ auth, meta, webSetting = null }) => {
                                 onChange={(e) => {
                                     setData("link_ig", e.target.value);
                                 }}
+                                placeholder="https://instagram.com/"
                             />
                             <InputError
                                 message={errors.link_ig}
@@ -328,10 +393,10 @@ const Index = ({ auth, meta, webSetting = null }) => {
                         <div className="mb-3">
                             <div className="mb-1">
                                 <InputLabel
+                                    className="text-lg font-semibold"
                                     htmlFor="link_twitter"
                                     value="Twitter/X Link"
                                 />
-                                <span className="text-sm text-gray-500"></span>
                             </div>
                             <TextInput
                                 type="text"
@@ -342,6 +407,7 @@ const Index = ({ auth, meta, webSetting = null }) => {
                                 onChange={(e) => {
                                     setData("link_twitter", e.target.value);
                                 }}
+                                placeholder="https://x.com/"
                             />
                             <InputError
                                 message={errors.link_twitter}
@@ -351,10 +417,10 @@ const Index = ({ auth, meta, webSetting = null }) => {
                         <div className="mb-3">
                             <div className="mb-1">
                                 <InputLabel
+                                    className="text-lg font-semibold"
                                     htmlFor="link_youtube"
                                     value="Youtube Link"
                                 />
-                                <span className="text-sm text-gray-500"></span>
                             </div>
                             <TextInput
                                 type="text"
@@ -365,6 +431,7 @@ const Index = ({ auth, meta, webSetting = null }) => {
                                 onChange={(e) => {
                                     setData("link_youtube", e.target.value);
                                 }}
+                                placeholder="https://youtube.com/"
                             />
                             <InputError
                                 message={errors.link_youtube}
@@ -374,10 +441,10 @@ const Index = ({ auth, meta, webSetting = null }) => {
                         <div className="mb-3">
                             <div className="mb-1">
                                 <InputLabel
+                                    className="text-lg font-semibold"
                                     htmlFor="link_linkedin"
                                     value="Linkedin Link"
                                 />
-                                <span className="text-sm text-gray-500"></span>
                             </div>
                             <TextInput
                                 type="text"
@@ -388,6 +455,7 @@ const Index = ({ auth, meta, webSetting = null }) => {
                                 onChange={(e) => {
                                     setData("link_linkedin", e.target.value);
                                 }}
+                                placeholder="https://linkedin.com/"
                             />
                             <InputError
                                 message={errors.link_linkedin}
@@ -397,10 +465,10 @@ const Index = ({ auth, meta, webSetting = null }) => {
                         <div className="mb-3">
                             <div className="mb-1">
                                 <InputLabel
+                                    className="text-lg font-semibold"
                                     htmlFor="link_github"
                                     value="Github Link"
                                 />
-                                <span className="text-sm text-gray-500"></span>
                             </div>
                             <TextInput
                                 type="text"
@@ -411,6 +479,7 @@ const Index = ({ auth, meta, webSetting = null }) => {
                                 onChange={(e) => {
                                     setData("link_github", e.target.value);
                                 }}
+                                placeholder="https://github.com/"
                             />
                             <InputError
                                 message={errors.link_github}

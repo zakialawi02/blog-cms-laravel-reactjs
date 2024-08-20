@@ -29,23 +29,10 @@ const DashboardLayout = ({ user, metaTitle = "", children }) => {
         };
     }, []);
 
-    const [favicon, setFavicon] = useState(null);
-    useEffect(() => {
-        axios
-            .get("/meta-web")
-            .then((response) => {
-                setFavicon(`/${response.data.favicon}`);
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-    }, []);
-
     return (
         <>
             <Head>
                 <title>{`${metaTitle} • Dashboard`}</title>
-                <link rel="icon" type="image/*" href={favicon} />
             </Head>
 
             <div className="font-Lato bg-backend-light">

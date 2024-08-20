@@ -4,8 +4,7 @@ import Dropdown from "../Element/Dropdown/Dropdown";
 
 const HeaderBlog = () => {
     const { auth } = usePage().props;
-    const [logo, setLogo] = useState(null);
-    const [webName, setWebName] = useState(null);
+    const [webName, setWebName] = useState("BLOG");
     const [navItemData, setNavItemData] = useState([]);
     const [isNavOpen, setIsNavOpen] = useState(false);
     const toggleNav = () => setIsNavOpen(!isNavOpen);
@@ -41,12 +40,10 @@ const HeaderBlog = () => {
         axios
             .get("/meta-web")
             .then((response) => {
-                setLogo(`/${response.data.logo}`);
                 setWebName(response.data.web_name);
             })
             .catch((error) => {
                 console.error(error);
-                setLogo(null);
                 setWebName("Blog");
             });
     }, []);
@@ -63,7 +60,7 @@ const HeaderBlog = () => {
                             href="/blog"
                             className="inline-flex items-center text-xl "
                         >
-                            <img src={logo} className="w-8 h-8" />
+                            <img src="/logo/logo.webp" className="w-8 h-8" />
                             <span className="px-2">{webName}</span>
                         </Link>
                     </div>

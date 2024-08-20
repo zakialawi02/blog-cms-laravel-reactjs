@@ -15,10 +15,12 @@ class WebSettings extends Seeder
     {
         WebSetting::create([
             'web_name' => "My Blog",
+            'tagline' => "My Blog Tagline",
+            'title' => "My Blog",
             'description' => "My Blog",
             'keywords' => "My Blog, Laravel",
-            'logo' => "1724146233_logo",
-            'favicon' => "1724147326_favicon",
+            'logo' => "logo_web.webp",
+            'favicon' => "favicon.png",
             'email' => "",
             'link_fb' => "",
             'link_ig' => "",
