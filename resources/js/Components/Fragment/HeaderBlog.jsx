@@ -60,8 +60,13 @@ const HeaderBlog = () => {
                             href="/blog"
                             className="inline-flex items-center text-xl "
                         >
-                            <img src="/logo/logo.webp" className="w-8 h-8" />
-                            <span className="px-2">{webName}</span>
+                            <img
+                                src="/logo/logo.webp"
+                                className="w-full p-1 h-14"
+                            />
+                            <span id="web_name" className="px-2">
+                                {webName}
+                            </span>
                         </Link>
                     </div>
 

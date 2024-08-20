@@ -102,7 +102,7 @@
                     <div id="logo-nav" class="max-w-[15rem] text-frontend-dark font-semibold uppercase">
                         <a href="{{ route("article.index") }}" class="inline-flex items-center text-xl ">
                             <img src="{{ asset("assets/img/logoo.png") }}" alt="Logo" class="w-8 h-8">
-                            <span class="px-2 ">Blog</span>
+                            <span id="web_name" class="px-2 ">{{ config("app.name") }}</span>
                         </a>
                     </div>
 
@@ -171,25 +171,24 @@
                                 <div class="grid grid-cols-1 gap-6 xl:grid-cols-6 md:grid-cols-4">
                                     <div class="md:col-span-2">
                                         <a class="block mb-6 navbar-brand" href="{{ route("article.index") }}">
-                                            <h2 class="text-3xl font-bold text-frontend-primary">Zakialawi Blog</h2>
+                                            <h2 id="title_web" class="text-3xl font-bold text-frontend-primary"></h2>
                                         </a>
-                                        <p class="max-w-xs text-base font-medium text-frontend-muted">Personal Blog & platform</p>
+                                        <p id="tagline_web" class="max-w-xs text-base font-medium text-frontend-muted"></p>
 
                                         <h3 class="mt-5 text-xl font-bold text-frontend-dark">Follow Us:</h3>
                                         <div class="flex gap-3 mt-4 font-normal text-frontend-dark">
-                                            <a href="#" class="flex items-center justify-center w-10 h-10 text-xl transition-all duration-500 bg-transparent border border-gray-300 rounded-md hover:border-frontend-primary hover:bg-frontend-primary hover:text-frontend-light"><i
-                                                    class="ri-facebook-fill" target="_blank"></i>
+                                            <a id="sosial_facebook" href="#"
+                                                class="flex items-center justify-center w-10 h-10 text-xl transition-all duration-500 bg-transparent border border-gray-300 rounded-md hover:border-frontend-primary hover:bg-frontend-primary hover:text-frontend-light"><i class="ri-facebook-fill"
+                                                    target="_blank"></i>
                                             </a>
-                                            <a href="https://twitter.com/zakialawi_" class="flex items-center justify-center w-10 h-10 text-xl transition-all duration-500 bg-transparent border border-gray-300 rounded-md hover:border-frontend-primary hover:bg-frontend-primary hover:text-frontend-light"
+                                            <a id="sosial_twitter" href="#" class="flex items-center justify-center w-10 h-10 text-xl transition-all duration-500 bg-transparent border border-gray-300 rounded-md hover:border-frontend-primary hover:bg-frontend-primary hover:text-frontend-light"
                                                 target="_blank"><i class="ri-twitter-x-fill"></i>
                                             </a>
-                                            <a href="https://www.linkedin.com/in/ahmad-zaki-alawi/"
-                                                class="flex items-center justify-center w-10 h-10 text-xl transition-all duration-500 bg-transparent border border-gray-300 rounded-md hover:border-frontend-primary hover:bg-frontend-primary hover:text-frontend-light" target="_blank"><i
-                                                    class="ri-linkedin-box-fill"></i>
+                                            <a id="sosial_linkedin" href="#" class="flex items-center justify-center w-10 h-10 text-xl transition-all duration-500 bg-transparent border border-gray-300 rounded-md hover:border-frontend-primary hover:bg-frontend-primary hover:text-frontend-light"
+                                                target="_blank"><i class="ri-linkedin-box-fill"></i>
                                             </a>
-                                            <a href="https://www.instagram.com/zakialawi_/"
-                                                class="flex items-center justify-center w-10 h-10 text-xl transition-all duration-500 bg-transparent border border-gray-300 rounded-md hover:border-frontend-primary hover:bg-frontend-primary hover:text-frontend-light" target="_blank"><i
-                                                    class="ri-instagram-fill"></i>
+                                            <a id="sosial_instagram" href="#" class="flex items-center justify-center w-10 h-10 text-xl transition-all duration-500 bg-transparent border border-gray-300 rounded-md hover:border-frontend-primary hover:bg-frontend-primary hover:text-frontend-light"
+                                                target="_blank"><i class="ri-instagram-fill"></i>
                                             </a>
                                         </div>
                                     </div>
@@ -221,7 +220,12 @@
                                     @endif
 
                                     <div class="md:col-span-2">
-
+                                        <div class="flex flex-col">
+                                            <h5 class="mb-6 text-2xl font-bold">
+                                                Contact Us
+                                            </h5>
+                                            <p id="web_email" class="text-base font-medium text-frontend-muted mt-2s"></p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -311,7 +315,28 @@
                     $('#lspn').remove();
                 });
             </script>
-
+            <script>
+                $.ajax({
+                    type: "get",
+                    url: "/meta-web",
+                    dataType: "json",
+                    success: function(response) {
+                        console.log(response);
+                        $("#web_name").text(response.web_name);
+                        $("#title_web").append(response.title);
+                        $("#tagline_web").append(response.tagline);
+                        $("#web_email").append(response.email);
+                        $("#sosial_facebook").attr("href", response.link_fb);
+                        $("#sosial_instagram").attr("href", response.link_ig);
+                        $("#sosial_linkedin").attr("href", response.link_linkedin);
+                        $("#sosial_youtube").attr("href", response.link_youtube);
+                        $("#sosial_twitter").attr("href", response.link_twitter);
+                    },
+                    error: function(error) {
+                        console.error(error);
+                    }
+                });
+            </script>
 
         </body>
 

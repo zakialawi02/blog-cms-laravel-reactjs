@@ -73,11 +73,17 @@ const Footer = () => {
                                         className="block mb-6 navbar-brand"
                                         href="/blog"
                                     >
-                                        <h2 className="text-3xl font-bold text-frontend-primary">
+                                        <h2
+                                            id="title_web"
+                                            className="text-3xl font-bold text-frontend-primary"
+                                        >
                                             {webMeta.title}
                                         </h2>
                                     </Link>
-                                    <p className="max-w-xs text-base font-medium text-frontend-muted">
+                                    <p
+                                        id="tagline_web"
+                                        className="max-w-xs text-base font-medium text-frontend-muted"
+                                    >
                                         {webMeta.tagline}
                                     </p>
 
@@ -86,6 +92,7 @@ const Footer = () => {
                                     </h3>
                                     <div className="flex gap-3 mt-4 font-normal text-frontend-dark">
                                         <a
+                                            id="sosial_facebook"
                                             href={webMeta.link_fb ?? "#"}
                                             className="flex items-center justify-center w-10 h-10 text-xl transition-all duration-500 bg-transparent border border-gray-300 rounded-md hover:border-frontend-primary hover:bg-frontend-primary hover:text-frontend-light"
                                         >
@@ -95,6 +102,7 @@ const Footer = () => {
                                             ></i>
                                         </a>
                                         <a
+                                            id="sosial_twitter"
                                             href={webMeta.link_twitter ?? "#"}
                                             className="flex items-center justify-center w-10 h-10 text-xl transition-all duration-500 bg-transparent border border-gray-300 rounded-md hover:border-frontend-primary hover:bg-frontend-primary hover:text-frontend-light"
                                             target="_blank"
@@ -102,13 +110,15 @@ const Footer = () => {
                                             <i className="ri-twitter-x-fill"></i>
                                         </a>
                                         <a
-                                            href="https://www.linkedin.com/in/ahmad-zaki-alawi/"
+                                            id="sosial_linkedin"
+                                            href={webMeta.link_linkedin ?? "#"}
                                             className="flex items-center justify-center w-10 h-10 text-xl transition-all duration-500 bg-transparent border border-gray-300 rounded-md hover:border-frontend-primary hover:bg-frontend-primary hover:text-frontend-light"
                                             target="_blank"
                                         >
                                             <i className="ri-linkedin-box-fill"></i>
                                         </a>
                                         <a
+                                            id="sosial_instagram"
                                             href={webMeta.link_ig ?? "#"}
                                             className="flex items-center justify-center w-10 h-10 text-xl transition-all duration-500 bg-transparent border border-gray-300 rounded-md hover:border-frontend-primary hover:bg-frontend-primary hover:text-frontend-light"
                                             target="_blank"
@@ -173,7 +183,10 @@ const Footer = () => {
                                         <h5 className="mb-6 text-2xl font-bold">
                                             Contact Us
                                         </h5>
-                                        <p className="text-base font-medium text-frontend-muted mt-2s">
+                                        <p
+                                            id="web_email"
+                                            className="text-base font-medium text-frontend-muted mt-2s"
+                                        >
                                             {webMeta.email}
                                         </p>
                                         <form
