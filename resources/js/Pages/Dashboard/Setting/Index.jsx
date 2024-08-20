@@ -155,7 +155,7 @@ const Index = ({ auth, meta, webSetting = null }) => {
                                         <img
                                             src={logoPreview}
                                             alt="Logo"
-                                            className="object-cover w-12 rounded-md max-w-12 max-h-12"
+                                            className="object-cover w-full rounded-md max-w-20 max-h-12"
                                             onError={(e) => {
                                                 e.target.onerror = null;
                                                 e.target.src =
