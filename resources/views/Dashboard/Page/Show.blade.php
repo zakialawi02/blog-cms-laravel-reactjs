@@ -101,7 +101,7 @@
                 <div x-data="{ isOpen: false }" class="z-10 flex items-center justify-between w-full px-6 min-h-20 md:px-14 bg-frontend-base-100">
                     <div id="logo-nav" class="max-w-[15rem] text-frontend-dark font-semibold uppercase">
                         <a href="{{ route("article.index") }}" class="inline-flex items-center text-xl ">
-                            <img src="{{ asset("assets/img/logoo.png") }}" alt="Logo" class="w-8 h-8">
+                            <img src="/logo/logo.webp" alt="Logo" class="w-8 h-8">
                             <span id="web_name" class="px-2 ">{{ config("app.name") }}</span>
                         </a>
                     </div>
