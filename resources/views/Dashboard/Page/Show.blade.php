@@ -173,7 +173,7 @@
                                         <a class="block mb-6 navbar-brand" href="{{ route("article.index") }}">
                                             <h2 id="title_web" class="text-3xl font-bold text-frontend-primary"></h2>
                                         </a>
-                                        <p id="tagline_web" class="max-w-xs text-base font-medium text-frontend-muted"></p>
+                                        <p id="description_web" class="max-w-xs text-base font-medium text-frontend-muted"></p>
 
                                         <h3 class="mt-5 text-xl font-bold text-frontend-dark">Follow Us:</h3>
                                         <div class="flex gap-3 mt-4 font-normal text-frontend-dark">
@@ -324,7 +324,7 @@
                         console.log(response);
                         $("#web_name").text(response.web_name);
                         $("#title_web").append(response.title);
-                        $("#tagline_web").append(response.tagline);
+                        $("#description_web").append(response.description);
                         $("#web_email").append(response.email);
                         $("#sosial_facebook").attr("href", response.link_fb);
                         $("#sosial_instagram").attr("href", response.link_ig);

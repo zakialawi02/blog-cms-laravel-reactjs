@@ -268,7 +268,7 @@ const FormData = ({
                     </div>
 
                     <div>
-                        <div className="hidden mb-4 sm:block">
+                        <div className="mt-6 mb-4 sm:block">
                             <div className="border-b border-gray-200">
                                 <nav
                                     className="flex gap-6 -mb-px"

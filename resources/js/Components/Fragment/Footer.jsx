@@ -48,7 +48,7 @@ const Footer = () => {
             .then((response) => {
                 setWebMeta({
                     title: response.data.title,
-                    tagline: response.data.tagline,
+                    description: response.data.description,
                     link_fb: response.data.link_fb,
                     link_ig: response.data.link_ig,
                     link_twitter: response.data.link_twitter,
@@ -81,10 +81,10 @@ const Footer = () => {
                                         </h2>
                                     </Link>
                                     <p
-                                        id="tagline_web"
+                                        id="description_web"
                                         className="max-w-xs text-base font-medium text-frontend-muted"
                                     >
-                                        {webMeta.tagline}
+                                        {webMeta.description}
                                     </p>
 
                                     <h3 className="mt-5 text-xl font-bold text-frontend-dark">

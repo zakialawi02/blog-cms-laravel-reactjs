@@ -1,6 +1,7 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const SearchBlogHero = ({ segmentUrl = null, segmentClass = null }) => {
+    const [tagline, setTagline] = useState("");
     const queryParams = new URLSearchParams(window.location.search);
     const searchQuery = queryParams.get("search");
     const hasSearch = searchQuery && searchQuery !== "";
@@ -9,6 +10,18 @@ const SearchBlogHero = ({ segmentUrl = null, segmentClass = null }) => {
         if (hasSearch) {
             document.getElementById("search").value = searchQuery;
         }
+    }, []);
+
+    useEffect(() => {
+        axios
+            .get("/meta-web")
+            .then((response) => {
+                setTagline(response.data.tagline);
+            })
+            .catch((error) => {
+                console.error(error);
+                setWebName("Blog");
+            });
     }, []);
 
     return (
@@ -21,8 +34,11 @@ const SearchBlogHero = ({ segmentUrl = null, segmentClass = null }) => {
                             ? ` : By Category ${segmentClass}`
                             : ""}
                     </h1>
-                    <p className="capitalize w-[80%] md:w-[50%] px-3 mx-auto">
-                        Discover the latest stories, thoughts and inspiration.
+                    <p
+                        id="tagline_web"
+                        className="capitalize w-[80%] md:w-[50%] px-3 mx-auto"
+                    >
+                        {tagline}
                     </p>
                 </div>
                 <div className="w-full max-w-lg m-3 mx-auto">
