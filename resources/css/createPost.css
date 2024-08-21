@@ -233,6 +233,7 @@
 
 .ck.ck-editor__editable pre {
     position: relative;
+    color: #454545;
 }
 
 .ck.ck-content pre.fancy-code {
@@ -243,13 +244,13 @@
 
 .ck.ck-content pre.fancy-code-bright {
     background: #dddfe0;
-    color: #000;
+    color: #000 !important;
     box-shadow: 5px 5px 0 #b3b3b3;
 }
 
 .ck.ck-content pre.fancy-code-dark {
     background: #272822;
-    color: #fff;
+    color: #fff !important;
     box-shadow: 5px 5px 0 #0000001f;
 }
 

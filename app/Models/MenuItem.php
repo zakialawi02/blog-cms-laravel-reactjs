@@ -15,6 +15,7 @@ class MenuItem extends Model
     protected $fillable = [
         'name',
         'url',
+        'extern',
         'class',
         'order',
         'parent_id'

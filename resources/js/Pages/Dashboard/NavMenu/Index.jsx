@@ -1,5 +1,6 @@
 import ButtonBE from "@/Components/Element/Button/ButtonBE";
 import Card from "@/Components/Element/Card/Card";
+import Checkbox from "@/Components/Element/Checkbox/Checkbox";
 import InputError from "@/Components/Element/Input/InputError";
 import InputLabel from "@/Components/Element/Input/InputLabel";
 import SelectInput from "@/Components/Element/Input/SelectInput";
@@ -11,6 +12,7 @@ const Index = ({ auth, meta, menuLinks }) => {
     const { data, setData, post, processing, errors, reset } = useForm({
         name: "",
         url: "",
+        extern: false,
         class: "",
         order: "",
         parent_id: "",
@@ -91,6 +93,23 @@ const Index = ({ auth, meta, menuLinks }) => {
                                         message={errors.url}
                                         className="mt-2"
                                     />
+
+                                    <label className="flex items-center mt-1">
+                                        <Checkbox
+                                            name="extern"
+                                            checked={data.extern}
+                                            onChange={(e) =>
+                                                setData(
+                                                    "extern",
+                                                    e.target.checked
+                                                )
+                                            }
+                                        />
+                                        <span className="text-sm text-gray-600 ms-2">
+                                            extern{" "}
+                                            <i class="ri-external-link-fill"></i>
+                                        </span>
+                                    </label>
                                 </div>
                                 <div className="mb-3">
                                     <InputLabel
@@ -216,6 +235,11 @@ const Index = ({ auth, meta, menuLinks }) => {
                                                             href={item.url}
                                                             className="text-backend-secondary hover:text-backend-primary"
                                                         >
+                                                            {item.extern ? (
+                                                                <i class="ri-external-link-fill"></i>
+                                                            ) : (
+                                                                ""
+                                                            )}{" "}
                                                             {item.url}
                                                         </a>
                                                     </div>
@@ -258,6 +282,11 @@ const Index = ({ auth, meta, menuLinks }) => {
                                                                             }
                                                                             className="text-backend-secondary hover:text-backend-primary"
                                                                         >
+                                                                            {item.extern ? (
+                                                                                <i class="ri-external-link-fill"></i>
+                                                                            ) : (
+                                                                                ""
+                                                                            )}{" "}
                                                                             {
                                                                                 item.url
                                                                             }
@@ -312,6 +341,11 @@ const Index = ({ auth, meta, menuLinks }) => {
                                                             href={item.url}
                                                             className="text-backend-secondary hover:text-backend-primary"
                                                         >
+                                                            {item.extern ? (
+                                                                <i class="ri-external-link-fill"></i>
+                                                            ) : (
+                                                                ""
+                                                            )}{" "}
                                                             {item.url}
                                                         </a>
                                                     </div>
@@ -360,6 +394,11 @@ const Index = ({ auth, meta, menuLinks }) => {
                                                             href={item.url}
                                                             className="text-backend-secondary hover:text-backend-primary"
                                                         >
+                                                            {item.extern ? (
+                                                                <i class="ri-external-link-fill"></i>
+                                                            ) : (
+                                                                ""
+                                                            )}{" "}
                                                             {item.url}
                                                         </a>
                                                     </div>

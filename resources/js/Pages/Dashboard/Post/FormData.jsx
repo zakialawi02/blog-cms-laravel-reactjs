@@ -10,7 +10,7 @@ import { Head, router, useForm } from "@inertiajs/react";
 import debounce from "lodash.debounce";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { WithContext as ReactTags, KEYS } from "react-tag-input";
-import "../../../../css/articlePost.css";
+import "../../../../css/createPost.css";
 import SelectInput from "@/Components/Element/Input/SelectInput";
 
 const FormData = ({

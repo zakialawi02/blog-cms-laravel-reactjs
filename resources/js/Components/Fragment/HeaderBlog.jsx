@@ -96,17 +96,30 @@ const HeaderBlog = () => {
                                         options={item.children.map((child) => ({
                                             label: child.name,
                                             link: child.url,
+                                            extern: child?.extern,
                                         }))}
                                         label={item.name}
                                     />
                                 ) : (
-                                    <Link
-                                        key={index}
-                                        className="p-2 duration-300 hover:text-frontend-accent"
-                                        href={item.url}
-                                    >
-                                        {item.name}
-                                    </Link>
+                                    <>
+                                        {item.extern ? (
+                                            <a
+                                                key={index}
+                                                className="p-2 duration-300 hover:text-frontend-accent"
+                                                href={item.url}
+                                            >
+                                                {item.name}
+                                            </a>
+                                        ) : (
+                                            <Link
+                                                key={index}
+                                                className="p-2 duration-300 hover:text-frontend-accent"
+                                                href={item.url}
+                                            >
+                                                {item.name}
+                                            </Link>
+                                        )}
+                                    </>
                                 )}
                             </>
                         ))}

@@ -44,9 +44,11 @@ class MenuItemController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->all());
         $request->validate([
             'name' => 'required|string|max:255',
             'url' => 'required|string|max:255',
+            'extern' => 'nullable|boolean',
             'class' => 'required|in:header,footer-a,footer-b',
             'order' => 'required|integer',
             'parent_id' => 'nullable|exists:menu_items,id',

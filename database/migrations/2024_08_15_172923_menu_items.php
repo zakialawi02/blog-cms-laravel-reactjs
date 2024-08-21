@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name')->comment('Name of the navbar item');
             $table->string('url')->comment('URL of the navbar item');
+            $table->boolean('extern')->default(0)->comment('0 = internal, 1 = external');
             $table->enum('class', ['header', 'footer-a', 'footer-b'])->comment('Class to classify navbar items, e.g., header footer_a footer_b');
             $table->unsignedBigInteger('parent_id')->nullable()->index()->comment('ID of the parent navbar item');
             $table->foreign('parent_id')->references('id')->on('menu_items')->onDelete('cascade');
