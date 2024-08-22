@@ -4,15 +4,24 @@ const MenuBody = ({ children }) => {
     return <div className="space-y-1 text-frontend-dark">{children}</div>;
 };
 
-const MenuItem = ({ url = "#", children }) => {
+const MenuItem = ({ url = "#", children, extern = false }) => {
     return (
         <div>
-            <Link
-                href={url}
-                className="text-lg transition-all duration-300 hover:text-frontend-primary"
-            >
-                {children}
-            </Link>
+            {extern ? (
+                <a
+                    href={url}
+                    className="text-lg transition-all duration-300 hover:text-frontend-primary"
+                >
+                    {children}
+                </a>
+            ) : (
+                <Link
+                    href={url}
+                    className="text-lg transition-all duration-300 hover:text-frontend-primary"
+                >
+                    {children}
+                </Link>
+            )}
         </div>
     );
 };

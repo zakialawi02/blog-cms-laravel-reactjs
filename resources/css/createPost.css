@@ -233,7 +233,10 @@
 
 .ck.ck-editor__editable pre {
     position: relative;
-    color: #454545;
+}
+
+.ck.ck-editor__editable pre code {
+    color: #6b6b6b;
 }
 
 .ck.ck-content pre.fancy-code {

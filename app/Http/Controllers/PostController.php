@@ -158,8 +158,6 @@ class PostController extends Controller
                 ]);
             }
         }
-
-        return redirect()->route('admin.posts.index')->with('success', 'Post created successfully');
     }
 
     /**
@@ -264,8 +262,6 @@ class PostController extends Controller
                 ]);
             }
         }
-
-        return redirect()->route('admin.posts.index')->with('success', 'Post updated successfully');
     }
 
     public function destroy(Article $post)

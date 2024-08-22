@@ -292,3 +292,16 @@
     content: attr(data-language);
     position: absolute;
 }
+
+#post-content figure {
+    display: block;
+    margin: 0 auto;
+}
+
+#post-content .image-style-align-left {
+    float: left;
+}
+
+#post-content .image-style-align-right {
+    float: right;
+}

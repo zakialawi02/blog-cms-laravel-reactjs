@@ -6,12 +6,13 @@ import TextInput from "@/Components/Element/Input/TextInput";
 import ArticlePost from "@/Components/Element/WYSWYG/articlePost";
 import usePreventNavigation from "@/Hook/usePreventNavigation";
 import DashboardLayout from "@/Layouts/DashboardLayout";
-import { Head, router, useForm } from "@inertiajs/react";
+import { Head, Link, router, useForm } from "@inertiajs/react";
 import debounce from "lodash.debounce";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { WithContext as ReactTags, KEYS } from "react-tag-input";
 import "../../../../css/createPost.css";
 import SelectInput from "@/Components/Element/Input/SelectInput";
+import { Transition } from "@headlessui/react";
 
 const FormData = ({
     auth,
@@ -30,7 +31,9 @@ const FormData = ({
     const [tags, setTags] = useState([]);
     const [imagePreview, setImagePreview] = useState(null);
     const [dragging, setDragging] = useState(false);
-    const { data, setData, errors, setError, post, processing } = useForm({
+    const [processing, setProcessing] = useState(false);
+    const [recentlySuccessful, setRecentlySuccessful] = useState(false);
+    const { data, setData, errors, setError, post } = useForm({
         cover: postData?.cover ?? null,
         title: postData?.title ?? "",
         slug: postData?.slug ?? "",
@@ -45,8 +48,12 @@ const FormData = ({
         meta_keywords: postData?.meta_keywords ?? "",
     });
 
-    const handleMetaTab = () => {
-        setMetaTab(!metaTab);
+    const handleMetaTab = (e) => {
+        if (e.target.id === "meta-tab") {
+            setMetaTab(true);
+        } else {
+            setMetaTab(false);
+        }
     };
 
     const suggestionsTag = tagsList.map((tag) => {
@@ -152,7 +159,8 @@ const FormData = ({
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
+        setProcessing(true);
+        setRecentlySuccessful(false);
         if (e.target.name === "unpublished") {
             if (isUpdate.current) {
                 router.post(
@@ -163,13 +171,33 @@ const FormData = ({
                         status: "unpublished",
                     },
                     {
+                        preserveScroll: true,
+                        preserveState: true,
+                        onSuccess: () => {
+                            router.reload();
+                            setProcessing(false);
+                            setRecentlySuccessful(true);
+                        },
                         onError: (error) => {
                             setError(error);
+                            setProcessing(false);
                         },
                     }
                 );
             } else {
-                post(route("admin.posts.store", { status: "unpublished" }));
+                post(route("admin.posts.store", { status: "unpublished" }), {
+                    preserveScroll: true,
+                    preserveState: true,
+                    onSuccess: () => {
+                        router.reload();
+                        setProcessing(false);
+                        setRecentlySuccessful(true);
+                    },
+                    onError: (error) => {
+                        setError(error);
+                        setProcessing(false);
+                    },
+                });
             }
         } else {
             if (isUpdate.current) {
@@ -181,13 +209,33 @@ const FormData = ({
                         status: "published",
                     },
                     {
+                        preserveScroll: true,
+                        preserveState: true,
+                        onSuccess: () => {
+                            router.reload();
+                            setProcessing(false);
+                            setRecentlySuccessful(true);
+                        },
                         onError: (error) => {
                             setError(error);
+                            setProcessing(false);
                         },
                     }
                 );
             } else {
-                post(route("admin.posts.store", { status: "published" }));
+                post(route("admin.posts.store", { status: "published" }), {
+                    preserveScroll: true,
+                    preserveState: true,
+                    onSuccess: () => {
+                        router.reload();
+                        setProcessing(false);
+                        setRecentlySuccessful(true);
+                    },
+                    onError: (error) => {
+                        setError(error);
+                        setProcessing(false);
+                    },
+                });
             }
         }
     };
@@ -218,7 +266,7 @@ const FormData = ({
             const formattedDate = formatDateForInput(data.published_at);
             setData("published_at", formattedDate);
         }
-    }, [data.published_at]);
+    }, []);
 
     useEffect(() => {
         if (articleTags) {
@@ -239,33 +287,64 @@ const FormData = ({
         );
     }, []);
 
+    useEffect(() => {
+        setTimeout(() => {
+            setRecentlySuccessful(false);
+        }, 5000);
+    }, [recentlySuccessful]);
+
     return (
         <>
             <Head title={meta.title} />
 
             <DashboardLayout metaTitle={meta.title} user={auth.user}>
                 <form onChange={(e) => setIsFormChanged(true)}>
-                    <div className="flex justify-end gap-2 mb-3">
-                        <ButtonBE
-                            type="submit"
-                            name="published"
-                            disabled={processing}
-                            onClick={handleSubmit}
-                        >
-                            {postData
-                                ? "Update and Publish"
-                                : "Save and Publish"}
-                        </ButtonBE>
-                        <ButtonBE
-                            type="submit"
-                            name="unpublished"
-                            disabled={processing}
-                            color="bg-backend-muted"
-                            onClick={handleSubmit}
-                        >
-                            Save as Draft
-                        </ButtonBE>
+                    <div className="flex flex-col items-start gap-2 mb-3 md:items-center md:flex-row md:justify-between">
+                        <div className="">
+                            <ButtonBE
+                                type="button"
+                                color="bg-backend-muted/75"
+                                disabled={processing}
+                                onClick={(e) => {
+                                    router.get(route("admin.posts.index"));
+                                }}
+                            >
+                                <i class="ri-arrow-left-line"></i> Back
+                            </ButtonBE>
+                        </div>
+                        <div className="space-x-2">
+                            <ButtonBE
+                                type="submit"
+                                name="published"
+                                disabled={processing}
+                                onClick={handleSubmit}
+                            >
+                                {postData
+                                    ? "Update and Publish"
+                                    : "Save and Publish"}
+                            </ButtonBE>
+                            <ButtonBE
+                                type="submit"
+                                name="unpublished"
+                                disabled={processing}
+                                color="bg-backend-muted"
+                                onClick={handleSubmit}
+                            >
+                                Save as Draft
+                            </ButtonBE>
+                        </div>
                     </div>
+
+                    <Transition
+                        className="float-right"
+                        show={recentlySuccessful}
+                        enter="transition ease-in-out"
+                        enterFrom="opacity-0"
+                        leave="transition ease-in-out"
+                        leaveTo="opacity-0"
+                    >
+                        <p className="text-sm text-gray-600">Saved.</p>
+                    </Transition>
 
                     <div>
                         <div className="mt-6 mb-4 sm:block">
@@ -276,7 +355,8 @@ const FormData = ({
                                 >
                                     <button
                                         type="button"
-                                        className={`px-1 pb-2 text-sm font-medium border-b-2 border-transparent shrink-0 ${
+                                        id="basic-tab"
+                                        className={`px-1 pb-2 text-sm font-medium border-b-2 shrink-0 ${
                                             !metaTab
                                                 ? "border-sky-500 text-sky-600"
                                                 : "text-gray-500 hover:border-gray-300 hover:text-gray-700"
@@ -287,6 +367,7 @@ const FormData = ({
                                     </button>
                                     <button
                                         type="button"
+                                        id="meta-tab"
                                         className={`px-1 pb-2 text-sm font-medium border-b-2 shrink-0 ${
                                             metaTab
                                                 ? "border-sky-500 text-sky-600"

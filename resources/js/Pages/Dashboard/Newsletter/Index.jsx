@@ -2,7 +2,7 @@ import Card from "@/Components/Element/Card/Card";
 import PaginationDashboard from "@/Components/Element/Pagination/PaginationDashboard";
 import TableHeading from "@/Components/Element/Table/TableHeading";
 import DashboardLayout from "@/Layouts/DashboardLayout";
-import { router } from "@inertiajs/react";
+import { Head, router } from "@inertiajs/react";
 
 const Index = ({ auth, data, meta, queryParams = null }) => {
     queryParams = queryParams || {};
@@ -36,6 +36,11 @@ const Index = ({ auth, data, meta, queryParams = null }) => {
 
     return (
         <>
+            <Head>
+                <meta name="robots" content="noindex, nofollow" />
+                <meta name="googlebot" content="noindex, nofollow" />
+            </Head>
+
             <DashboardLayout metaTitle={meta.title} user={auth.user}>
                 <Card>
                     <div className="">

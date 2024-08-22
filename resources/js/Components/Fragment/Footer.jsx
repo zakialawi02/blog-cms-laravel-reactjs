@@ -144,8 +144,10 @@ const Footer = () => {
                                                         <FooterMenu.MenuItem
                                                             key={index}
                                                             url={item.url}
-                                                            children={item.name}
-                                                        />
+                                                            extern={item.extern}
+                                                        >
+                                                            {item.name}
+                                                        </FooterMenu.MenuItem>
                                                     )
                                                 )}
                                             </FooterMenu.MenuBody>
@@ -169,8 +171,10 @@ const Footer = () => {
                                                         <FooterMenu.MenuItem
                                                             key={index}
                                                             url={item.url}
-                                                            children={item.name}
-                                                        />
+                                                            extern={item.extern}
+                                                        >
+                                                            {item.name}
+                                                        </FooterMenu.MenuItem>
                                                     )
                                                 )}
                                             </FooterMenu.MenuBody>

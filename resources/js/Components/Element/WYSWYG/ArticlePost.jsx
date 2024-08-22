@@ -452,7 +452,7 @@ const ArticlePost = ({ data = null, onChange }) => {
 
     return (
         <div>
-            <div className="main-container ml-5">
+            <div className="ml-5 main-container">
                 <div
                     className="editor-container editor-container_classic-editor editor-container_include-style editor-container_include-block-toolbar"
                     ref={editorContainerRef}

@@ -40,7 +40,10 @@ const Index = ({ auth, meta, menuLinks }) => {
 
     return (
         <>
-            <Head title="Menu Setting"></Head>
+            <Head>
+                <meta name="robots" content="noindex, nofollow" />
+                <meta name="googlebot" content="noindex, nofollow" />
+            </Head>
 
             <DashboardLayout user={auth.user} metaTitle={meta.title}>
                 <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
