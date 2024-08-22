@@ -189,7 +189,7 @@ const FormData = ({
                     preserveScroll: true,
                     preserveState: true,
                     onSuccess: () => {
-                        router.reload();
+                        router.visit(route("admin.posts.edit", data.slug));
                         setProcessing(false);
                         setRecentlySuccessful(true);
                     },
@@ -212,7 +212,7 @@ const FormData = ({
                         preserveScroll: true,
                         preserveState: true,
                         onSuccess: () => {
-                            router.visit(route("admin.posts.edit", data.slug));
+                            router.reload();
                             setProcessing(false);
                             setRecentlySuccessful(true);
                         },
