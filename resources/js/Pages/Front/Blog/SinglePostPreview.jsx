@@ -48,7 +48,7 @@ const SinglePostPreview = ({ article }) => {
 
             <GuestLayout className="container w-full p-6 md:p-10">
                 <div className="relative">
-                    <div className="absolute top-36 z-[200] -left-40 bg-gray-800 w-[600px] text-white py-2 px-4 origin-bottom-left -rotate-45">
+                    <div className="absolute top-36 z-[200] -left-40 bg-red-800 w-[600px] text-white py-2 px-4 origin-bottom-left -rotate-45">
                         <p className="ml-56 md:ml-48">Preview Mode</p>
                     </div>
                 </div>

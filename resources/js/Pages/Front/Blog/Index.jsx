@@ -1,5 +1,4 @@
 import PaginationPost from "@/Components/Element/Pagination/PaginationPost";
-import SearchBlogHero from "@/Components/Element/Search/SearchBlogHero";
 import DisplayPostGrid from "@/Components/Fragment/DisplayPostGrid";
 import FeaturedPostsGrid from "@/Components/Fragment/FeaturedPostsGrid";
 import GuestLayout from "@/Layouts/GuestLayout";
@@ -62,11 +61,6 @@ const Index = ({ articles, featured }) => {
             </Head>
 
             <GuestLayout>
-                <SearchBlogHero
-                    segmentUrl={segmentUrl}
-                    segmentClass={segmentClass.replace("-", " ")}
-                />
-
                 {hasSearch || hasPage ? (
                     <></>
                 ) : (
@@ -85,7 +79,12 @@ const Index = ({ articles, featured }) => {
                 <section className="container px-6 py-10 fluid md:px-4">
                     <div className="mb-6 text-3xl font-semibold">
                         <h2>{hasSearch ? "Search Result" : "Recent Post"}</h2>
-                        <div className="w-[50%] md:w-[84%] -translate-y-4 float-end h-[4px] bg-gradient-to-r from-transparent to-frontend-secondary -z-1"></div>
+                        <div className="w-[50%] md:w-[84%] -translate-y-4 float-end h-[4px] bg-gradient-to-r from-transparent to-frontend-secondary -z-10"></div>
+                        {hasSearch && (
+                            <p className="text-xl font-normal">
+                                keyword: {searchQuery}
+                            </p>
+                        )}
                     </div>
 
                     <DisplayPostGrid articles={articles} />
