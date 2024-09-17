@@ -31,6 +31,7 @@
     <body class="font-sans antialiased">
         @inertia
 
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8778037825157711" crossorigin="anonymous"></script>
         <script async custom-element="amp-ad" src="https://cdn.ampproject.org/v0/amp-ad-0.1.js"></script>
     </body>
 
