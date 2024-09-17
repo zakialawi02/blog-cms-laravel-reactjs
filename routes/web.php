@@ -58,8 +58,7 @@ Route::prefix('dashboard')->as('admin.')->group(function () {
         Route::post('/requestContributor/send', [UserController::class, 'sendRequestContributorCode'])->name('requestContributor.sendCode');
         Route::delete('/requestContributor/{requestContributor:id}', [UserController::class, 'destroyRequestContributor'])->name('requestContributor.destroy');
 
-        Route::get('/pages/{id}/load-project', [PageController::class, 'loadProject'])->name('pages.loadproject');
-        Route::patch('/pages/{id}/store-project', [PageController::class, 'storeProject'])->name('pages.storeproject');
+                Route::patch('/pages/{id}/store-project', [PageController::class, 'storeProject'])->name('pages.storeproject');
         Route::get('/pages', [PageController::class, 'index'])->name('pages.index');
         Route::post('/pages', [PageController::class, 'store'])->name('pages.store');
         Route::get('/pages/create', [PageController::class, 'create'])->name('pages.create');
@@ -134,6 +133,7 @@ Route::middleware(['auth', 'verified', 'role:admin,writer'])->group(function () 
 
 Route::post('/newsletter', [NewsletterController::class, 'store'])->name('newsletter.store');
 
+Route::get('/pages/{id}/load-project', [PageController::class, 'loadProject'])->name('pages.loadproject');
 
 Route::get('/blog', [ArticleController::class, 'index'])->name('article.index');
 Route::get('/blog/popular', [ArticleController::class, 'popularPost'])->name('article.popular');
