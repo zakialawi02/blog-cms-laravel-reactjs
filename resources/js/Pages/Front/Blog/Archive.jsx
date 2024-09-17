@@ -38,6 +38,8 @@ const Archive = ({ articles }) => {
                 <meta name="copyright" content="Ahmad Zaki Alawi" />
                 <meta name="robots" content="index, follow" />
                 <meta name="googlebot" content="index, follow" />
+
+                <link rel="canonical" href={window.location.href} />
             </Head>
 
             <GuestLayout>

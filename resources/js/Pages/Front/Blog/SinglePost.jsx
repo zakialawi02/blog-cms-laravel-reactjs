@@ -292,7 +292,10 @@ const SinglePost = ({ article }) => {
                                 />
                             </div>
 
-                            <div id="post-content" className="text-lg">
+                            <div
+                                id="post-content"
+                                className="min-h-[50vh] text-lg"
+                            >
                                 <div
                                     dangerouslySetInnerHTML={{
                                         __html: article.content,
@@ -366,7 +369,7 @@ const SinglePost = ({ article }) => {
 
                         <div
                             id="sidebar"
-                            className="w-full md:w-[30%] mt-10 md:mt-8"
+                            className="w-full md:w-[30%] mt-10 md:mt-8 sticky md:h-full top-5"
                         >
                             <CardAsidePost id="popular-post">
                                 <div className="text-xl font-bold text-center">
@@ -402,6 +405,8 @@ const SinglePost = ({ article }) => {
                                     )}
                                 </CardAsidePost.Body>
                             </CardAsidePost>
+
+                            <div id="ads-aside1"></div>
 
                             <CardAsidePost id="categories">
                                 <div className="text-xl font-bold text-center">

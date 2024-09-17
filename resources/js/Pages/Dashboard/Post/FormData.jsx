@@ -13,6 +13,7 @@ import { WithContext as ReactTags, KEYS } from "react-tag-input";
 import "../../../../css/createPost.css";
 import SelectInput from "@/Components/Element/Input/SelectInput";
 import { Transition } from "@headlessui/react";
+import useDateTime from "@/Hook/useDateTime";
 
 const FormData = ({
     auth,
@@ -33,6 +34,7 @@ const FormData = ({
     const [dragging, setDragging] = useState(false);
     const [processing, setProcessing] = useState(false);
     const [recentlySuccessful, setRecentlySuccessful] = useState(false);
+    const { currentDateTime, formatDateForInput } = useDateTime();
     const { data, setData, errors, setError, post } = useForm({
         cover: postData?.cover ?? null,
         title: postData?.title ?? "",
@@ -41,7 +43,7 @@ const FormData = ({
         content: postData?.content ?? "",
         category_id: postData?.category_id ?? "",
         tags: articleTags ?? [],
-        published_at: postData?.published_at ?? "",
+        published_at: formatDateForInput(postData?.published_at) ?? "",
         user_id: postData?.user_id ?? auth.user.id,
         meta_title: postData?.meta_title ?? "",
         meta_description: postData?.meta_description ?? "",
@@ -241,34 +243,10 @@ const FormData = ({
     };
 
     useEffect(() => {
-        const getCurrentDateTime = () => {
-            const now = new Date();
-            const year = now.getFullYear();
-            const month = String(now.getMonth() + 1).padStart(2, "0"); // Bulan dimulai dari 0
-            const day = String(now.getDate()).padStart(2, "0");
-            const hours = String(now.getHours()).padStart(2, "0");
-            const minutes = String(now.getMinutes()).padStart(2, "0");
-
-            return `${year}-${month}-${day}T${hours}:${minutes}`;
-        };
-        const formatDateForInput = (dateString) => {
-            const date = new Date(dateString);
-            const year = date.getFullYear();
-            const month = String(date.getMonth() + 1).padStart(2, "0");
-            const day = String(date.getDate()).padStart(2, "0");
-            const hours = String(date.getHours()).padStart(2, "0");
-            const minutes = String(date.getMinutes()).padStart(2, "0");
-            return `${year}-${month}-${day}T${hours}:${minutes}`;
-        };
-        if (data.published_at == "") {
-            setData("published_at", getCurrentDateTime());
-        } else {
-            const formattedDate = formatDateForInput(data.published_at);
-            setData("published_at", formattedDate);
+        if (!postData?.published_at) {
+            setData("published_at", currentDateTime);
         }
-    }, []);
 
-    useEffect(() => {
         if (articleTags) {
             const updatedTags = articleTags.map((tag) => ({
                 id: tag.id.toString(),
@@ -309,7 +287,7 @@ const FormData = ({
                                     router.get(route("admin.posts.index"));
                                 }}
                             >
-                                <i class="ri-arrow-left-line"></i> Back
+                                <i className="ri-arrow-left-line"></i> Back
                             </ButtonBE>
                         </div>
                         <div className="space-x-2">
