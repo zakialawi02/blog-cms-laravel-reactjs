@@ -11,6 +11,7 @@ import axios from "axios";
 import SkeletonOneLine from "@/Components/Element/Skeleton/SkeletonOneLine";
 import CommentArticle from "@/Components/Fragment/CommentArticle";
 import CardPost2 from "@/Components/Element/Card/CardPost2";
+import { Adsense } from "@ctrl/react-adsense";
 
 const SinglePost = ({ article }) => {
     const [loading, setLoading] = useState(true);
@@ -52,7 +53,6 @@ const SinglePost = ({ article }) => {
         const res = await axios
             .get(route("api.article.related") + "?max=3&slug=" + article.slug)
             .then((res) => {
-                console.log(res.data);
                 setRelatedPosts(res.data);
             })
             .catch((err) => {
@@ -303,7 +303,19 @@ const SinglePost = ({ article }) => {
                                 />
                             </div>
 
-                            <div id="ads-article" className=""></div>
+                            <div id="ads-article" className="">
+                                <Adsense
+                                    className="adsbygoogle ExampleAdSlot"
+                                    style={{
+                                        display: "block",
+                                        textAlign: "center",
+                                    }}
+                                    layout="in-article"
+                                    format="fluid"
+                                    client="ca-pub-8778037825157711"
+                                    slot="1595355101"
+                                />
+                            </div>
 
                             <div className="py-1 my-2 border-b-2 border-frontend-dark border-opacity-40"></div>
 
@@ -409,17 +421,16 @@ const SinglePost = ({ article }) => {
                             </CardAsidePost>
 
                             <div id="ads-aside1">
-                                <amp-ad
-                                    width="100vw"
-                                    height="320"
-                                    type="adsense"
-                                    data-ad-client="ca-pub-8778037825157711"
-                                    data-ad-slot="3976288163"
-                                    data-auto-format="rspv"
-                                    data-full-width=""
-                                >
-                                    <div overflow=""></div>
-                                </amp-ad>
+                                <Adsense
+                                    className="adsbygoogle ExampleAdSlot"
+                                    style={{
+                                        display: "block",
+                                    }}
+                                    format="auto"
+                                    client="ca-pub-8778037825157711"
+                                    slot="3976288163"
+                                    responsive="true"
+                                />
                             </div>
 
                             <CardAsidePost id="categories">
@@ -500,6 +511,19 @@ const SinglePost = ({ article }) => {
                                 </CardAsidePost.Body>
                             </CardAsidePost>
                         </div>
+                    </div>
+
+                    <div id="ads-bottom">
+                        <Adsense
+                            className="adsbygoogle ExampleAdSlot"
+                            style={{
+                                display: "block",
+                            }}
+                            format="auto"
+                            client="ca-pub-8778037825157711"
+                            slot="8712524304"
+                            responsive="true"
+                        />
                     </div>
 
                     {/* Random Blog Post  */}
