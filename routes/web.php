@@ -133,7 +133,7 @@ Route::middleware(['auth', 'verified', 'role:admin,writer'])->group(function () 
 
 Route::post('/newsletter', [NewsletterController::class, 'store'])->name('newsletter.store');
 
-Route::get('/pages/{id}/load-project', [PageController::class, 'loadProject'])->name('pages.loadproject');
+Route::get('/dashboard/pages/{id}/load-project', [PageController::class, 'loadProject'])->name('pages.loadproject');
 
 Route::get('/blog', [ArticleController::class, 'index'])->name('article.index');
 Route::get('/blog/popular', [ArticleController::class, 'popularPost'])->name('article.popular');
