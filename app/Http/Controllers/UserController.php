@@ -6,6 +6,7 @@ use App\Models\User;
 use Inertia\Inertia;
 use App\Models\Article;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use App\Mail\RequestContributorMail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -143,33 +144,88 @@ class UserController extends Controller
         return response()->json(['message' => 'User deleted successfully']);
     }
 
+    /**
+     * Display a listing of the users who requested to join as a contributor.
+     *
+     * @return \Inertia\Response
+     */
+    public function requestContributor()
+    {
+        $data = [
+            'title' => 'Requested Join Contributor',
+        ];
 
-    public function joinContributor()
+        $query = ModelsRequestContributor::with('user')
+            ->orderBy(request("sort_field", 'request_contributors.created_at'), request("sort_direction", "desc"));
+
+        if (request('search')) {
+            $query->where(function ($query) {
+                $query->whereHas('user', function ($query) {
+                    $query->where('username', 'like', '%' . request()->query('search') . '%')
+                        ->orWhere('email', 'like', '%' . request()->query('search') . '%');
+                })->orWhere('code', 'like', '%' . request()->query('search') . '%');
+            });
+        }
+
+        $query = $query->paginate(25)->withQueryString()->onEachSide(1);
+
+        return Inertia::render('Dashboard/Contributor/Index', [
+            "meta" => $data,
+            "users" => $query,
+            'queryParams' => request()->query() ?: null
+        ]);
+    }
+
+
+
+    /**
+     * Delete a ModelsRequestContributor.
+     *
+     * @param ModelsRequestContributor $requestContributor
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function destroyRequestContributor(ModelsRequestContributor $requestContributor)
+    {
+        $requestContributor->delete();
+
+        return redirect()->back()->with('success', 'Deleted successfully');
+    }
+
+    public function storeRequestContributor()
     {
         $user = Auth::user();
-        $email = $user->email;
         $code = rand(1000, 9999);
-        $contentMail = [
-            'username' => $user->username,
-            'body' => 'You have been requested as contributor',
-            'code' => $code,
-        ];
 
         $requestContributor = ModelsRequestContributor::firstOrNew([
             'user_id' => $user->id,
         ])->fill([
             'code' => $code,
-            'valid_code_until' => now()->addMinutes(30)->format('Y-m-d H:i:s'),
+            'valid_code_until' => now()->addMinutes(10080)->format('Y-m-d H:i:s'),
             'is_confirmed' => 0
         ])->save();
 
         if ($requestContributor) {
-            Mail::to($email)->send(new RequestContributorMail($contentMail));
-
-            return response()->json(['message' => 'Request sent successfully, please check your email'], 200);
+            return response()->json(['message' => 'Request sent successfully'], 200);
         }
 
         return response()->json(['message' => 'Request failed'], 500);
+    }
+
+
+    public function sendRequestContributorCode(Request $request)
+    {
+        $user = $request->user;
+        $email = $user['email'];
+        $contentMail = [
+            'username' => $user['username'],
+            'body' => 'You have been requested as contributor',
+            'code' => $request->code,
+            'valid' => Carbon::parse($request->valid_code_until)->format('d M Y H:i'),
+        ];
+
+        Mail::to($email)->send(new RequestContributorMail($contentMail));
+
+        ModelsRequestContributor::where('id', $request->id)->update(['is_sent' => 1]);
     }
 
     public function confirmCodeContributor(Request $request)

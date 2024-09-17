@@ -152,6 +152,12 @@ const SidebarAdmin = ({ show, toggleSidebar }) => {
                                 />
 
                                 <NavMenu
+                                    icon="ri-git-pull-request-line"
+                                    text="Request Contributor"
+                                    to="/dashboard/requestContributor"
+                                />
+
+                                <NavMenu
                                     icon="ri-settings-2-line"
                                     text="Settings"
                                     to="/dashboard/web/settings"

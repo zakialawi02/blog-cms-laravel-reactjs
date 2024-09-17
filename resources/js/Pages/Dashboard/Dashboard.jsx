@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 const Dashboard = ({ auth }) => {
     const [loading, setLoading] = useState(true);
     const [info, setInfo] = useState([]);
+    const [metadata, setMetadata] = useState([]);
     const [sendJoin, setSendJoin] = useState(false);
     const [message, setMessage] = useState(null);
     const [code, setCode] = useState(null);
@@ -61,16 +62,39 @@ const Dashboard = ({ auth }) => {
             });
     };
 
-    useEffect(() => {
-        axios
+    const getInfoDashboard = async () => {
+        const res = await axios
             .get(route("admin.dashboard.getInfo"))
-            .then((response) => {
-                setInfo(response.data);
-                setLoading(false);
+            .then((res) => {
+                setInfo(res.data);
             })
-            .catch((response) => {
+            .catch((err) => {
+                console.error(err);
                 setInfo([]);
             });
+    };
+
+    const getMetadata = async () => {
+        const res = await axios
+            .get("/meta-web")
+            .then((response) => {
+                setMetadata(response.data);
+            })
+            .catch((error) => {
+                console.error(error);
+                setMetadata([]);
+            });
+    };
+
+    const fetchData = async () => {
+        getInfoDashboard()
+            .then(() => getMetadata())
+            .then(() => setLoading(false))
+            .catch((err) => console.error(err));
+    };
+
+    useEffect(() => {
+        fetchData();
     }, [message]);
 
     return (
@@ -255,99 +279,118 @@ const Dashboard = ({ auth }) => {
                     >
                         View My Comments More
                     </Link>
-
-                    {message && (
-                        <p className="py-2 text-backend-primary">{message}</p>
-                    )}
                 </Card>
 
-                {auth.user.role == "user" && (
+                {auth?.user?.role == "user" && (
                     <>
                         {loading && <SkeletonOneLine height={40} />}
 
-                        {!loading && (
+                        {metadata?.can_join_contributor == true && (
                             <>
-                                {(info.join == null ||
-                                    new Date(info.join.valid_code_until) <
-                                        new Date()) && (
-                                    <Card className="">
-                                        <div className="mb-3">
-                                            <h4 className="mb-0 text-2xl">
-                                                Become a Contributor
-                                            </h4>
-                                        </div>
-                                        <p>
-                                            Want to be a part of our community
-                                            and contribute as a writer? Click
-                                            the button below to join our team!
-                                        </p>
-                                        {message && (
-                                            <p className="py-2 text-backend-primary">
-                                                {message}
-                                            </p>
-                                        )}
-                                        <div className="flex justify-center p-2 my-3">
-                                            <ButtonBE
-                                                className=""
-                                                onClick={joinContributors}
-                                                disabled={sendJoin}
-                                            >
-                                                Join us as a contributor/writer
-                                            </ButtonBE>
-                                        </div>
-                                    </Card>
-                                )}
-
-                                {info.join !== null &&
-                                    new Date(info.join.valid_code_until) >
-                                        new Date() && (
-                                        <>
+                                {!loading && (
+                                    <>
+                                        {(info.join == null ||
+                                            new Date(
+                                                info.join.valid_code_until
+                                            ) < new Date()) && (
                                             <Card className="">
-                                                <div className="mb-3 w-[95%] md:w-[80%] mx-auto text-center">
-                                                    <h4 className="mb-0 text-xl">
-                                                        Enter your code to
-                                                        confirm your request to
-                                                        become a contributor
+                                                <div className="mb-3">
+                                                    <h4 className="mb-0 text-2xl">
+                                                        Become a Contributor
                                                     </h4>
-                                                    <p class="text-muted">
-                                                        We've sent a code to
-                                                        your mail,{" "}
-                                                        {auth.user.email}
+                                                </div>
+                                                <p>
+                                                    Want to be a part of our
+                                                    community and contribute as
+                                                    a writer? Click the button
+                                                    below to join our team!
+                                                </p>
+                                                {message && (
+                                                    <p className="py-2 text-backend-primary">
+                                                        {message}
                                                     </p>
-                                                    {message && (
-                                                        <p className="py-2 text-backend-primary">
-                                                            {message}
-                                                        </p>
-                                                    )}
-                                                </div>
-                                                <div className="mb-3 w-[95%] md:w-[80%] mx-auto">
-                                                    <TextInput
-                                                        type="text"
-                                                        id="code"
-                                                        name="code"
-                                                        className="w-full"
-                                                        placeholder="Enter code"
-                                                        value={code}
-                                                        onChange={(e) =>
-                                                            setCode(
-                                                                e.target.value
-                                                            )
-                                                        }
-                                                    />
-                                                </div>
-
+                                                )}
                                                 <div className="flex justify-center p-2 my-3">
                                                     <ButtonBE
                                                         className=""
-                                                        onClick={confirmCode}
+                                                        onClick={
+                                                            joinContributors
+                                                        }
                                                         disabled={sendJoin}
                                                     >
-                                                        Confirm
+                                                        Join us as a
+                                                        contributor/writer
                                                     </ButtonBE>
                                                 </div>
                                             </Card>
-                                        </>
-                                    )}
+                                        )}
+
+                                        {info.join !== null &&
+                                            new Date(
+                                                info.join.valid_code_until
+                                            ) > new Date() && (
+                                                <>
+                                                    <Card className="">
+                                                        <div className="mb-3 w-[95%] md:w-[80%] mx-auto text-center">
+                                                            <h4 className="mb-0 text-xl">
+                                                                Enter your code
+                                                                to confirm your
+                                                                request to
+                                                                become a
+                                                                contributor
+                                                            </h4>
+                                                            <p class="text-muted">
+                                                                Owner/Administrator
+                                                                will send the
+                                                                code request to
+                                                                your email{" "}
+                                                                {
+                                                                    auth.user
+                                                                        .email
+                                                                }{" "}
+                                                                if approved
+                                                            </p>
+                                                            {message && (
+                                                                <p className="py-2 text-backend-primary">
+                                                                    {message}
+                                                                </p>
+                                                            )}
+                                                        </div>
+                                                        <div className="mb-3 w-[95%] md:w-[80%] mx-auto">
+                                                            <TextInput
+                                                                type="text"
+                                                                id="code"
+                                                                name="code"
+                                                                className="w-full"
+                                                                placeholder="Enter code"
+                                                                value={code}
+                                                                onChange={(e) =>
+                                                                    setCode(
+                                                                        e.target
+                                                                            .value
+                                                                    )
+                                                                }
+                                                            />
+                                                        </div>
+
+                                                        <div className="flex justify-center p-2 my-3">
+                                                            <ButtonBE
+                                                                className=""
+                                                                onClick={
+                                                                    confirmCode
+                                                                }
+                                                                disabled={
+                                                                    sendJoin
+                                                                }
+                                                            >
+                                                                Confirm
+                                                            </ButtonBE>
+                                                        </div>
+                                                    </Card>
+                                                </>
+                                            )}
+                                    </>
+                                )}
                             </>
                         )}
                     </>

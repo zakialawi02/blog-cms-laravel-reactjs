@@ -26,6 +26,7 @@ const Index = ({ auth, meta, webSetting = null }) => {
         link_youtube: webSetting?.link_youtube ?? "",
         link_linkedin: webSetting?.link_linkedin ?? "",
         link_github: webSetting?.link_github ?? "",
+        can_join_contributor: webSetting.can_join_contributor ?? false,
     });
 
     const handleFaviconChange = (e) => {
@@ -56,7 +57,6 @@ const Index = ({ auth, meta, webSetting = null }) => {
 
     const submit = (e) => {
         e.preventDefault();
-        console.log(data);
 
         router.post(
             route("admin.websettings.update", data.id),
@@ -83,7 +83,6 @@ const Index = ({ auth, meta, webSetting = null }) => {
         );
 
         setLogoPreview(webSetting?.logo ? `/logo/${webSetting?.logo}` : null);
-        console.log(data);
     }, []);
 
     return (
@@ -485,6 +484,63 @@ const Index = ({ auth, meta, webSetting = null }) => {
                                 message={errors.link_github}
                                 className="mb-3"
                             />
+                        </div>
+
+                        <div className="mb-3">
+                            <div className="mb-1">
+                                <InputLabel
+                                    className="text-lg font-semibold"
+                                    htmlFor="link_github"
+                                    value="Open For Contributor"
+                                />
+                            </div>
+                            <label
+                                htmlFor="joinContributor"
+                                className="relative inline-block h-8 w-14 cursor-pointer rounded-full bg-gray-300 transition [-webkit-tap-highlight-color:_transparent] has-[:checked]:bg-backend-primary"
+                            >
+                                <input
+                                    type="checkbox"
+                                    id="joinContributor"
+                                    className="peer sr-only [&:checked_+_span_svg[data-checked-icon]]:block [&:checked_+_span_svg[data-unchecked-icon]]:hidden"
+                                    checked={
+                                        data.can_join_contributor ? true : false
+                                    }
+                                    onChange={(e) => {
+                                        setData(
+                                            "can_join_contributor",
+                                            e.target.checked
+                                        );
+                                    }}
+                                />
+                                <span className="absolute inset-y-0 z-10 inline-flex items-center justify-center m-1 text-gray-400 transition-all bg-white rounded-full start-0 size-6 peer-checked:start-6 peer-checked:text-green-600">
+                                    <svg
+                                        data-unchecked-icon=""
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        className="size-4"
+                                        viewBox="0 0 20 20"
+                                        fill="currentColor"
+                                    >
+                                        <path
+                                            fillRule="evenodd"
+                                            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                            clipRule="evenodd"
+                                        />
+                                    </svg>
+                                    <svg
+                                        data-checked-icon=""
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        className="hidden size-4"
+                                        viewBox="0 0 20 20"
+                                        fill="currentColor"
+                                    >
+                                        <path
+                                            fillRule="evenodd"
+                                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                            clipRule="evenodd"
+                                        />
+                                    </svg>
+                                </span>
+                            </label>
                         </div>
                     </form>
                 </Card>

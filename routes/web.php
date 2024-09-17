@@ -54,6 +54,10 @@ Route::prefix('dashboard')->as('admin.')->group(function () {
         Route::get('/web/settings', [WebSettingController::class, 'index'])->name('websettings.index');
         Route::put('/web/settings{id}', [WebSettingController::class, 'update'])->name('websettings.update');
 
+        Route::get('/requestContributor', [UserController::class, 'requestContributor'])->name('requestContributor.index');
+        Route::post('/requestContributor/send', [UserController::class, 'sendRequestContributorCode'])->name('requestContributor.sendCode');
+        Route::delete('/requestContributor/{requestContributor:id}', [UserController::class, 'destroyRequestContributor'])->name('requestContributor.destroy');
+
         Route::get('/pages/{id}/load-project', [PageController::class, 'loadProject'])->name('pages.loadproject');
         Route::patch('/pages/{id}/store-project', [PageController::class, 'storeProject'])->name('pages.storeproject');
         Route::get('/pages', [PageController::class, 'index'])->name('pages.index');
@@ -117,8 +121,8 @@ Route::prefix('dashboard')->as('admin.')->group(function () {
         Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
 
-        Route::post('/requests-contributors', [UserController::class, 'joinContributor'])->name('requestsContributors');
-        Route::post('/requests-contributors/confirm', [UserController::class, 'confirmCodeContributor'])->name('confirmCodeContributor');
+        Route::post('/requests-contributors', [UserController::class, 'storeRequestContributor'])->name('requestsContributors');
+                Route::post('/requests-contributors/confirm', [UserController::class, 'confirmCodeContributor'])->name('confirmCodeContributor');
     });
 });
 

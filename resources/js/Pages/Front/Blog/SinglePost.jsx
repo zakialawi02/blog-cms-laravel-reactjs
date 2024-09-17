@@ -85,7 +85,7 @@ const SinglePost = ({ article }) => {
             });
     };
 
-    const fecthData = async () => {
+    const fetchData = async () => {
         getPopularPosts()
             .then(() => getCategories())
             .then(() => getTags())
@@ -98,7 +98,7 @@ const SinglePost = ({ article }) => {
     useEffect(() => {
         Prism.highlightAll();
 
-        fecthData();
+        fetchData();
 
         const fetchAndSendData = async () => {
             const urlSlug = window.location.href.split("/").pop();

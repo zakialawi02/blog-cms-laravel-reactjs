@@ -21,15 +21,6 @@ const Index = ({ auth, data, meta, queryParams = null }) => {
         router.get(route("admin.newsletter.index"), queryParams);
     };
 
-    const filterChanged = (name, value) => {
-        if (value) {
-            queryParams[name] = value;
-        } else {
-            delete queryParams[name];
-        }
-        router.get(route("admin.newsletter.index"), queryParams);
-    };
-
     const deleteItem = (id) => {
         router.delete(route("admin.newsletter.destroy", id));
     };

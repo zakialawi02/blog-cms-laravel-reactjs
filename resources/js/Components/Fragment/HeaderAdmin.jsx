@@ -76,7 +76,7 @@ const HeaderAdmin = ({ user, toggleSidebar }) => {
                 <li className="mr-1 font-medium text-backend-dark">
                     {url2 && "/"}
                 </li>
-                <li className="mr-1 font-medium text-backend-dark truncate max-w-20 sm:max-w-40">
+                <li className="mr-1 font-medium truncate text-backend-dark max-w-20 sm:max-w-40">
                     {url2}
                 </li>
                 <li className="mr-1 font-medium text-backend-dark">
@@ -145,7 +145,7 @@ const HeaderAdmin = ({ user, toggleSidebar }) => {
                             <DropdownItem
                                 icon="ri-settings-3-line"
                                 text="Settings"
-                                to="#"
+                                to={route("admin.websettings.index")}
                             />
                             <DropdownItem
                                 icon="ri-logout-box-line"

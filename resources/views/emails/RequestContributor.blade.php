@@ -16,7 +16,7 @@
         <p>{{ $contentMail["body"] }}</p>
 
         <p>Code: {{ $contentMail["code"] }}</p>
-        <p>Your code will expire in 30 minutes</p>
+        <p>Your code will expire at {{ $contentMail["valid"] }}</p>
 
         <p>If you did not request this, please ignore this email.</p>
 
