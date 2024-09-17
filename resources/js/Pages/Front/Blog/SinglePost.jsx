@@ -10,10 +10,13 @@ import CardAsidePost from "@/Components/Element/Card/CardAsidePost";
 import axios from "axios";
 import SkeletonOneLine from "@/Components/Element/Skeleton/SkeletonOneLine";
 import CommentArticle from "@/Components/Fragment/CommentArticle";
+import CardPost2 from "@/Components/Element/Card/CardPost2";
 
 const SinglePost = ({ article }) => {
     const [loading, setLoading] = useState(true);
     const [popularPosts, setPopularPosts] = useState([]);
+    const [randomPosts, setRandomPosts] = useState([]);
+    const [relatedPosts, setRelatedPosts] = useState([]);
     const [categories, setCategories] = useState([]);
     const [tags, setTags] = useState([]);
 
@@ -26,7 +29,6 @@ const SinglePost = ({ article }) => {
             .get(route("api.article.popular") + "?max=4")
             .then((res) => {
                 setPopularPosts(res.data);
-                setLoading(false);
             })
             .catch((err) => {
                 console.error(err);
@@ -34,12 +36,36 @@ const SinglePost = ({ article }) => {
             });
     };
 
+    const getRandomPosts = async () => {
+        const res = await axios
+            .get(route("api.article.random") + "?max=4")
+            .then((res) => {
+                setRandomPosts(res.data);
+            })
+            .catch((err) => {
+                console.error(err);
+                setRandomPosts([]);
+            });
+    };
+
+    const getRelatedPosts = async () => {
+        const res = await axios
+            .get(route("api.article.related") + "?max=3&slug=" + article.slug)
+            .then((res) => {
+                console.log(res.data);
+                setRelatedPosts(res.data);
+            })
+            .catch((err) => {
+                console.error(err);
+                setRelatedPosts([]);
+            });
+    };
+
     const getCategories = async () => {
         const res = await axios
-            .get(route("api.categories") + "?max=5")
+            .get(route("api.categories") + "?max=7&random=true")
             .then((res) => {
                 setCategories(res.data);
-                setLoading(false);
             })
             .catch((err) => {
                 console.error(err);
@@ -52,7 +78,6 @@ const SinglePost = ({ article }) => {
             .get(route("api.tags") + "?max=20")
             .then((res) => {
                 setTags(res.data);
-                setLoading(false);
             })
             .catch((err) => {
                 console.error(err);
@@ -64,6 +89,9 @@ const SinglePost = ({ article }) => {
         getPopularPosts()
             .then(() => getCategories())
             .then(() => getTags())
+            .then(() => getRandomPosts())
+            .then(() => getRelatedPosts())
+            .then(() => setLoading(false))
             .catch((err) => console.error(err));
     };
 
@@ -290,6 +318,47 @@ const SinglePost = ({ article }) => {
 
                             <div className="py-1 my-2 border-b-2 border-frontend-dark border-opacity-40"></div>
 
+                            {/* Related Blog Post  */}
+                            {relatedPosts != [] && (
+                                <section className="container px-3 py-6 fluid md:px-2">
+                                    <h2 className="mb-5 text-2xl font-bold">
+                                        Related Posts
+                                    </h2>
+
+                                    {loading && <SkeletonOneLine height={40} />}
+
+                                    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
+                                        {!loading && relatedPosts && (
+                                            <>
+                                                {relatedPosts.map(
+                                                    (post, index) => (
+                                                        <CardPost2
+                                                            key={index}
+                                                            title={post.title}
+                                                            category={
+                                                                post?.category
+                                                                    ?.category
+                                                            }
+                                                            link={route(
+                                                                "article.show",
+                                                                {
+                                                                    year: post.published_at.substring(
+                                                                        0,
+                                                                        4
+                                                                    ),
+                                                                    slug: post.slug,
+                                                                }
+                                                            )}
+                                                            cover={post.cover}
+                                                        />
+                                                    )
+                                                )}
+                                            </>
+                                        )}
+                                    </div>
+                                </section>
+                            )}
+
                             <div className="mt-3">
                                 <CommentArticle />
                             </div>
@@ -413,6 +482,41 @@ const SinglePost = ({ article }) => {
                             </CardAsidePost>
                         </div>
                     </div>
+
+                    {/* Random Blog Post  */}
+                    {randomPosts != [] && (
+                        <section className="container px-3 py-10 fluid md:px-4">
+                            <h2 className="mb-5 text-2xl font-bold">
+                                You Missed
+                            </h2>
+
+                            {loading && <SkeletonOneLine height={40} />}
+
+                            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-4">
+                                {!loading && randomPosts && (
+                                    <>
+                                        {randomPosts.map((post, index) => (
+                                            <CardPost2
+                                                key={index}
+                                                title={post.title}
+                                                category={
+                                                    post?.category?.category
+                                                }
+                                                link={route("article.show", {
+                                                    year: post.published_at.substring(
+                                                        0,
+                                                        4
+                                                    ),
+                                                    slug: post.slug,
+                                                })}
+                                                cover={post.cover}
+                                            />
+                                        ))}
+                                    </>
+                                )}
+                            </div>
+                        </section>
+                    )}
                 </div>
             </GuestLayout>
         </>

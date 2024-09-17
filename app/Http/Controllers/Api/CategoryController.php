@@ -50,8 +50,12 @@ class CategoryController extends Controller
 
     public function categoryLists()
     {
-        if (request(("max"))) {
-            $categories = Category::take(request("max"))->get();
+        if (request("max")) {
+            if (request("random")) {
+                $categories = Category::inRandomOrder()->take(request("max"))->get();
+            } else {
+                $categories = Category::take(request("max"))->get();
+            }
         } else {
             $categories = Category::all();
         }

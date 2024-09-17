@@ -133,7 +133,7 @@ const Index = ({ auth, tags, meta, queryParams = null }) => {
                                                 </td>
                                                 <td className="px-3 py-2">
                                                     <Link
-                                                        href={`/blog/${tag.slug}`}
+                                                        href={`/blog/tags/${tag.slug}`}
                                                         className="text-backend-accent hover:underline"
                                                     >
                                                         <i className="mr-2 fa-solid fa-external-link"></i>

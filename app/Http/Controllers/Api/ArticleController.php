@@ -75,6 +75,47 @@ class ArticleController extends Controller
         return response()->json($popularPosts);
     }
 
+    public function randomPosts()
+    {
+        if (request("max")) {
+            $randomPosts = Article::inRandomOrder()->with('user', 'category')->take(request("max"))->get();
+        } else {
+            $randomPosts = Article::inRandomOrder()->with('user', 'category')->get();
+        }
+        $this->articlesMappingArray($randomPosts);
+
+        return response()->json($randomPosts);
+    }
+
+
+    public function relatedPosts()
+    {
+       // Ambil artikel berdasarkan slug dari request
+        $article = Article::with(['category', 'tags'])->where('slug', request('slug'))->first();
+
+        // Jika artikel tidak ditemukan, return error
+        if (!$article) {
+            return response()->json(['message' => 'Article not found'], 404);
+        }
+
+        // Ambil related posts berdasarkan kategori dan tags
+        $relatedPosts = Article::with(['category', 'tags']) // Load category and tags for related posts
+        ->where('id', '!=', $article->id) // Tidak termasuk artikel yang sedang diakses
+        ->where(function ($query) use ($article) {
+            // Filter by category
+            $query->where('category_id', $article->category_id);
+
+            // Filter by tags
+            $query->orWhereHas('tags', function ($q) use ($article) {
+                $q->whereIn('tag_id', $article->tags->pluck('id')); // Match any tag in the article
+            });
+        })
+        ->limit(3) // Limit to 3 related posts
+        ->get();
+
+        return response()->json($relatedPosts);
+    }
+
 
     /**
      * Get the IP visitor details using IPinfo API.
