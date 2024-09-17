@@ -57,7 +57,19 @@ const HeaderMid = ({ isNavOpen, toggleNav, toggleSearch }) => {
             <div
                 id="ads-header"
                 className="max-w-[800px] max-h-[100px] overflow-hidden hidden md:block"
-            ></div>
+            >
+                <amp-ad
+                    width="100vw"
+                    height="90"
+                    type="adsense"
+                    data-ad-client="ca-pub-8778037825157711"
+                    data-ad-slot="9105886912"
+                    data-auto-format="rspv"
+                    data-full-width=""
+                >
+                    <div overflow=""></div>
+                </amp-ad>
+            </div>
         </div>
     );
 };

@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <title inertia>{{ config("app.name", "Laravel") }}</title>
-        <link rel="icon" type="image/*" href="/favicon.png" />
+        <link type="image/*" href="/favicon.png" rel="icon" />
         {{-- <meta name="description" content="Zakialawi Personal Blog & web platform" /> --}}
         {{-- <meta name="keywords" content="resume,  portfolio, cv, ahmad zaki alawi, zakialawi, blog, personal, web, developer, laravel, wep programming, webgis, gis, geospatial, surveyor, tutorials, tips, ahmad zaki alawi, geomatika, geomatics, geography" /> --}}
         <meta name="author" content="Ahmad Zaki Alawi" />
@@ -30,6 +30,8 @@
 
     <body class="font-sans antialiased">
         @inertia
+
+        <script async custom-element="amp-ad" src="https://cdn.ampproject.org/v0/amp-ad-0.1.js"></script>
     </body>
 
 </html>

@@ -120,6 +120,17 @@ const Index = ({ articles, featured }) => {
                     </div>
                 </section>
 
+                <div id="ads-bottom" className="">
+                    <amp-ad
+                        layout="fixed"
+                        width="728"
+                        height="90"
+                        type="adsense"
+                        data-ad-client="ca-pub-8778037825157711"
+                        data-ad-slot="2425243125"
+                    ></amp-ad>
+                </div>
+
                 {/* Random Blog Post  */}
                 {randomPosts.length > 0 && (
                     <section className="container px-6 py-6 fluid md:px-4">

@@ -303,6 +303,26 @@ const SinglePost = ({ article }) => {
                                 />
                             </div>
 
+                            <div id="ads-article" className="">
+                                <script
+                                    async
+                                    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8778037825157711"
+                                    crossorigin="anonymous"
+                                ></script>
+                                <ins
+                                    class="adsbygoogle"
+                                    style="display:block; text-align:center;"
+                                    data-ad-layout="in-article"
+                                    data-ad-format="fluid"
+                                    data-ad-client="ca-pub-8778037825157711"
+                                    data-ad-slot="1595355101"
+                                ></ins>
+                                <script>
+                                    (adsbygoogle = window.adsbygoogle ||
+                                    []).push({});
+                                </script>
+                            </div>
+
                             <div className="py-1 my-2 border-b-2 border-frontend-dark border-opacity-40"></div>
 
                             <div className="post-bottom">
@@ -406,7 +426,19 @@ const SinglePost = ({ article }) => {
                                 </CardAsidePost.Body>
                             </CardAsidePost>
 
-                            <div id="ads-aside1"></div>
+                            <div id="ads-aside1">
+                                <amp-ad
+                                    width="100vw"
+                                    height="320"
+                                    type="adsense"
+                                    data-ad-client="ca-pub-8778037825157711"
+                                    data-ad-slot="3976288163"
+                                    data-auto-format="rspv"
+                                    data-full-width=""
+                                >
+                                    <div overflow=""></div>
+                                </amp-ad>
+                            </div>
 
                             <CardAsidePost id="categories">
                                 <div className="text-xl font-bold text-center">
