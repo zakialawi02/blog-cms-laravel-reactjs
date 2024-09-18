@@ -303,9 +303,12 @@ const SinglePost = ({ article }) => {
                                 />
                             </div>
 
-                            <div id="ads-article" className="">
+                            <div
+                                id="ads-article"
+                                className="flex justify-center"
+                            >
                                 <Adsense
-                                    className="adsbygoogle ExampleAdSlot"
+                                    className="pt-2 pb-1 adsbygoogle"
                                     style={{
                                         display: "block",
                                         textAlign: "center",
@@ -420,9 +423,12 @@ const SinglePost = ({ article }) => {
                                 </CardAsidePost.Body>
                             </CardAsidePost>
 
-                            <div id="ads-aside1">
+                            <div
+                                id="ads-aside1"
+                                className="flex justify-center"
+                            >
                                 <Adsense
-                                    className="adsbygoogle ExampleAdSlot"
+                                    className="pt-4 adsbygoogle"
                                     style={{
                                         display: "block",
                                     }}
@@ -513,9 +519,9 @@ const SinglePost = ({ article }) => {
                         </div>
                     </div>
 
-                    <div id="ads-bottom">
+                    <div id="ads-bottom" className="flex justify-center">
                         <Adsense
-                            className="adsbygoogle ExampleAdSlot"
+                            className="pt-4 adsbygoogle"
                             style={{
                                 display: "block",
                             }}
