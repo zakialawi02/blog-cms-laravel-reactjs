@@ -97,6 +97,13 @@ const Index = ({ articles, featured }) => {
                     </>
                 )}
 
+                <div id="ads-top">
+                    <Adsense
+                        client="ca-pub-8778037825157711"
+                        slot="8712524304"
+                    />
+                </div>
+
                 {/* Recent Blog Post  */}
                 <section className="container px-6 py-10 fluid md:px-4">
                     <div className="mb-6 text-3xl font-semibold">
@@ -120,15 +127,11 @@ const Index = ({ articles, featured }) => {
                     </div>
                 </section>
 
-                <div id="ads-bottom" className="">
-                    <amp-ad
-                        layout="fixed"
-                        width="728"
-                        height="90"
-                        type="adsense"
-                        data-ad-client="ca-pub-8778037825157711"
-                        data-ad-slot="2425243125"
-                    ></amp-ad>
+                <div id="ads-bottom">
+                    <Adsense
+                        client="ca-pub-8778037825157711"
+                        slot="8712524304"
+                    />
                 </div>
 
                 {/* Random Blog Post  */}
