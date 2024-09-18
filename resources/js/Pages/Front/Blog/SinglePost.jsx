@@ -308,7 +308,7 @@ const SinglePost = ({ article }) => {
                                 className="flex justify-center"
                             >
                                 <Adsense
-                                    className="pt-2 pb-1 adsbygoogle"
+                                    className="pt-2 pb-1"
                                     style={{
                                         display: "block",
                                         textAlign: "center",
@@ -428,14 +428,9 @@ const SinglePost = ({ article }) => {
                                 className="flex justify-center"
                             >
                                 <Adsense
-                                    className="pt-4 adsbygoogle"
-                                    style={{
-                                        display: "block",
-                                    }}
-                                    format="auto"
+                                    className="pt-4"
                                     client="ca-pub-8778037825157711"
                                     slot="3976288163"
-                                    responsive="true"
                                 />
                             </div>
 
@@ -521,14 +516,9 @@ const SinglePost = ({ article }) => {
 
                     <div id="ads-bottom" className="flex justify-center">
                         <Adsense
-                            className="pt-4 adsbygoogle"
-                            style={{
-                                display: "block",
-                            }}
-                            format="auto"
+                            className="pt-4"
                             client="ca-pub-8778037825157711"
                             slot="8712524304"
-                            responsive="true"
                         />
                     </div>
 
