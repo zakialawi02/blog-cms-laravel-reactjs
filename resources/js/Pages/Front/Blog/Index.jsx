@@ -3,6 +3,7 @@ import PaginationPost from "@/Components/Element/Pagination/PaginationPost";
 import DisplayPostGrid from "@/Components/Fragment/DisplayPostGrid";
 import FeaturedPostsGrid from "@/Components/Fragment/FeaturedPostsGrid";
 import GuestLayout from "@/Layouts/GuestLayout";
+import { Adsense } from "@ctrl/react-adsense";
 import { Head } from "@inertiajs/react";
 import { useState } from "react";
 import { useEffect } from "react";
@@ -97,6 +98,14 @@ const Index = ({ articles, featured }) => {
                     </>
                 )}
 
+                <div id="ads-top" className="flex justify-center">
+                    <Adsense
+                        className="pt-4"
+                        client="ca-pub-8778037825157711"
+                        slot="8712524304"
+                    />
+                </div>
+
                 {/* Recent Blog Post  */}
                 <section className="container px-6 py-10 fluid md:px-4">
                     <div className="mb-6 text-3xl font-semibold">
@@ -119,6 +128,14 @@ const Index = ({ articles, featured }) => {
                         />
                     </div>
                 </section>
+
+                <div id="ads-bottom" className="flex justify-center">
+                    <Adsense
+                        className="pt-4"
+                        client="ca-pub-8778037825157711"
+                        slot="8712524304"
+                    />
+                </div>
 
                 {/* Random Blog Post  */}
                 {randomPosts.length > 0 && (

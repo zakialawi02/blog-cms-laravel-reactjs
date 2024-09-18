@@ -1,3 +1,4 @@
+import { Adsense } from "@ctrl/react-adsense";
 import { Link } from "@inertiajs/react";
 import { useEffect, useState } from "react";
 
@@ -57,7 +58,9 @@ const HeaderMid = ({ isNavOpen, toggleNav, toggleSearch }) => {
             <div
                 id="ads-header"
                 className="max-w-[800px] max-h-[100px] overflow-hidden hidden md:block"
-            ></div>
+            >
+                <Adsense client="ca-pub-8778037825157711" slot="9105886912" />
+            </div>
         </div>
     );
 };

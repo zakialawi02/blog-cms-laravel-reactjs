@@ -1,5 +1,6 @@
 import { Head, Link } from "@inertiajs/react";
 import { useEffect, useState } from "react";
+import { Adsense } from "@ctrl/react-adsense";
 import GuestLayout from "@/Layouts/GuestLayout";
 import Prism from "prismjs";
 import "/public/assets/css/prism.css";
@@ -52,7 +53,6 @@ const SinglePost = ({ article }) => {
         const res = await axios
             .get(route("api.article.related") + "?max=3&slug=" + article.slug)
             .then((res) => {
-                console.log(res.data);
                 setRelatedPosts(res.data);
             })
             .catch((err) => {
@@ -303,6 +303,23 @@ const SinglePost = ({ article }) => {
                                 />
                             </div>
 
+                            <div
+                                id="ads-article"
+                                className="flex justify-center"
+                            >
+                                <Adsense
+                                    className="pt-2 pb-1"
+                                    style={{
+                                        display: "block",
+                                        textAlign: "center",
+                                    }}
+                                    layout="in-article"
+                                    format="fluid"
+                                    client="ca-pub-8778037825157711"
+                                    slot="1595355101"
+                                />
+                            </div>
+
                             <div className="py-1 my-2 border-b-2 border-frontend-dark border-opacity-40"></div>
 
                             <div className="post-bottom">
@@ -406,7 +423,16 @@ const SinglePost = ({ article }) => {
                                 </CardAsidePost.Body>
                             </CardAsidePost>
 
-                            <div id="ads-aside1"></div>
+                            <div
+                                id="ads-aside1"
+                                className="flex justify-center"
+                            >
+                                <Adsense
+                                    className="pt-4"
+                                    client="ca-pub-8778037825157711"
+                                    slot="3976288163"
+                                />
+                            </div>
 
                             <CardAsidePost id="categories">
                                 <div className="text-xl font-bold text-center">
@@ -486,6 +512,14 @@ const SinglePost = ({ article }) => {
                                 </CardAsidePost.Body>
                             </CardAsidePost>
                         </div>
+                    </div>
+
+                    <div id="ads-bottom" className="flex justify-center">
+                        <Adsense
+                            className="pt-4"
+                            client="ca-pub-8778037825157711"
+                            slot="8712524304"
+                        />
                     </div>
 
                     {/* Random Blog Post  */}
