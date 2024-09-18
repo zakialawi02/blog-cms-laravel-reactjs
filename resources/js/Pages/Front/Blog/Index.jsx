@@ -3,6 +3,7 @@ import PaginationPost from "@/Components/Element/Pagination/PaginationPost";
 import DisplayPostGrid from "@/Components/Fragment/DisplayPostGrid";
 import FeaturedPostsGrid from "@/Components/Fragment/FeaturedPostsGrid";
 import GuestLayout from "@/Layouts/GuestLayout";
+import { Adsense } from "@ctrl/react-adsense";
 import { Head } from "@inertiajs/react";
 import { useState } from "react";
 import { useEffect } from "react";

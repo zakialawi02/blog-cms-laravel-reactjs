@@ -1,5 +1,6 @@
 import { Head, Link } from "@inertiajs/react";
 import { useEffect, useState } from "react";
+import { Adsense } from "@ctrl/react-adsense";
 import GuestLayout from "@/Layouts/GuestLayout";
 import Prism from "prismjs";
 import "/public/assets/css/prism.css";
@@ -11,7 +12,6 @@ import axios from "axios";
 import SkeletonOneLine from "@/Components/Element/Skeleton/SkeletonOneLine";
 import CommentArticle from "@/Components/Fragment/CommentArticle";
 import CardPost2 from "@/Components/Element/Card/CardPost2";
-import { Adsense } from "@ctrl/react-adsense";
 
 const SinglePost = ({ article }) => {
     const [loading, setLoading] = useState(true);

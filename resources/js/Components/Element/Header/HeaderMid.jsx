@@ -1,3 +1,4 @@
+import { Adsense } from "@ctrl/react-adsense";
 import { Link } from "@inertiajs/react";
 import { useEffect, useState } from "react";
 
