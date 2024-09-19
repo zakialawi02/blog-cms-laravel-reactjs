@@ -59,7 +59,19 @@ const HeaderMid = ({ isNavOpen, toggleNav, toggleSearch }) => {
                 id="ads-header"
                 className="max-w-[800px] max-h-[100px] overflow-hidden hidden md:block"
             >
-                <Adsense client="ca-pub-8778037825157711" slot="9105886912" />
+                <Adsense
+                    style={{
+                        display: "block",
+                        width: "100%",
+                        height: "100%",
+                        padding: "10px !important",
+                        textAlign: "center",
+                    }}
+                    client="ca-pub-8778037825157711"
+                    slot="9105886912"
+                    responsive="true"
+                    format="auto"
+                />
             </div>
         </div>
     );

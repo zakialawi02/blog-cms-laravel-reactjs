@@ -100,9 +100,17 @@ const Index = ({ articles, featured }) => {
 
                 <div id="ads-top" className="flex justify-center">
                     <Adsense
-                        className="pt-4"
+                        style={{
+                            display: "block",
+                            width: "80%",
+                            height: "90px",
+                            marginTop: "20px",
+                            textAlign: "center",
+                        }}
                         client="ca-pub-8778037825157711"
                         slot="8712524304"
+                        responsive="true"
+                        format="auto"
                     />
                 </div>
 
@@ -131,9 +139,16 @@ const Index = ({ articles, featured }) => {
 
                 <div id="ads-bottom" className="flex justify-center">
                     <Adsense
-                        className="pt-4"
+                        style={{
+                            display: "block",
+                            width: "80%",
+                            height: "90px",
+                            textAlign: "center",
+                        }}
                         client="ca-pub-8778037825157711"
-                        slot="8712524304"
+                        slot="9879351535"
+                        responsive="true"
+                        format="auto"
                     />
                 </div>
 

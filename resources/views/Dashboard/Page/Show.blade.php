@@ -54,7 +54,7 @@
         <!-- Scripts -->
         <script src="https://cdn.tailwindcss.com"></script>
         @if ($page->isFullWidth == 1)
-            <link href="/build/assets/app-e9e3c3dc.css" rel="stylesheet" />
+            <link href="/build/assets/app-9e3ab32c.css" rel="stylesheet" />
         @endif
 
         <style>

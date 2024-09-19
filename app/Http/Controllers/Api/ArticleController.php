@@ -113,6 +113,8 @@ class ArticleController extends Controller
         ->limit(3) // Limit to 3 related posts
         ->get();
 
+        $this->articlesMappingArray($relatedPosts);
+
         return response()->json($relatedPosts);
     }
 
