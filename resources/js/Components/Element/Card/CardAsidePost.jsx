@@ -75,7 +75,7 @@ const CardAsidePost = ({ children, className = "", ...props }) => {
     return (
         <div
             {...props}
-            className={`p-2 mb-3 border-2 rounded-lg border-frontend-neutral ${className}`}
+            className={`p-2 my-3 border-2 rounded-lg border-frontend-neutral ${className}`}
         >
             {children}
         </div>

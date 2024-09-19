@@ -42,6 +42,7 @@ const SinglePost = ({ article }) => {
             .get(route("api.article.random") + "?max=4")
             .then((res) => {
                 setRandomPosts(res.data);
+                console.log(res.data);
             })
             .catch((err) => {
                 console.error(err);
@@ -51,9 +52,10 @@ const SinglePost = ({ article }) => {
 
     const getRelatedPosts = async () => {
         const res = await axios
-            .get(route("api.article.related") + "?max=3&slug=" + article.slug)
+            .get(route("api.article.related") + "?slug=" + article.slug)
             .then((res) => {
                 setRelatedPosts(res.data);
+                console.log(res.data);
             })
             .catch((err) => {
                 console.error(err);
@@ -305,18 +307,20 @@ const SinglePost = ({ article }) => {
 
                             <div
                                 id="ads-article"
-                                className="flex justify-center"
+                                className="flex justify-center p-2"
                             >
                                 <Adsense
-                                    className="pt-2 pb-1"
                                     style={{
                                         display: "block",
+                                        width: "100%",
+                                        height: "auto",
                                         textAlign: "center",
                                     }}
                                     layout="in-article"
                                     format="fluid"
                                     client="ca-pub-8778037825157711"
                                     slot="1595355101"
+                                    responsive="true"
                                 />
                             </div>
 
@@ -428,9 +432,16 @@ const SinglePost = ({ article }) => {
                                 className="flex justify-center"
                             >
                                 <Adsense
-                                    className="pt-4"
+                                    style={{
+                                        display: "block",
+                                        width: "90%",
+                                        height: "100%",
+                                        textAlign: "center",
+                                    }}
                                     client="ca-pub-8778037825157711"
                                     slot="3976288163"
+                                    responsive="true"
+                                    format="auto"
                                 />
                             </div>
 
@@ -514,11 +525,19 @@ const SinglePost = ({ article }) => {
                         </div>
                     </div>
 
-                    <div id="ads-bottom" className="flex justify-center">
+                    <div id="ads-bottom2" className="flex justify-center">
                         <Adsense
-                            className="pt-4"
+                            style={{
+                                display: "block",
+                                width: "80%",
+                                height: "90px",
+                                marginTop: "50px",
+                                textAlign: "center",
+                            }}
                             client="ca-pub-8778037825157711"
-                            slot="8712524304"
+                            slot="9879351535"
+                            responsive="true"
+                            format="auto"
                         />
                     </div>
 
