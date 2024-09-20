@@ -42,7 +42,6 @@ const SinglePost = ({ article }) => {
             .get(route("api.article.random") + "?max=4")
             .then((res) => {
                 setRandomPosts(res.data);
-                console.log(res.data);
             })
             .catch((err) => {
                 console.error(err);
@@ -55,7 +54,6 @@ const SinglePost = ({ article }) => {
             .get(route("api.article.related") + "?slug=" + article.slug)
             .then((res) => {
                 setRelatedPosts(res.data);
-                console.log(res.data);
             })
             .catch((err) => {
                 console.error(err);
