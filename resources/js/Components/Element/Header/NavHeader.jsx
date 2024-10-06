@@ -15,9 +15,9 @@ const NavHeader = ({ isNavOpen, toggleSearch }) => {
                 console.error(error);
                 setNavItemData([
                     { url: "/", name: "Home" },
-                    { url: "/blog", name: "Blog" },
-                    { url: "/about", name: "About" },
-                    { url: "/contact", name: "Contact" },
+                    { url: "/blog", name: "Blog", extern: true },
+                    { url: "/p/about", name: "About", extern: true },
+                    { url: "/p/contact", name: "Contact", extern: true },
                 ]);
             });
     }, []);

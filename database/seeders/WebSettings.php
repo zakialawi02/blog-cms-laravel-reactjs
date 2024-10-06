@@ -21,7 +21,7 @@ class WebSettings extends Seeder
             'keywords' => "My Blog, Laravel",
             'logo' => "logo_web.webp",
             'favicon' => "favicon.png",
-            'email' => "",
+            'email' => "hallo@zakialawi.my.id",
             'link_fb' => "",
             'link_ig' => "",
             'link_twitter' => "",

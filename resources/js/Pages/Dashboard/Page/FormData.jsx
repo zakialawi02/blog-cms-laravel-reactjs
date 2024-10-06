@@ -22,7 +22,6 @@ const FormData = ({ auth, meta, page = null }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(data);
         if (isUpdate.current) {
             put(route("admin.pages.update", page.id));
         } else {

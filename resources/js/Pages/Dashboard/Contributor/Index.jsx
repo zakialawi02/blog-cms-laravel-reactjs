@@ -7,7 +7,6 @@ import { Head, router } from "@inertiajs/react";
 
 const Index = ({ auth, users, meta, queryParams = null }) => {
     queryParams = queryParams || {};
-    console.log(users);
 
     const searchFieldChanged = (name, value) => {
         if (value) {
@@ -215,17 +214,20 @@ const Index = ({ auth, users, meta, queryParams = null }) => {
                                                     )}
                                                 </td>
                                                 <td className="px-3 py-2 text-nowrap">
-                                                    <button
-                                                        onClick={(e) =>
-                                                            sendCode(item)
-                                                        }
-                                                        className="mx-1 font-medium text-backend-primary hover:underline"
-                                                    >
-                                                        <i className="mr-2 ri-mail-send-fill"></i>
-                                                        {item.is_sent
-                                                            ? "send again"
-                                                            : "Send code"}
-                                                    </button>
+                                                    {item.is_confirmed ==
+                                                    true ? null : (
+                                                        <button
+                                                            onClick={(e) =>
+                                                                sendCode(item)
+                                                            }
+                                                            className="mx-1 font-medium text-backend-primary hover:underline"
+                                                        >
+                                                            <i className="mr-2 ri-mail-send-fill"></i>
+                                                            {item.is_sent
+                                                                ? "send again"
+                                                                : "Send code"}
+                                                        </button>
+                                                    )}
 
                                                     <button
                                                         onClick={(e) =>

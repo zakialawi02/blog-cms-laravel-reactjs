@@ -25,21 +25,21 @@ const TopBar = () => {
             <div className="container px-5 py-1 md:px-7 text-frontend-light">
                 <div className="items-center text-sm md:flex md:justify-between">
                     <div className="hidden md:flex md:gap-4">
-                        <Link href="/" className="hover:text-frontend-primary">
+                        <a href="/" className="hover:text-frontend-primary">
                             Home
-                        </Link>
-                        <Link
+                        </a>
+                        <a
                             href="https://zakialawi.my.id/"
                             className="hover:text-frontend-primary"
                         >
                             About
-                        </Link>
-                        <Link
-                            href="http://localhost:8000/p/contact"
+                        </a>
+                        <a
+                            href="/p/contact"
                             className="hover:text-frontend-primary"
                         >
                             Contact
-                        </Link>
+                        </a>
                     </div>
 
                     <div className="flex flex-row items-center justify-between gap-4">

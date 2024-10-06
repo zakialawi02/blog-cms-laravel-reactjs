@@ -25,9 +25,9 @@ const HeaderMid = ({ isNavOpen, toggleNav, toggleSearch }) => {
             >
                 <Link
                     href="/blog"
-                    className="inline-flex items-center text-xl "
+                    className="inline-flex items-center text-xl max-w-80"
                 >
-                    <img src="/logo/logo.webp" className="w-full p-1 h-14" />
+                    <img src="/logo/logo.webp" className="p-1 max-w-14" />
                     <span id="web_name" className="px-2">
                         {webName}
                     </span>

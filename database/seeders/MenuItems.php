@@ -30,14 +30,16 @@ class MenuItems extends Seeder
             ],
             [
                 'name' => "About",
-                'url' => "/about",
+                'url' => "/p/about",
+                'extern' => '1',
                 'parent_id' => null,
                 'order' => 2,
                 'class' => "header"
             ],
             [
                 'name' => "Contact",
-                'url' => "/contact",
+                'url' => "/p/contact",
+                'extern' => '1',
                 'parent_id' => null,
                 'order' => 3,
                 'class' => "header"
@@ -100,6 +102,8 @@ class MenuItems extends Seeder
             ],
         ];
 
-        MenuItem::insert($menuItems);
+        foreach ($menuItems as $menuItem) {
+            MenuItem::create($menuItem);
+        }
     }
 }

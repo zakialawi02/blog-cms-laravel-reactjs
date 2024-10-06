@@ -30,5 +30,6 @@ class DatabaseSeeder extends Seeder
         // $this->call(Articles::class);
         // ArticleView::factory(500)->create();
         $this->call(WebSettings::class);
+        $this->call(Pages::class);
     }
 }

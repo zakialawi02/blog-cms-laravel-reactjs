@@ -6,6 +6,8 @@ import { Link, router } from "@inertiajs/react";
 const Index = ({ auth, meta, pages, queryParams = null }) => {
     queryParams = queryParams || {};
 
+    const lockData = ["", "contact", "privacy", "terms"];
+
     const sortChanged = (name) => {
         if (name === queryParams.sort_field) {
             if (queryParams.sort_direction === "asc") {
@@ -147,11 +149,15 @@ const Index = ({ auth, meta, pages, queryParams = null }) => {
                                                     >
                                                         <i className="ri-settings-4-line"></i>
                                                     </Link>
+
                                                     <button
                                                         onClick={(e) =>
                                                             deletePage(item)
                                                         }
-                                                        className="w-8 p-2 ml-1 font-medium rounded-md hover:bg-opacity-70 text-backend-light bg-backend-error"
+                                                        className="w-8 p-2 ml-1 font-medium rounded-md hover:bg-opacity-70 text-backend-light bg-backend-error disabled:opacity-50 disabled:cursor-not-allowed"
+                                                        disabled={lockData.includes(
+                                                            item.slug
+                                                        )}
                                                     >
                                                         <i className="fa-solid fa-trash"></i>
                                                     </button>

@@ -58,7 +58,7 @@ Route::prefix('dashboard')->as('admin.')->group(function () {
         Route::post('/requestContributor/send', [UserController::class, 'sendRequestContributorCode'])->name('requestContributor.sendCode');
         Route::delete('/requestContributor/{requestContributor:id}', [UserController::class, 'destroyRequestContributor'])->name('requestContributor.destroy');
 
-                Route::patch('/pages/{id}/store-project', [PageController::class, 'storeProject'])->name('pages.storeproject');
+        Route::patch('/pages/{id}/store-project', [PageController::class, 'storeProject'])->name('pages.storeproject');
         Route::get('/pages', [PageController::class, 'index'])->name('pages.index');
         Route::post('/pages', [PageController::class, 'store'])->name('pages.store');
         Route::get('/pages/create', [PageController::class, 'create'])->name('pages.create');
@@ -121,7 +121,7 @@ Route::prefix('dashboard')->as('admin.')->group(function () {
 
 
         Route::post('/requests-contributors', [UserController::class, 'storeRequestContributor'])->name('requestsContributors');
-                Route::post('/requests-contributors/confirm', [UserController::class, 'confirmCodeContributor'])->name('confirmCodeContributor');
+        Route::post('/requests-contributors/confirm', [UserController::class, 'confirmCodeContributor'])->name('confirmCodeContributor');
     });
 });
 

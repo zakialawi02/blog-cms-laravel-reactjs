@@ -54,7 +54,7 @@
         <!-- Scripts -->
         <script src="https://cdn.tailwindcss.com"></script>
         @if ($page->isFullWidth == 1)
-            <link href="/build/assets/app-9e3ab32c.css" rel="stylesheet" />
+            <link href={{ Vite::asset('resources/css/pages-app.css') }} rel="stylesheet" />
         @endif
 
         <style>
@@ -100,10 +100,10 @@
             <!-- NAVBAR -->
             <header>
                 <div class="z-10 flex items-center justify-between w-full px-6 min-h-20 md:px-14 bg-frontend-base-100" x-data="{ isOpen: false }">
-                    <div class="max-w-[15rem] text-frontend-dark font-semibold uppercase" id="logo-nav">
-                        <a class="inline-flex items-center text-xl " href="{{ route("article.index") }}">
-                            <img class="w-8 h-8" src="/logo/logo.webp" alt="Logo">
-                            <span class="px-2 " id="web_name">{{ config("app.name") }}</span>
+                    <div class="max-w-[20rem] text-frontend-dark font-semibold uppercase" id="logo-nav">
+                        <a class="inline-flex items-center text-xl max-w-80" href="{{ route("article.index") }}">
+                            <img class="p-1 max-w-14" src="/logo/logo.webp" alt="Logo">
+                            <span class="px-2" id="web_name"></span>
                         </a>
                     </div>
 
@@ -323,7 +323,6 @@
                     url: "/meta-web",
                     dataType: "json",
                     success: function(response) {
-                        console.log(response);
                         $("#web_name").text(response.web_name);
                         $("#title_web").append(response.title);
                         $("#description_web").append(response.description);
