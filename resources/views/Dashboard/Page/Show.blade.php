@@ -54,7 +54,7 @@
         <!-- Scripts -->
         <script src="https://cdn.tailwindcss.com"></script>
         @if ($page->isFullWidth == 1)
-            <link href={{ Vite::asset('resources/css/pages-app.css') }} rel="stylesheet" />
+            <link href="/assets/app-pages.css" rel="stylesheet" />
         @endif
 
         <style>
@@ -167,7 +167,7 @@
 
             @if ($page->isFullWidth == 1)
                 <!-- Footer -->
-                <footer class="flex items-end justify-center bg-frontend-base-100" id="footer">
+                <footer class="flex items-end justify-center bg-frontend-base-100 mx" id="footer">
                     <div class="w-full">
                         <div class="px-1 py-16">
                             <div class="container mx-auto">
