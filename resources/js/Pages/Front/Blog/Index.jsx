@@ -163,8 +163,11 @@ const Index = ({ articles, featured }) => {
                                     title={post.title}
                                     category={post?.category?.category}
                                     link={route("article.show", {
-                                        year: post.published_at.substring(0, 4),
-                                        slug: post.slug,
+                                        year: post?.published_at?.substring(
+                                            0,
+                                            4
+                                        ),
+                                        slug: post?.slug,
                                     })}
                                     cover={post.cover}
                                 />
